@@ -6,6 +6,7 @@ import { AuthorizationConfig } from "@/entities/AuthorizationConfig";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Crown, Shield, MessageCircle, CheckCircle, Clock, Award, Megaphone } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -13,6 +14,8 @@ export default function GetAuthorization() {
   const [currentUser, setCurrentUser] = useState(null);
   const [config, setConfig] = useState(null);
   const [requestMessage, setRequestMessage] = useState('');
+  const [guestName, setGuestName] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [requestSent, setRequestSent] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
@@ -43,13 +46,21 @@ export default function GetAuthorization() {
       return;
     }
 
+    // Giriş yapılmamışsa misafir bilgilerini kontrol et
+    if (!currentUser) {
+      if (!guestName.trim() || !guestEmail.trim()) {
+        alert("Lütfen adınızı ve e-posta adresinizi girin.");
+        return;
+      }
+    }
+
     setLoading(true);
     
     try {
-      // Mesaj içeriğini hazırla
-      const senderName = currentUser.first_name && currentUser.last_name 
-        ? `${currentUser.first_name} ${currentUser.last_name}` 
-        : currentUser.email;
+      const senderName = currentUser
+        ? (currentUser.first_name && currentUser.last_name ? `${currentUser.first_name} ${currentUser.last_name}` : currentUser.email)
+        : guestName.trim();
+      const senderEmail = currentUser ? currentUser.email : guestEmail.trim();
 
       const messageContent = `🎯 VIP YETKİ TALEBİ
 
@@ -57,86 +68,61 @@ ${requestMessage}
 
 --- Kullanıcı Bilgileri ---
 Ad Soyad: ${senderName}
-E-posta: ${currentUser.email}
-Mevcut Rol: ${currentUser.role || 'user'}
-Mevcut VIP: ${currentUser.vip_level || 'yok'}
+E-posta: ${senderEmail}
+Mevcut Rol: ${currentUser?.role || 'misafir'}
+Mevcut VIP: ${currentUser?.vip_level || 'yok'}
 Talep Tarihi: ${new Date().toLocaleString('tr-TR')}
 
 Bu kullanıcıya VIP yetkisi vermek için Kullanıcı Yönetimi sayfasını kullanabilirsiniz.`;
 
-      // Tüm kullanıcıları al ve hedefleri bul
       const allUsers = await User.list();
       let targetUsers = [];
 
-      // Config'den belirlenen kullanıcıları bul
       if (config && config.recipient_user_ids && config.recipient_user_ids.length > 0) {
         targetUsers = allUsers.filter(user => config.recipient_user_ids.includes(user.id));
       }
-
-      // Eğer config'de kimse yoksa, admin ve vip-3 kullanıcıları bul
       if (targetUsers.length === 0) {
         targetUsers = allUsers.filter(user => user.role === 'admin' || user.vip_level === 'vip-3');
       }
 
-      // Eğer hâlâ kimse yoksa, ERHAN adlı kullanıcıları bul
-      if (targetUsers.length === 0) {
-        targetUsers = allUsers.filter(user => 
-          user.first_name && user.first_name.toUpperCase().includes('ERHAN')
-        );
-      }
-
-      console.log(`Hedef kullanıcı sayısı: ${targetUsers.length}`);
-
-      // En az bir hedef bulundu mu kontrol et
-      if (targetUsers.length === 0) {
-        console.log("Hiçbir hedef kullanıcı bulunamadı, yine de başarılı sayalım");
-      }
-
-      // Mesajları göndermeye çalış (hata olsa bile devam et)
       for (const targetUser of targetUsers) {
         try {
           const receiverName = targetUser.first_name && targetUser.last_name 
             ? `${targetUser.first_name} ${targetUser.last_name}` 
             : targetUser.email;
 
-          // Mesaj gönder
           await Message.create({
-            sender_id: currentUser.id,
+            sender_id: currentUser?.id || 'guest',
             sender_name: senderName,
+            sender_email: senderEmail,
             receiver_id: targetUser.id,
             receiver_name: receiverName,
             content: messageContent
           });
 
-          // Bildirim gönder
           try {
             await Notification.create({
               user_id: targetUser.id,
               type: "message",
               title: "🎯 VIP Yetki Talebi",
               content: `${senderName} tarafından VIP yetki talebi gönderildi.`,
-              related_id: currentUser.id
+              related_id: currentUser?.id || 'guest'
             });
           } catch (notifError) {
-            console.log("Bildirim gönderilemedi, ama devam ediyoruz:", notifError);
+            console.log("Bildirim gönderilemedi:", notifError);
           }
-
-          console.log(`Mesaj gönderildi: ${receiverName}`);
         } catch (messageError) {
-          console.log(`Mesaj gönderim hatası (${targetUser.email}), ama devam ediyoruz:`, messageError);
+          console.log("Mesaj gönderilemedi:", messageError);
         }
       }
 
-      // Her durumda başarılı olarak işaretle
-      console.log("İşlem tamamlandı, başarılı olarak işaretleniyor");
       setRequestSent(true);
       setRequestMessage('');
-
+      setGuestName('');
+      setGuestEmail('');
     } catch (error) {
       console.error("Genel hata:", error);
-      // Hata olsa bile başarılı göster
       setRequestSent(true);
-      setRequestMessage('');
     }
     
     setLoading(false);
@@ -148,8 +134,9 @@ Bu kullanıcıya VIP yetkisi vermek için Kullanıcı Yönetimi sayfasını kull
     { level: "VIP-3", name: "Üst Düzey Yetki", color: "from-yellow-500 to-yellow-700", icon: <Crown className="w-6 h-6" />, features: config?.features_vip3 || [] }
   ];
 
-  if (pageLoading || !currentUser) {
-    return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div></div>;
+  // Spinner sadece config yüklenirken — kullanıcı olmasa da sayfa açılır
+  if (pageLoading) {
+    return <div className="min-h-screen flex items-center justify-center bg-gray-900"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div></div>;
   }
 
   return (
@@ -204,6 +191,30 @@ Bu kullanıcıya VIP yetkisi vermek için Kullanıcı Yönetimi sayfasını kull
         <CardContent className="space-y-4">
           {!requestSent ? (
             <>
+              {/* Giriş yapılmamışsa ad/email alanları */}
+              {!currentUser && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                  <div>
+                    <label className="block text-yellow-400 font-medium mb-1 text-sm">Adınız Soyadınız</label>
+                    <Input
+                      value={guestName}
+                      onChange={(e) => setGuestName(e.target.value)}
+                      placeholder="Ad Soyad"
+                      className="bg-gray-900 border-yellow-600 text-yellow-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-yellow-400 font-medium mb-1 text-sm">E-posta Adresiniz</label>
+                    <Input
+                      type="email"
+                      value={guestEmail}
+                      onChange={(e) => setGuestEmail(e.target.value)}
+                      placeholder="ornek@mail.com"
+                      className="bg-gray-900 border-yellow-600 text-yellow-400"
+                    />
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="block text-yellow-400 font-medium mb-2">Yetki Talep Mesajınız</label>
                 <Textarea

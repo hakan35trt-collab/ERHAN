@@ -138,6 +138,26 @@ export function hasAnyUsers() {
   return getUsers().length > 0;
 }
 
+// Seed the default admin account if it doesn't exist yet
+export function seedDefaultAdmin() {
+  const users = getUsers();
+  const already = users.find(u => u.email === 'erhanyaman1938@gmail.com');
+  if (already) return;
+  const admin = {
+    id: 'default_erhan_admin',
+    first_name: 'ERHAN',
+    last_name: 'YAMAN',
+    email: 'erhanyaman1938@gmail.com',
+    password: 'yamann01As',
+    role: 'admin',
+    vip_level: 'vip-3',
+    badges: [],
+    created_date: new Date().toISOString(),
+  };
+  users.push(admin);
+  saveUsers(users);
+}
+
 export const localAuth = {
   // Returns the current session user, or null if not logged in
   me() {

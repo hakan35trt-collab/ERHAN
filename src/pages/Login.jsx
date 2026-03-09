@@ -23,11 +23,8 @@ export default function Login({ onGoToAuthorization }) {
   });
 
   useEffect(() => {
-    if (hasAnyUsers()) {
-      setMode('login');
-    } else {
-      setMode('setup');
-    }
+    // seedDefaultAdmin() runs in main.jsx so there's always at least one user
+    setMode('login');
   }, []);
 
   const handleLogin = async (e) => {
