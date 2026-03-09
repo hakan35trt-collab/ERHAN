@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "title": "",
+    "content": "ERHAN YAMAN",
+    "company": "",
+    "plate": "",
+    "expires_at": "2026-03-10T18:22:20.624Z",
+    "created_by_name": "ERHAN YAMAN",
+    "created_by_id": "default_erhan_admin",
+    "created_by_badges": [],
+    "announcement_type": "scrolling",
+    "target_pages": [],
+    "is_active": true,
+    "id": "082syhmo1mmjidh3n",
+    "created_date": "2026-03-09T18:22:20.627Z"
+  }
+]
