@@ -96,6 +96,23 @@ export function createEntity(entityName) {
       if (!item) throw new Error(`Item not found in ${entityName}: ${id}`);
       return item;
     },
+
+    async bulkCreate(dataArray) {
+      if (!Array.isArray(dataArray) || dataArray.length === 0) return [];
+      const items = getAll(entityName);
+      const created = [];
+      for (const data of dataArray) {
+        const newItem = {
+          ...data,
+          id: data.id || generateId(),
+          created_date: data.created_date || new Date().toISOString(),
+        };
+        items.push(newItem);
+        created.push(newItem);
+      }
+      saveAll(entityName, items);
+      return created;
+    },
   };
 }
 
