@@ -107,24 +107,30 @@ export default function InsideVisitors() {
 
     const userDisplayRole = currentUser.role === 'admin' ? 'admin' : currentUser.vip_level;
 
-    // Admins and VIP-3 have full control
-    if (['admin', 'vip-3'].includes(userDisplayRole)) {
+    // Admin sees all records — full control
+    if (userDisplayRole === 'admin') {
       return { canEdit: true, canDelete: true, canAddExit: true };
     }
 
-    // VIP-2 specific logic
-    if (userDisplayRole === 'vip-2') {
-      // Can fully manage their own records
-      if (visitor.registered_by_id === currentUser.id) {
+    // Check ownership: match by ID or by registered name
+    const fullName = `${currentUser.first_name} ${currentUser.last_name}`;
+    const isOwner =
+      (visitor.registered_by_id && currentUser.id && String(visitor.registered_by_id) === String(currentUser.id)) ||
+      (visitor.registered_by && visitor.registered_by === fullName);
+
+    // VIP-3: full control on all records
+    if (userDisplayRole === 'vip-3') {
+      return { canEdit: true, canDelete: true, canAddExit: true };
+    }
+
+    // VIP-2 and VIP-1: own records = full control, others = only exit
+    if (['vip-2', 'vip-1'].includes(userDisplayRole)) {
+      if (isOwner) {
         return { canEdit: true, canDelete: true, canAddExit: true };
       }
-      // Can only add exit time for others' records
-      else {
-        return { canEdit: false, canDelete: false, canAddExit: true };
-      }
+      return { canEdit: false, canDelete: false, canAddExit: true };
     }
-    
-    // VIP-1 and others have no action permissions
+
     return { canEdit: false, canDelete: false, canAddExit: false };
   };
 
