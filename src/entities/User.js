@@ -1,2 +1,2 @@
-import { localAuth } from '@/lib/localStore';
-export const User = localAuth;
+import { githubAuth } from '@/lib/githubStore';
+export const User = githubAuth;

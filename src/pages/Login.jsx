@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { localAuth, hasAnyUsers } from '@/lib/localStore';
+import { githubAuth } from '@/lib/githubStore';
 import { useAuth } from '@/lib/AuthContext';
 import { motion } from 'framer-motion';
 import { Crown, Mail, Lock, User, Eye, EyeOff, ShieldAlert } from 'lucide-react';
@@ -32,14 +32,14 @@ export default function Login({ onGoToAuthorization }) {
     setError('');
     setLoading(true);
 
-    const found = localAuth.findByEmail(email);
+    const found = await githubAuth.findByEmailAsync(email);
     if (!found) {
       setMode('notfound');
       setLoading(false);
       return;
     }
 
-    const user = localAuth.login(email, password);
+    const user = await githubAuth.login(email, password);
     if (!user) {
       setError('Şifre yanlış. Lütfen tekrar deneyin.');
       setLoading(false);

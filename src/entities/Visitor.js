@@ -1,2 +1,3 @@
-import { createEntity } from '@/lib/localStore';
-export const Visitor = createEntity('visitors');
+import { createGitHubEntity } from '@/lib/githubStore';
+export const Visitor = createGitHubEntity('visitors');
+

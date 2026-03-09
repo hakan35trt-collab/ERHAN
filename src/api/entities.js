@@ -1,4 +1,5 @@
-import { localAuth, createEntity } from '@/lib/localStore';
+import { githubAuth } from '@/lib/githubStore';
+import { createGitHubEntity } from '@/lib/githubStore';
 
-export const User = localAuth;
-export const Query = createEntity('queries');
+export const User = githubAuth;
+export const Query = createGitHubEntity('queries');

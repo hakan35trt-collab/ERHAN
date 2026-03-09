@@ -2,10 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from '@/App.jsx'
 import '@/index.css'
-import { seedDefaultAdmin } from '@/lib/localStore'
+import { githubAuth, checkAndRunAutoBackup } from '@/lib/githubStore'
 
-// Ensure default admin always exists
-seedDefaultAdmin()
+// Seed default admin & run monthly backup (non-blocking)
+githubAuth.seedDefaultAdmin().then(() => {
+  checkAndRunAutoBackup();
+}).catch(console.warn);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <App />

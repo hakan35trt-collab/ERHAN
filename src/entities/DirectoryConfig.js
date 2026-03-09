@@ -1,2 +1,3 @@
-import { createEntity } from '@/lib/localStore';
-export const DirectoryConfig = createEntity('directoryConfigs');
+import { createGitHubEntity } from '@/lib/githubStore';
+export const DirectoryConfig = createGitHubEntity('directoryConfigs');
+

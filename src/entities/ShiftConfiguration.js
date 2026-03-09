@@ -1,2 +1,3 @@
-import { createEntity } from '@/lib/localStore';
-export const ShiftConfiguration = createEntity('shiftConfigurations');
+import { createGitHubEntity } from '@/lib/githubStore';
+export const ShiftConfiguration = createGitHubEntity('shiftConfigurations');
+

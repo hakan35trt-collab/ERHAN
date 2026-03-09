@@ -4,19 +4,33 @@ import { FrequentVisitor } from '@/entities/FrequentVisitor';
 import { User } from '@/entities/User';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Upload, Shield, AlertTriangle, Trash2 } from 'lucide-react';
+import { Download, Upload, Shield, AlertTriangle, Trash2, Cloud, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { createManualBackup } from '@/lib/githubStore';
 
 export default function BackupPage() {
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [cloudBackupMsg, setCloudBackupMsg] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
     const fileInputRef = useRef(null);
 
     React.useEffect(() => {
         User.me().then(setCurrentUser);
     }, []);
+
+    const handleCloudBackup = async () => {
+        setLoading(true);
+        setCloudBackupMsg('');
+        try {
+            const fname = await createManualBackup();
+            setCloudBackupMsg(`Yedek alındı: ${fname}`);
+        } catch (e) {
+            setCloudBackupMsg('Yedek alınamadı: ' + e.message);
+        }
+        setLoading(false);
+    };
 
     const handleBackup = async () => {
         setLoading(true);
@@ -160,6 +174,17 @@ export default function BackupPage() {
                         <Button onClick={handleBackup} disabled={loading} className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold">
                             {loading ? 'Yedekleniyor...' : 'Yedek Oluştur ve İndir'}
                         </Button>
+                        <div className="mt-3 pt-3 border-t border-yellow-800">
+                            <Button onClick={handleCloudBackup} disabled={loading} className="w-full bg-gradient-to-r from-green-700 to-green-800 hover:from-green-800 hover:to-green-900 text-white font-bold">
+                                <Cloud className="w-4 h-4 mr-2" />
+                                {loading ? 'GitHub\'a kaydediliyor...' : 'GitHub\'a Yedek Al (yedekler/ klasörü)'}
+                            </Button>
+                            {cloudBackupMsg && (
+                                <p className="text-green-400 text-xs mt-2 flex items-center gap-1">
+                                    <CheckCircle className="w-3 h-3" /> {cloudBackupMsg}
+                                </p>
+                            )}
+                        </div>
                     </CardContent>
                 </Card>
 

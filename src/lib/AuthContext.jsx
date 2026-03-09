@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { localAuth } from '@/lib/localStore';
+import { githubAuth } from '@/lib/githubStore';
 
 const AuthContext = createContext();
 
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAppState = async () => {
     try {
-      const currentUser = await localAuth.me();
+      const currentUser = await githubAuth.me();
       if (currentUser) {
         setUser(currentUser);
         setIsAuthenticated(true);
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localAuth.logout();
+    githubAuth.logout();
     setUser(null);
     setIsAuthenticated(false);
   };
