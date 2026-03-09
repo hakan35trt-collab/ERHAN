@@ -1,13 +1,5 @@
 [
   {
-    "action": "YENİ NOT",
-    "user_name": "ERHAN YAMAN",
-    "details": "Yeni bir not oluşturuldu.",
-    "new_record_details": "Başlık: WQSA, İçerik: SADASDASD",
-    "id": "vke8k4nzhmmjj533x",
-    "created_date": "2026-03-09T18:43:48.861Z"
-  },
-  {
     "action": "NOT SİLME",
     "user_name": "ERHAN YAMAN",
     "details": "\"WQSA\" başlıklı not silindi.",
