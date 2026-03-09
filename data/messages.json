@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "sender_id": "default_erhan_admin",
+    "sender_name": "ERHAN YAMAN",
+    "receiver_id": "gnp3qhtvrmmjg0lfx",
+    "receiver_name": "DENEME DENEME",
+    "content": "📢 KAYAN DUYURU\n\nERHAN YAMAN\n\n--- DUYURU BİLGİLERİ ---\n👤 Yayınlayan: ERHAN YAMAN\n📅 Tarih: 09.03.2026 21:22\n⏰ Bitiş: 10.03.2026 21:22",
+    "id": "0t30uz3himmjidi6f",
+    "created_date": "2026-03-09T18:22:22.023Z"
+  }
+]
