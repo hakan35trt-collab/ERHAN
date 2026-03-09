@@ -5,5 +5,13 @@
     "user_name": "SİSTEM",
     "id": "k0w6yag0zmmjm6bya",
     "created_date": "2026-03-09T20:08:45.826Z"
+  },
+  {
+    "action": "YENİ NOT",
+    "user_name": "ERHAN YAMAN",
+    "details": "Yeni bir not oluşturuldu.",
+    "new_record_details": "Başlık: asdas, İçerik: dasdasda",
+    "id": "gryrudxbummjmc56n",
+    "created_date": "2026-03-09T20:13:16.991Z"
   }
 ]
