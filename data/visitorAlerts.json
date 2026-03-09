@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "first_name": "MUHAMMET",
+    "last_name": "YAMAN",
+    "company": "",
+    "alert_message": "ALINMAYACAK",
+    "alert_type": "alinmayacak",
+    "is_active": true,
+    "created_by_name": "ERHAN YAMAN",
+    "created_by_id": "default_erhan_admin",
+    "id": "ijzbfeucammjj8uqd",
+    "created_date": "2026-03-09T18:46:44.629Z"
+  }
+]
