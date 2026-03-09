@@ -20,6 +20,7 @@ export default defineConfig({
   preview: {
     port: port,
     host: true,
+    allowedHosts: true,
   },
   build: {
     outDir: 'dist',
