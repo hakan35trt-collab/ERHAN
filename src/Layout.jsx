@@ -371,18 +371,17 @@ export default function Layout({ children, currentPageName }) {
       </style>
 
       {/* Header */}
-      <header className="bg-gradient-to-r from-gray-800 via-gray-900 to-black backdrop-blur-md border-b-2 border-amber-600 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Mobile menu button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden text-amber-400 order-first p-2"
+      <header className="bg-gradient-to-r from-gray-800 via-gray-900 to-black backdrop-blur-md border-b-2 border-amber-600 transition-colors duration-300 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="flex items-center h-14 gap-2">
+            {/* Mobile menu button - always visible on non-lg screens */}
+            <button
+              className="lg:hidden flex-shrink-0 text-amber-400 hover:bg-gray-700 rounded-lg p-2 transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Menü"
             >
-              {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
-            </Button>
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
 
             {/* Logo */}
             <div className="flex items-center">
@@ -400,7 +399,7 @@ export default function Layout({ children, currentPageName }) {
 
             {/* Desktop Navigation - Only show if user has VIP access */}
             {hasVIPAccess() && (
-              <nav className="hidden lg:flex space-x-1">
+              <nav className="hidden lg:flex flex-1 items-center space-x-1 ml-4">
                 {navigationItems.map((item) => {
                   if (!hasAccess(item.allowedRoles)) return null;
                   return (
@@ -453,7 +452,7 @@ export default function Layout({ children, currentPageName }) {
             )}
 
             {/* User Menu */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-1 ml-auto flex-shrink-0">
               {hasVIPAccess() && <NotificationCenter currentUser={currentUser} />}
 
               <Button
@@ -546,7 +545,7 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Mobile Navigation - Only show if user has VIP access */}
         {isMobileMenuOpen && hasVIPAccess() && (
-          <div className="lg:hidden bg-gray-900 border-t-2 border-amber-600 shadow-2xl">
+          <div className="lg:hidden bg-gray-900 border-t-2 border-amber-600 shadow-2xl max-h-[80vh] overflow-y-auto">
             <div className="px-4 py-3 space-y-2">
               {navigationItems.map((item) => {
                 if (!hasAccess(item.allowedRoles)) return null;
