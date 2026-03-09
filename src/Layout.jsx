@@ -85,6 +85,12 @@ const navigationItems = [
     url: createPageUrl("Notes"),
     icon: FileText,
     allowedRoles: ["admin", "vip-3", "vip-2", "vip-1"]
+  },
+  {
+    title: "Puantaj",
+    url: createPageUrl("Points"),
+    icon: Image,
+    allowedRoles: ["vip-2", "vip-1"]
   }
 ];
 
@@ -111,7 +117,7 @@ const managementItems = [
     title: "Duyuru Yönetimi",
     url: createPageUrl("Announcement"),
     icon: Megaphone,
-    allowedRoles: ["admin", "vip-3", "vip-2", "vip-1"]
+    allowedRoles: ["admin", "vip-3"]
   },
   {
     title: "Vardiya Yönetimi",
@@ -129,7 +135,7 @@ const managementItems = [
     title: "Puantaj Yönetimi",
     url: createPageUrl("Points"),
     icon: Image,
-    allowedRoles: ["admin", "vip-3", "vip-2"]
+    allowedRoles: ["admin", "vip-3"]
   },
   {
     title: "Yedekleme",
