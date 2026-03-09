@@ -1,14 +1,1 @@
-[
-  {
-    "id": "default_erhan_admin",
-    "first_name": "ERHAN",
-    "last_name": "YAMAN",
-    "email": "erhanyaman1938@gmail.com",
-    "password": "yamann01As",
-    "role": "admin",
-    "vip_level": "vip-3",
-    "badges": [],
-    "created_date": "2026-03-09T17:03:42.166Z",
-    "last_seen": "2026-03-09T17:08:45.116Z"
-  }
-]
+[{"id":"default_erhan_admin","first_name":"ERHAN","last_name":"YAMAN","email":"erhanyaman1938@gmail.com","password":"yamann01As","role":"admin","vip_level":"vip-3","badges":[],"created_date":"2026-03-09T00:00:00.000Z"}]
