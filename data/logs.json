@@ -1,13 +1,5 @@
 [
   {
-    "action": "YENİ NOT",
-    "user_name": "ERHAN YAMAN",
-    "details": "Yeni bir not oluşturuldu.",
-    "new_record_details": "Başlık: DSFSD, İçerik: FSDFSDFSD",
-    "id": "yywg91noimmjlja1o",
-    "created_date": "2026-03-09T19:50:50.268Z"
-  },
-  {
     "action": "NOT SİLME",
     "user_name": "ERHAN YAMAN",
     "details": "\"DSFSD\" başlıklı not silindi.",
