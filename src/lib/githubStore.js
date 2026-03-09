@@ -3,7 +3,8 @@
 
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';
-const GITHUB_BRANCH = import.meta.env.VITE_GITHUB_BRANCH || 'main';
+const GITHUB_BRANCH = 'main';
+const DATA_BRANCH = import.meta.env.VITE_DATA_BRANCH || 'data';
 const DATA_DIR = 'data';
 export const BACKUP_DIR = 'yedekler';
 
@@ -39,7 +40,7 @@ function applyFilter(items, query) {
 
 export async function ghGet(path) {
   const res = await fetch(
-    `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${GITHUB_BRANCH}&t=${Date.now()}`,
+    `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${DATA_BRANCH}&t=${Date.now()}`,
     {
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
@@ -58,7 +59,7 @@ export async function ghGet(path) {
 export async function ghPut(path, content, sha, message) {
   const raw = unescape(encodeURIComponent(JSON.stringify(content, null, 2)));
   const encoded = btoa(raw);
-  const body = { message: message || `data: ${path}`, content: encoded, branch: GITHUB_BRANCH };
+  const body = { message: message || `data: ${path}`, content: encoded, branch: DATA_BRANCH };
   if (sha) body.sha = sha;
 
   const res = await fetch(
