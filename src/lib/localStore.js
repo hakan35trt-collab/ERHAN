@@ -224,4 +224,15 @@ export const localAuth = {
     if (limit) users = users.slice(0, limit);
     return Promise.resolve(users);
   },
+
+  updateMyUserData(data) {
+    const stored = localStorage.getItem(CURRENT_USER_KEY);
+    if (!stored) return Promise.resolve(null);
+    try {
+      const current = JSON.parse(stored);
+      return this.update(current.id, data);
+    } catch {
+      return Promise.resolve(null);
+    }
+  },
 };
