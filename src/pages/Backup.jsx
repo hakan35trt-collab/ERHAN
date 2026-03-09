@@ -64,11 +64,11 @@ export default function BackupPage() {
                 const backupData = JSON.parse(e.target.result);
 
                 if (backupData.visitors && Array.isArray(backupData.visitors) && backupData.visitors.length > 0) {
-                    await Visitor.bulkCreate(backupData.visitors.map(({ id, created_date, updated_date, ...v }) => v));
+                    await Visitor.bulkCreate(backupData.visitors);
                 }
 
                 if (backupData.frequentVisitors && Array.isArray(backupData.frequentVisitors) && backupData.frequentVisitors.length > 0) {
-                    await FrequentVisitor.bulkCreate(backupData.frequentVisitors.map(({ id, created_date, updated_date, ...fv }) => fv));
+                    await FrequentVisitor.bulkCreate(backupData.frequentVisitors);
                 }
 
                 alert("Yedek başarıyla geri yüklendi!");
