@@ -1,0 +1,33 @@
+{
+  "backup_date": "2026-03-09T17:03:42.931Z",
+  "backup_type": "auto_monthly",
+  "visitors": [],
+  "logs": [],
+  "announcements": [],
+  "messages": [],
+  "notifications": [],
+  "authorizationConfigs": [],
+  "frequentVisitors": [],
+  "staff": [],
+  "shiftConfigurations": [],
+  "directoryConfigs": [],
+  "points": [],
+  "notes": [],
+  "noteReads": [],
+  "visitorAlerts": [],
+  "visitTypes": [],
+  "badges": [],
+  "users": [
+    {
+      "id": "default_erhan_admin",
+      "first_name": "ERHAN",
+      "last_name": "YAMAN",
+      "email": "erhanyaman1938@gmail.com",
+      "password": "yamann01As",
+      "role": "admin",
+      "vip_level": "vip-3",
+      "badges": [],
+      "created_date": "2026-03-09T17:03:42.166Z"
+    }
+  ]
+}
