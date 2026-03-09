@@ -68,10 +68,7 @@ export default function Dashboard() {
 
   // Türkiye saati ile bugünün tarih stringini al
   const getTurkeyDateString = () => {
-    const now = new Date();
-    // UTC+3 (Türkiye) için offset ekle
-    const turkeyTime = new Date(now.getTime() + (3 * 60 * 60 * 1000));
-    return format(turkeyTime, 'yyyy-MM-dd');
+    return format(new Date(), 'yyyy-MM-dd');
   };
 
   useEffect(() => {
@@ -478,7 +475,7 @@ export default function Dashboard() {
             </Badge>
           </CardTitle>
           <p className="text-xs text-amber-600 mt-1">
-            Türkiye saati ile {todayString} tarihli kayıtlar • Gece 00:00'da sıfırlanır
+            {todayString} tarihli kayıtlar • Gece 00:00'da sıfırlanır
           </p>
         </CardHeader>
         <CardContent className="p-3">
