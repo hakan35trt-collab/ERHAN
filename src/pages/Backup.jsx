@@ -378,8 +378,6 @@ export default function BackupPage() {
 }
 
 function BackupDetails({ filename }) {
-  const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';
-  const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -408,12 +406,3 @@ function BackupDetails({ filename }) {
     </div>
   );
 }
-
-const ENTITY_LABELS = {
-  visitors: 'Ziyaretçiler', logs: 'Loglar', announcements: 'Duyurular',
-  messages: 'Mesajlar', notifications: 'Bildirimler', authorizationConfigs: 'Yetki Konfigler',
-  frequentVisitors: 'Sık Ziyaretçiler', staff: 'Personel', shiftConfigurations: 'Vardiya Ayarları',
-  directoryConfigs: 'Rehber Ayarları', points: 'Puanlar', notes: 'Notlar',
-  noteReads: 'Not Okunmaları', visitorAlerts: 'Ziyaretçi Uyarıları',
-  visitTypes: 'Ziyaret Türleri', badges: 'Rozetler', users: 'Kullanıcılar',
-};
