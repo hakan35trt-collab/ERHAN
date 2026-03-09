@@ -93,7 +93,7 @@ const managementItems = [
     title: "Haber Ver",
     url: createPageUrl("VisitorAlert"),
     icon: Bell,
-    allowedRoles: ["admin", "vip-3", "vip-2"]
+    allowedRoles: ["admin", "vip-3"]
   },
   {
     title: "Kullanıcı Yönetimi",
@@ -419,7 +419,7 @@ export default function Layout({ children, currentPageName }) {
                 })}
 
                 {/* Management Dropdown */}
-                {(currentUser?.role === 'admin' || currentUser?.vip_level === 'vip-3' || currentUser?.vip_level === 'vip-2' || currentUser?.vip_level === 'vip-1') && (
+                {managementItems.some(item => hasAccess(item.allowedRoles)) && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button
