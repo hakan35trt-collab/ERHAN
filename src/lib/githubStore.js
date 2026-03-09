@@ -30,7 +30,15 @@ function applySort(items, sort) {
 function applyFilter(items, query) {
   return items.filter(item =>
     Object.entries(query).every(([key, value]) => {
-      if (value && typeof value === 'object' && value.$in) return value.$in.includes(item[key]);
+      if (value && typeof value === 'object') {
+        if (value.$in)  return value.$in.includes(item[key]);
+        if (value.$nin) return !value.$nin.includes(item[key]);
+        if (value.$gt)  return item[key] > value.$gt;
+        if (value.$gte) return item[key] >= value.$gte;
+        if (value.$lt)  return item[key] < value.$lt;
+        if (value.$lte) return item[key] <= value.$lte;
+        if (value.$ne)  return item[key] !== value.$ne;
+      }
       return item[key] === value;
     })
   );
