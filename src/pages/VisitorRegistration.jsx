@@ -59,6 +59,7 @@ export default function VisitorRegistration() {
   const [showAdditionalSuggestions, setShowAdditionalSuggestions] = useState({});
   const [visitorAlerts, setVisitorAlerts] = useState([]);
   const [activeAlert, setActiveAlert] = useState(null);
+  const [alertDismissed, setAlertDismissed] = useState(false);
   const [hasVehicle, setHasVehicle] = useState(false);
   const [visitTypes, setVisitTypes] = useState([]);
   const [formData, setFormData] = useState({
@@ -192,6 +193,7 @@ export default function VisitorRegistration() {
     });
 
     setActiveAlert(matchingAlert || null);
+    if (matchingAlert) setAlertDismissed(false);
   };
 
   // Türkçe karakter normalizasyonu
@@ -667,36 +669,43 @@ export default function VisitorRegistration() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
-            {/* Active Alert Display */}
-            {activeAlert && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`mb-4 p-4 rounded-lg border-2 ${
-                  activeAlert.alert_type === 'bekleniyor' ? 'bg-blue-600/20 border-blue-600' :
-                  activeAlert.alert_type === 'alinacak' ? 'bg-green-600/20 border-green-600' :
-                  activeAlert.alert_type === 'alinmayacak' ? 'bg-red-600/20 border-red-600' :
-                  'bg-purple-600/20 border-purple-600'
-                }`}
-              >
-                <div className="flex items-start space-x-3">
-                  {activeAlert.alert_type === 'bekleniyor' && <Bell className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />}
-                  {activeAlert.alert_type === 'alinacak' && <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />}
-                  {activeAlert.alert_type === 'alinmayacak' && <XCircle className="w-6 h-6 text-red-400 flex-shrink-0 mt-1" />}
-                  {activeAlert.alert_type === 'ozel' && <Info className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />}
-                  <div className="flex-1">
-                    <div className="font-bold text-amber-400 mb-1">
-                      {activeAlert.alert_type === 'bekleniyor' && '⚠️ BEKLENİYOR'}
-                      {activeAlert.alert_type === 'alinacak' && '✅ İÇERİ ALINACAK'}
-                      {activeAlert.alert_type === 'alinmayacak' && '❌ İÇERİ ALINMAYACAK'}
-                      {activeAlert.alert_type === 'ozel' && '📌 ÖZEL UYARI'}
+            {/* Active Alert - Fixed overlay modal above everything */}
+            {activeAlert && !alertDismissed && (
+              <div className="fixed inset-0 z-[9999] flex items-start justify-center pt-16 px-4 pointer-events-none">
+                <motion.div
+                  initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className={`pointer-events-auto w-full max-w-md rounded-xl border-2 shadow-2xl p-4 ${
+                    activeAlert.alert_type === 'bekleniyor' ? 'bg-blue-950 border-blue-500' :
+                    activeAlert.alert_type === 'alinacak' ? 'bg-green-950 border-green-500' :
+                    activeAlert.alert_type === 'alinmayacak' ? 'bg-red-950 border-red-500' :
+                    'bg-purple-950 border-purple-500'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    {activeAlert.alert_type === 'bekleniyor' && <Bell className="w-6 h-6 text-blue-400 flex-shrink-0 mt-0.5" />}
+                    {activeAlert.alert_type === 'alinacak' && <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />}
+                    {activeAlert.alert_type === 'alinmayacak' && <XCircle className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />}
+                    {activeAlert.alert_type === 'ozel' && <Info className="w-6 h-6 text-purple-400 flex-shrink-0 mt-0.5" />}
+                    <div className="flex-1">
+                      <div className="font-bold text-amber-400 text-sm mb-1">
+                        {activeAlert.alert_type === 'bekleniyor' && '⚠️ BEKLENİYOR'}
+                        {activeAlert.alert_type === 'alinacak' && '✅ İÇERİ ALINACAK'}
+                        {activeAlert.alert_type === 'alinmayacak' && '❌ İÇERİ ALINMAYACAK'}
+                        {activeAlert.alert_type === 'ozel' && '📌 ÖZEL UYARI'}
+                      </div>
+                      <div className="text-amber-300 text-sm">{activeAlert.alert_message}</div>
                     </div>
-                    <div className="text-amber-300 text-sm">
-                      {activeAlert.alert_message}
-                    </div>
+                    <button
+                      onClick={() => setAlertDismissed(true)}
+                      className="text-gray-400 hover:text-white p-1 rounded flex-shrink-0"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
