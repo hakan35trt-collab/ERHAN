@@ -34,14 +34,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import NotificationCenter from "../components/notifications/NotificationCenter";
-import AnnouncementBanner from "../components/announcements/AnnouncementBanner";
-import VIPBadge from "../components/ui/VIPBadge";
-import DayBadge from "../components/ui/DayBadge";
-import UserBadges from "../components/ui/UserBadges";
+import NotificationCenter from "./components/notifications/NotificationCenter";
+import AnnouncementBanner from "./components/announcements/AnnouncementBanner";
+import VIPBadge from "./components/ui/VIPBadge";
+import DayBadge from "./components/ui/DayBadge";
+import UserBadges from "./components/ui/UserBadges";
 import { format } from "date-fns";
-import { dailyUpdateService } from "../components/services/DailyUpdateService";
-import { logCleanupService } from "../components/services/LogCleanupService";
+import { dailyUpdateService } from "./components/services/DailyUpdateService";
+import { logCleanupService } from "./components/services/LogCleanupService";
 
 const navigationItems = [
   {
@@ -232,8 +232,9 @@ export default function Layout({ children, currentPageName }) {
     }
   };
 
-  const handleLogout = async () => {
-    await User.logout();
+  const handleLogout = () => {
+    User.logout();
+    window.location.href = '/';
   };
 
   const hasAccess = (allowedRoles) => {
