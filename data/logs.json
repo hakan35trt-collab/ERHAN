@@ -13,5 +13,13 @@
     "new_record_details": "Başlık: DSFSD, İçerik: FSDFSDFSD",
     "id": "yywg91noimmjlja1o",
     "created_date": "2026-03-09T19:50:50.268Z"
+  },
+  {
+    "action": "NOT SİLME",
+    "user_name": "ERHAN YAMAN",
+    "details": "\"DSFSD\" başlıklı not silindi.",
+    "old_record_details": "Başlık: DSFSD, İçerik: FSDFSDFSD",
+    "id": "ux51giidrmmjljj46",
+    "created_date": "2026-03-09T19:51:02.022Z"
   }
 ]
