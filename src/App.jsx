@@ -9,6 +9,7 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import Login from '@/pages/Login';
 import GetAuthorization from '@/pages/GetAuthorization';
+import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -70,6 +71,7 @@ function App() {
           <AuthenticatedApp />
         </Router>
         <Toaster />
+        <PWAInstallPrompt />
       </QueryClientProvider>
     </AuthProvider>
   );
