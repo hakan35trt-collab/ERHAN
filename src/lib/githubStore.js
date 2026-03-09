@@ -228,9 +228,11 @@ export const githubAuth = {
   logout() { setSession(null); },
 
   async seedDefaultAdmin() {
+    // Only add if the specific admin email doesn't exist yet
+    // Never overwrites existing users
     try {
       const users = await readItems(USERS_ENTITY);
-      if (users.find(u => u.email === 'erhanyaman1938@gmail.com')) return;
+      if (users.find(u => u.email === 'erhanyaman1938@gmail.com')) return; // already exists
       const admin = {
         id: 'default_erhan_admin',
         first_name: 'ERHAN', last_name: 'YAMAN',
@@ -240,7 +242,10 @@ export const githubAuth = {
       };
       users.push(admin);
       await writeItems(USERS_ENTITY, users);
-    } catch (e) { console.warn('seedDefaultAdmin:', e); }
+    } catch (e) {
+      // Non-fatal — data/users.json already pre-populated in GitHub repo
+      console.warn('seedDefaultAdmin (non-fatal):', e.message);
+    }
   },
 
   list: (sort = '', limit = 1000) => createGitHubEntity(USERS_ENTITY).filter({}, sort, limit),
