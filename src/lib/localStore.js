@@ -58,8 +58,8 @@ export function createEntity(entityName) {
       const items = getAll(entityName);
       const newItem = {
         ...data,
-        id: generateId(),
-        created_date: new Date().toISOString(),
+        id: data.id || generateId(),
+        created_date: data.created_date || new Date().toISOString(),
       };
       items.push(newItem);
       saveAll(entityName, items);
@@ -116,6 +116,8 @@ export function createEntity(entityName) {
   };
 }
 
+// ─── USER / AUTH ───────────────────────────────────────────────────────────────
+
 const CURRENT_USER_KEY = 'app_current_user';
 const USERS_KEY = PREFIX + 'users';
 
@@ -132,47 +134,31 @@ function saveUsers(users) {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
-function ensureDefaultAdmin() {
-  const users = getUsers();
-  if (users.length === 0) {
-    const admin = {
-      id: 'default_admin',
-      first_name: 'Admin',
-      last_name: 'Kullanıcı',
-      email: 'admin@system.local',
-      role: 'admin',
-      vip_level: 'vip-3',
-      level: 5,
-      badges: [],
-      created_date: new Date().toISOString(),
-    };
-    saveUsers([admin]);
-    return admin;
-  }
-  return users[0];
+export function hasAnyUsers() {
+  return getUsers().length > 0;
 }
 
 export const localAuth = {
+  // Returns the current session user, or null if not logged in
   me() {
     const stored = localStorage.getItem(CURRENT_USER_KEY);
-    if (stored) {
-      try {
-        const userData = JSON.parse(stored);
-        const users = getUsers();
-        const fresh = users.find(u => u.id === userData.id);
-        return Promise.resolve(fresh || userData);
-      } catch {
-        // fall through
-      }
+    if (!stored) return Promise.resolve(null);
+    try {
+      const userData = JSON.parse(stored);
+      const users = getUsers();
+      const fresh = users.find(u => u.id === userData.id);
+      return Promise.resolve(fresh || null);
+    } catch {
+      return Promise.resolve(null);
     }
-    const admin = ensureDefaultAdmin();
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(admin));
-    return Promise.resolve(admin);
   },
 
-  login(userId) {
+  // Login with email + password. Returns user or null.
+  login(email, password) {
     const users = getUsers();
-    const user = users.find(u => u.id === userId);
+    const user = users.find(
+      u => u.email?.toLowerCase() === email?.toLowerCase() && u.password === password
+    );
     if (user) {
       localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
       return user;
@@ -180,20 +166,41 @@ export const localAuth = {
     return null;
   },
 
+  // Find user by email (for "does this user exist?" check)
+  findByEmail(email) {
+    const users = getUsers();
+    return users.find(u => u.email?.toLowerCase() === email?.toLowerCase()) || null;
+  },
+
   logout() {
     localStorage.removeItem(CURRENT_USER_KEY);
   },
 
+  // Create the very first admin (system setup)
+  setupAdmin(data) {
+    const users = getUsers();
+    if (users.length > 0) return null; // only if no users exist
+    const admin = {
+      ...data,
+      id: generateId(),
+      role: 'admin',
+      vip_level: 'vip-3',
+      badges: [],
+      created_date: new Date().toISOString(),
+    };
+    saveUsers([admin]);
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(admin));
+    return admin;
+  },
+
   list(sort = '', limit = 1000) {
-    ensureDefaultAdmin();
     let users = getUsers();
-    users = applySort(users, sort);
+    if (sort) users = applySort(users, sort);
     if (limit) users = users.slice(0, limit);
     return Promise.resolve(users);
   },
 
   create(data) {
-    ensureDefaultAdmin();
     const users = getUsers();
     const newUser = {
       ...data,
@@ -237,7 +244,7 @@ export const localAuth = {
   filter(query, sort = '', limit = 1000) {
     let users = getUsers();
     users = applyFilter(users, query);
-    users = applySort(users, sort);
+    if (sort) users = applySort(users, sort);
     if (limit) users = users.slice(0, limit);
     return Promise.resolve(users);
   },

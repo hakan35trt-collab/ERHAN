@@ -88,7 +88,15 @@ export default function UserManagement() {
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteData, setInviteData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    role: 'user',
+    vip_level: 'none',
+    hire_date: '',
+  });
   const [inviteRole, setInviteRole] = useState('vip-1');
   const [selectedBadgeTemplate, setSelectedBadgeTemplate] = useState('');
   const [isBadgeDialogOpen, setIsBadgeDialogOpen] = useState(false);
@@ -128,9 +136,37 @@ export default function UserManagement() {
   };
 
   const handleInvite = async () => {
-    alert("Kullanıcı davet özelliği Dashboard -> Ayarlar bölümünden kullanılabilir.");
-    setIsInviteDialogOpen(false);
-    setInviteEmail('');
+    if (!inviteData.first_name || !inviteData.last_name) {
+      alert('Ad ve soyad zorunludur.');
+      return;
+    }
+    if (!inviteData.email) {
+      alert('E-posta zorunludur.');
+      return;
+    }
+    if (!inviteData.password || inviteData.password.length < 4) {
+      alert('Şifre en az 4 karakter olmalıdır.');
+      return;
+    }
+    try {
+      await User.create({
+        first_name: inviteData.first_name.toUpperCase(),
+        last_name: inviteData.last_name.toUpperCase(),
+        email: inviteData.email.toLowerCase(),
+        password: inviteData.password,
+        role: inviteData.role,
+        vip_level: inviteData.vip_level,
+        hire_date: inviteData.hire_date || null,
+        badges: [],
+      });
+      setIsInviteDialogOpen(false);
+      setInviteData({ first_name: '', last_name: '', email: '', password: '', role: 'user', vip_level: 'none', hire_date: '' });
+      loadData();
+      alert('Kullanıcı başarıyla oluşturuldu!');
+    } catch (error) {
+      console.error('Kullanıcı oluşturma hatası:', error);
+      alert('Kullanıcı oluşturulurken hata oluştu.');
+    }
   };
 
   const handleEditUser = (user) => {
@@ -144,19 +180,22 @@ export default function UserManagement() {
   const handleSaveEdit = async () => {
     if (!editingUser) return;
     try {
-      // We only update non-role fields here. `role` is managed by the platform.
       await User.update(editingUser.id, {
         first_name: editingUser.first_name,
         last_name: editingUser.last_name,
+        role: editingUser.role,
         vip_level: editingUser.vip_level,
-        hire_date: editingUser.hire_date || null
+        hire_date: editingUser.hire_date || null,
+        ...(editingUser.newPassword && editingUser.newPassword.length >= 4
+          ? { password: editingUser.newPassword }
+          : {}),
       });
       setIsEditDialogOpen(false);
       setEditingUser(null);
       loadData();
     } catch (error) {
       console.error("Güncelleme hatası:", error);
-      alert("Kullanıcı güncellenirken bir hata oluştu. Lütfen tekrar deneyin.");
+      alert("Kullanıcı güncellenirken bir hata oluştu.");
     }
   };
 
@@ -271,45 +310,92 @@ export default function UserManagement() {
           </DialogTrigger>
           <DialogContent className="bg-gray-900 border-yellow-600">
             <DialogHeader>
-              <DialogTitle className="text-yellow-400">Yeni Kullanıcı Davet Et</DialogTitle>
+              <DialogTitle className="text-yellow-400">Yeni Kullanıcı Ekle</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4">
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label className="text-yellow-400 text-xs">Ad</Label>
+                  <Input
+                    value={inviteData.first_name}
+                    onChange={(e) => setInviteData(p => ({ ...p, first_name: e.target.value }))}
+                    placeholder="ERHAN"
+                    className="bg-gray-800 border-yellow-600 text-yellow-400"
+                  />
+                </div>
+                <div>
+                  <Label className="text-yellow-400 text-xs">Soyad</Label>
+                  <Input
+                    value={inviteData.last_name}
+                    onChange={(e) => setInviteData(p => ({ ...p, last_name: e.target.value }))}
+                    placeholder="SOYADINIZ"
+                    className="bg-gray-800 border-yellow-600 text-yellow-400"
+                  />
+                </div>
+              </div>
               <div>
-                <Label htmlFor="email" className="text-yellow-400">E-posta Adresi</Label>
+                <Label className="text-yellow-400 text-xs">E-posta</Label>
                 <Input
-                  id="email"
                   type="email"
-                  value={inviteEmail}
-                  onChange={(e) => setInviteEmail(e.target.value)}
-                  placeholder="kullanici@example.com"
+                  value={inviteData.email}
+                  onChange={(e) => setInviteData(p => ({ ...p, email: e.target.value }))}
+                  placeholder="kullanici@firma.com"
                   className="bg-gray-800 border-yellow-600 text-yellow-400"
                 />
               </div>
               <div>
-                <Label htmlFor="role" className="text-yellow-400">VIP Seviyesi</Label>
-                <Select value={inviteRole} onValueChange={setInviteRole}>
-                  <SelectTrigger className="bg-gray-800 border-yellow-600 text-yellow-400">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-yellow-600">
+                <Label className="text-yellow-400 text-xs">Şifre</Label>
+                <Input
+                  type="password"
+                  value={inviteData.password}
+                  onChange={(e) => setInviteData(p => ({ ...p, password: e.target.value }))}
+                  placeholder="En az 4 karakter"
+                  className="bg-gray-800 border-yellow-600 text-yellow-400"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label className="text-yellow-400 text-xs">Rol</Label>
+                  <Select value={inviteData.role} onValueChange={(v) => setInviteData(p => ({ ...p, role: v }))}>
+                    <SelectTrigger className="bg-gray-800 border-yellow-600 text-yellow-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 border-yellow-600">
                       <SelectItem value="admin" className="text-purple-400">Admin</SelectItem>
-                      <SelectItem value="vip-3" className="text-yellow-400">VIP-3</SelectItem>
-                      <SelectItem value="vip-2" className="text-red-400">VIP-2</SelectItem>
+                      <SelectItem value="user" className="text-gray-400">Normal Kullanıcı</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-yellow-400 text-xs">VIP Seviyesi</Label>
+                  <Select value={inviteData.vip_level} onValueChange={(v) => setInviteData(p => ({ ...p, vip_level: v }))}>
+                    <SelectTrigger className="bg-gray-800 border-yellow-600 text-yellow-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 border-yellow-600">
+                      <SelectItem value="none" className="text-gray-400">Yok</SelectItem>
                       <SelectItem value="vip-1" className="text-blue-400">VIP-1</SelectItem>
-                  </SelectContent>
-                </Select>
+                      <SelectItem value="vip-2" className="text-red-400">VIP-2</SelectItem>
+                      <SelectItem value="vip-3" className="text-yellow-400">VIP-3</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-              <div className="bg-yellow-900 p-4 rounded-lg border border-yellow-600">
-                <p className="text-sm text-yellow-200">
-                  <strong>Not:</strong> Kullanıcı davet etmek için Dashboard → Ayarlar bölümünü kullanın.
-                </p>
+              <div>
+                <Label className="text-yellow-400 text-xs">İşe Giriş Tarihi (opsiyonel)</Label>
+                <Input
+                  type="date"
+                  value={inviteData.hire_date}
+                  onChange={(e) => setInviteData(p => ({ ...p, hire_date: e.target.value }))}
+                  className="bg-gray-800 border-yellow-600 text-yellow-400"
+                />
               </div>
-              <div className="flex justify-end space-x-3">
+              <div className="flex justify-end space-x-3 pt-2">
                 <Button variant="outline" onClick={() => setIsInviteDialogOpen(false)} className="border-yellow-600 text-yellow-400">
                   İptal
                 </Button>
-                <Button onClick={handleInvite} className="bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-black">
-                  Davet Gönder
+                <Button onClick={handleInvite} className="bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-black font-bold">
+                  Kullanıcı Ekle
                 </Button>
               </div>
             </div>
@@ -497,6 +583,21 @@ export default function UserManagement() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
+                  <Label className="text-yellow-400">Rol</Label>
+                  <Select
+                    value={editingUser.role || 'user'}
+                    onValueChange={(value) => setEditingUser(prev => ({...prev, role: value}))}
+                  >
+                    <SelectTrigger className="bg-gray-800 border-yellow-600 text-yellow-400">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 border-yellow-600">
+                      <SelectItem value="admin" className="text-purple-400">Admin</SelectItem>
+                      <SelectItem value="user" className="text-gray-400">Normal Kullanıcı</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
                   <Label className="text-yellow-400">VIP Seviyesi</Label>
                   <Select
                     value={editingUser.vip_level || 'none'}
@@ -512,14 +613,25 @@ export default function UserManagement() {
                       <SelectItem value="vip-3" className="text-yellow-400">VIP-3</SelectItem>
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-yellow-600 mt-1">Admin kullanıcıları da VIP seviyesi alabilir.</p>
                 </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label className="text-yellow-400">İşe Giriş Tarihi</Label>
                   <Input
                     type="date"
                     value={editingUser.hire_date || ''}
                     onChange={(e) => setEditingUser(prev => ({...prev, hire_date: e.target.value}))}
+                    className="bg-gray-800 border-yellow-600 text-yellow-400"
+                  />
+                </div>
+                <div>
+                  <Label className="text-yellow-400">Yeni Şifre (opsiyonel)</Label>
+                  <Input
+                    type="password"
+                    value={editingUser.newPassword || ''}
+                    onChange={(e) => setEditingUser(prev => ({...prev, newPassword: e.target.value}))}
+                    placeholder="Değiştirmek için girin"
                     className="bg-gray-800 border-yellow-600 text-yellow-400"
                   />
                 </div>

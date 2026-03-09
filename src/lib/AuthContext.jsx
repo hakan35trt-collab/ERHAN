@@ -18,24 +18,34 @@ export const AuthProvider = ({ children }) => {
   const checkAppState = async () => {
     try {
       const currentUser = await localAuth.me();
-      setUser(currentUser);
-      setIsAuthenticated(true);
+      if (currentUser) {
+        setUser(currentUser);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
     } catch (error) {
       console.error('Auth check failed:', error);
+      setIsAuthenticated(false);
     } finally {
       setIsLoadingAuth(false);
     }
+  };
+
+  const loginUser = (userData) => {
+    setUser(userData);
+    setIsAuthenticated(true);
   };
 
   const logout = () => {
     localAuth.logout();
     setUser(null);
     setIsAuthenticated(false);
-    window.location.reload();
   };
 
   const navigateToLogin = () => {
-    window.location.href = '/';
+    setIsAuthenticated(false);
   };
 
   return (
@@ -47,6 +57,7 @@ export const AuthProvider = ({ children }) => {
       authError,
       appPublicSettings,
       logout,
+      loginUser,
       navigateToLogin,
       checkAppState
     }}>
