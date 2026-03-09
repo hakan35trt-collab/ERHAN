@@ -22722,5 +22722,21 @@
     "vehicle_visitors": [],
     "id": "01bl2gbb5mmjihvc2",
     "created_date": "2026-03-09T18:25:45.698Z"
+  },
+  {
+    "first_name": "ERHAN",
+    "last_name": "BAYRAK",
+    "company": "OFIS TEK",
+    "plate": "MOBILYA MONTAJ",
+    "visit_date": "2026-03-09",
+    "entry_time": "21:26",
+    "exit_time": "",
+    "visit_type": "calisma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "5cjjygktemmjiil99",
+    "created_date": "2026-03-09T18:26:19.293Z"
   }
 ]
