@@ -13,5 +13,20 @@
     "is_active": true,
     "id": "vaar7hrzzmmkdhi07",
     "created_date": "2026-03-10T08:53:16.519Z"
+  },
+  {
+    "title": "DIKKAT",
+    "content": "MERHABA ARKADAŞLAR\nALD\nİNOVA\nKILIÇ TADİLAT \nBUNLAR FARKLI ISIMLER VERIP SAHTE ADAMLAR SOKAN KISILER DIKKAT EDIN",
+    "company": "",
+    "plate": "",
+    "expires_at": "2026-03-11T08:54:01.803Z",
+    "created_by_name": "ERHAN YAMAN",
+    "created_by_id": "default_erhan_admin",
+    "created_by_badges": [],
+    "announcement_type": "pinned",
+    "target_pages": [],
+    "is_active": true,
+    "id": "5v00q2r6gmmkdigy5",
+    "created_date": "2026-03-10T08:54:01.805Z"
   }
 ]
