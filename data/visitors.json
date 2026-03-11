@@ -22952,5 +22952,21 @@
     "vehicle_visitors": [],
     "id": "jn6mk7m2ummlo1wi4",
     "created_date": "2026-03-11T06:36:50.764Z"
+  },
+  {
+    "first_name": "ALI",
+    "last_name": "ELSAID",
+    "company": "ÇAĞRI METAL",
+    "plate": "34 KE 2617",
+    "visit_date": "2026-03-11",
+    "entry_time": "09:39",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "wpuzoyxczmmlo528b",
+    "created_date": "2026-03-11T06:39:18.155Z"
   }
 ]
