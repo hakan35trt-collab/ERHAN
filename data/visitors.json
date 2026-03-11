@@ -23093,5 +23093,21 @@
     ],
     "id": "a78sd4pt6mmlsdmyn",
     "created_date": "2026-03-11T08:37:56.735Z"
+  },
+  {
+    "first_name": "METIN",
+    "last_name": "UYSAL",
+    "company": "MKTEK BARTEK",
+    "plate": "",
+    "visit_date": "2026-03-11",
+    "entry_time": "11:37",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "zr0ahz757mmlsg9ge",
+    "created_date": "2026-03-11T08:39:59.198Z"
   }
 ]
