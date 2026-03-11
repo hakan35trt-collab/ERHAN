@@ -1,17 +1,5 @@
 [
   {
-    "first_name": "MUHAMMET",
-    "last_name": "ULU",
-    "company": "",
-    "alert_message": "İÇERİ ALINMAYACAK SAHTE İSİM İLE GİRİŞ YAPTI",
-    "alert_type": "bekleniyor",
-    "is_active": true,
-    "created_by_name": "ERHAN YAMAN",
-    "created_by_id": "default_erhan_admin",
-    "id": "2e7gfd4w9mmlmzbe3",
-    "created_date": "2026-03-11T06:06:50.475Z"
-  },
-  {
     "first_name": "MUHAMMED",
     "last_name": "ULU",
     "company": "",
