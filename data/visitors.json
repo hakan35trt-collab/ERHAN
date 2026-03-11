@@ -22894,5 +22894,26 @@
     ],
     "id": "3jmoqjkp2mmlmbozn",
     "created_date": "2026-03-11T05:48:28.355Z"
+  },
+  {
+    "first_name": "DAVUT",
+    "last_name": "EMILLI",
+    "company": "TISAN",
+    "plate": "34 BDM 666",
+    "visit_date": "2026-03-11",
+    "entry_time": "09:18",
+    "exit_time": "",
+    "visit_type": "calisma",
+    "description": "Toplu - Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "SERKAN",
+        "last_name": "KESTANE"
+      }
+    ],
+    "id": "qxkk1fz16mmlnesu9",
+    "created_date": "2026-03-11T06:18:52.929Z"
   }
 ]
