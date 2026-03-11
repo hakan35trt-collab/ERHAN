@@ -23210,5 +23210,21 @@
     "vehicle_visitors": [],
     "id": "49wu9kctlmmlu7t3d",
     "created_date": "2026-03-11T09:29:23.977Z"
+  },
+  {
+    "first_name": "KURTCA",
+    "last_name": "KOCATEPE",
+    "company": "AYDIN HAFRIYAT",
+    "plate": "34 GKP 25",
+    "visit_date": "2026-03-11",
+    "entry_time": "12:30",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "0s1xzw02wmmlu94p5",
+    "created_date": "2026-03-11T09:30:25.673Z"
   }
 ]
