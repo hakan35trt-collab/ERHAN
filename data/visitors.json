@@ -22894,5 +22894,21 @@
     ],
     "id": "3jmoqjkp2mmlmbozn",
     "created_date": "2026-03-11T05:48:28.355Z"
+  },
+  {
+    "first_name": "ERHAN ",
+    "last_name": "AKGÜN",
+    "company": "İNOVA",
+    "plate": "BEDEN IŞÇISI",
+    "visit_date": "2026-03-11",
+    "entry_time": "08:57",
+    "exit_time": "",
+    "visit_type": "kontrol",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "jlf3ci04pmmlmn600",
+    "created_date": "2026-03-11T05:57:23.617Z"
   }
 ]
