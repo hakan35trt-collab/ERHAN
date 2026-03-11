@@ -23428,5 +23428,21 @@
     "vehicle_visitors": [],
     "id": "xsglwjzfnmmm1i2b0",
     "created_date": "2026-03-11T12:53:19.788Z"
+  },
+  {
+    "first_name": "ENGIN",
+    "last_name": "GURBUZ",
+    "company": "ETAN RULMAN",
+    "plate": "34 HNT 872",
+    "visit_date": "2026-03-11",
+    "entry_time": "16:09",
+    "exit_time": "",
+    "visit_type": "",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "wq6lfqqatmmm23i9s",
+    "created_date": "2026-03-11T13:10:00.256Z"
   }
 ]
