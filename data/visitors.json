@@ -23242,5 +23242,26 @@
     "vehicle_visitors": [],
     "id": "po7lo975ummluazkx",
     "created_date": "2026-03-11T09:31:52.353Z"
+  },
+  {
+    "first_name": "YUCEL",
+    "last_name": "KURT",
+    "company": "VOLDE",
+    "plate": "34 GDH 81",
+    "visit_date": "2026-03-11",
+    "entry_time": "12:58",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Toplu - Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "TASKIN",
+        "last_name": "KABUK"
+      }
+    ],
+    "id": "l2wft3r6vmmlv9hgy",
+    "created_date": "2026-03-11T09:58:41.842Z"
   }
 ]
