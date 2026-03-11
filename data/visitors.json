@@ -23359,5 +23359,21 @@
     "vehicle_visitors": [],
     "id": "966l0aychmmlyfsrd",
     "created_date": "2026-03-11T11:27:35.257Z"
+  },
+  {
+    "first_name": "TASKIN",
+    "last_name": "KABUK",
+    "company": "VOLDE",
+    "plate": "34 KNR 335",
+    "visit_date": "2026-03-11",
+    "entry_time": "14:36",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "rchva3imjmmlyrwkw",
+    "created_date": "2026-03-11T11:37:00.080Z"
   }
 ]
