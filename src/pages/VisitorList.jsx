@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Visitor } from "@/entities/Visitor";
 import { FrequentVisitor } from "@/entities/FrequentVisitor";
+import { VisitType } from "@/entities/VisitType";
 import { User } from "@/entities/User";
 import { Log } from "@/entities/Log";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,6 +50,7 @@ export default function VisitorList() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isFrequentDialogOpen, setIsFrequentDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [visitTypes, setVisitTypes] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false); // New: for filter panel visibility
 
   // Filter states - default to today, now supports 'all', 'today', 'yesterday', 'week', 'month', or a specific date string (yyyy-MM-dd)
@@ -161,6 +163,8 @@ export default function VisitorList() {
 
       const frequentData = await FrequentVisitor.list('-created_date');
       setFrequentVisitors(frequentData);
+      const vtypes = await VisitType.list('order', 100);
+      setVisitTypes(vtypes);
     } catch (error) {
       console.error("Veri yüklenemedi:", error);
     }
@@ -402,13 +406,9 @@ export default function VisitorList() {
     
     copyText += `\nGİRİŞ SAATİ: ${visitor.entry_time || 'N/A'}\n\n`;
     
-    // Ziyaret türüne göre mesaj
-    if (visitor.visit_type === 'calisma') {
-      copyText += `ÇALIŞMA YAPMAK İÇİN GİRİŞ YAPTI`;
-    } else if (visitor.visit_type === 'sevkiyat') {
-      copyText += `MALZEME GETİRMEK İÇİN GİRİŞ YAPTI`;
-    } else if (visitor.visit_type === 'yemek') {
-      copyText += `YEMEK GETİRMEK İÇİN GİRİŞ YAPTI`;
+    const vtype = visitTypes.find(t => t.name === visitor.visit_type);
+    if (vtype?.description) {
+      copyText += vtype.description.toUpperCase();
     } else {
       copyText += `GİRİŞ YAPTI`;
     }
