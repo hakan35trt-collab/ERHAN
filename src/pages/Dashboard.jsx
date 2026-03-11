@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Visitor } from "@/entities/Visitor";
 import { User } from "@/entities/User";
 import { Log } from "@/entities/Log";
+import { VisitType } from "@/entities/VisitType";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -65,6 +66,7 @@ export default function Dashboard() {
   const [editingVisitor, setEditingVisitor] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [editingAdditionalVisitors, setEditingAdditionalVisitors] = useState([]);
+  const [visitTypes, setVisitTypes] = useState([]);
 
   // Türkiye saati ile bugünün tarih stringini al
   const getTurkeyDateString = () => {
@@ -95,6 +97,8 @@ export default function Dashboard() {
 
       const visitorData = await Visitor.list('-created_date', 1000);
       setVisitors(visitorData);
+      const vtypes = await VisitType.list('order', 100);
+      setVisitTypes(vtypes);
     } catch (error) {
       console.error("Veri yüklenemedi:", error);
     }
@@ -306,15 +310,11 @@ export default function Dashboard() {
     
     copyText += `\nGİRİŞ SAATİ: ${currentTime}\n\n`;
     
-    // Ziyaret türüne göre mesaj
-    if (visitor.visit_type === 'calisma') {
-      copyText += `ÇALIŞMA YAPMAK İÇİN GİRİŞ YAPTI`;
-    } else if (visitor.visit_type === 'sevkiyat') {
-      copyText += `MALZEME GETİRMEK İÇİN GİRİŞ YAPTI`;
-    } else if (visitor.visit_type === 'yemek') {
-      copyText += `YEMEK GETİRMEK İÇİN GİRİŞ YAPTI`;
+    const vtype = visitTypes.find(t => t.name === visitor.visit_type);
+    if (vtype?.description) {
+        copyText += vtype.description.toUpperCase();
     } else {
-      copyText += `GİRİŞ YAPTI`;
+        copyText += `GİRİŞ YAPTI`;
     }
 
     navigator.clipboard.writeText(copyText).then(() => {
