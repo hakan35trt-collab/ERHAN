@@ -20,8 +20,10 @@ export default function AdminSettings() {
     const [saving, setSaving] = useState(false);
     const [visitTypes, setVisitTypes] = useState([]);
     const [newTypeName, setNewTypeName] = useState('');
+    const [newTypeDescription, setNewTypeDescription] = useState('');
     const [editingTypeId, setEditingTypeId] = useState(null);
     const [editingTypeName, setEditingTypeName] = useState('');
+    const [editingTypeDescription, setEditingTypeDescription] = useState('');
 
     useEffect(() => {
         loadData();
@@ -109,14 +111,8 @@ export default function AdminSettings() {
             return;
         }
         try {
-            await VisitType.create({
-                name: newTypeName.toLowerCase(),
-                order: visitTypes.length,
-                is_active: true
-            });
-            setNewTypeName('');
-            await loadData();
-            toast.success('Tür eklendi!');
+            await VisitType.create({ name: newTypeName.toLowerCase(), description: newTypeDescription.trim(), order: visitTypes.length, is_active: true });
+            setNewTypeName(''); setNewTypeDescription(''); await loadData(); toast.success('Tür eklendi!');
         } catch (error) {
             console.error('Tür eklenemedi:', error);
             toast.error('Tür eklenirken hata oluştu!');
@@ -138,6 +134,7 @@ export default function AdminSettings() {
     const handleEditType = (type) => {
         setEditingTypeId(type.id);
         setEditingTypeName(type.name);
+        setEditingTypeDescription(type.description || '');
     };
 
     const handleSaveEditType = async () => {
@@ -146,9 +143,8 @@ export default function AdminSettings() {
             return;
         }
         try {
-            await VisitType.update(editingTypeId, { name: editingTypeName.toLowerCase() });
-            setEditingTypeId(null);
-            setEditingTypeName('');
+            await VisitType.update(editingTypeId, { name: editingTypeName.toLowerCase(), description: editingTypeDescription.trim() });
+            setEditingTypeId(null); setEditingTypeName(''); setEditingTypeDescription('');
             await loadData();
             toast.success('Tür güncellendi!');
         } catch (error) {
@@ -180,17 +176,25 @@ export default function AdminSettings() {
                 <CardContent className="p-6">
                     <div className="space-y-4">
                         {/* Yeni Tür Ekle */}
-                        <div className="flex gap-2">
-                            <Input 
-                                value={newTypeName}
-                                onChange={(e) => setNewTypeName(e.target.value)}
-                                placeholder="Yeni tür adı girin (örn: toplanti)"
-                                className="bg-gray-800 border-amber-600 text-amber-400 placeholder-amber-600/50"
-                                onKeyDown={(e) => e.key === 'Enter' && handleAddType()}
+                        <div className="space-y-2">
+                            <div className="flex gap-2">
+                                <Input 
+                                    value={newTypeName}
+                                    onChange={(e) => setNewTypeName(e.target.value)}
+                                    placeholder="Tür adı (örn: toplanti)"
+                                    className="bg-gray-800 border-amber-600 text-amber-400 placeholder-amber-600/50"
+                                    onKeyDown={(e) => e.key === 'Enter' && handleAddType()}
+                                />
+                                <Button onClick={handleAddType} className="bg-green-600 hover:bg-green-700 text-white flex-shrink-0">
+                                    <Plus className="w-4 h-4 mr-1"/> Ekle
+                                </Button>
+                            </div>
+                            <Input
+                                value={newTypeDescription}
+                                onChange={(e) => setNewTypeDescription(e.target.value)}
+                                placeholder="Kopyalama açıklaması (örn: çalışma yapmak için giriş yaptı)"
+                                className="bg-gray-800 border-amber-600/50 text-amber-300 placeholder-amber-700/50 text-sm"
                             />
-                            <Button onClick={handleAddType} className="bg-green-600 hover:bg-green-700 text-white">
-                                <Plus className="w-4 h-4 mr-1"/> Ekle
-                            </Button>
                         </div>
 
                         {/* Mevcut Türler Listesi */}
@@ -199,13 +203,19 @@ export default function AdminSettings() {
                                 visitTypes.map((type) => (
                                     <div key={type.id} className="flex items-center justify-between bg-gray-700/50 p-3 rounded-lg border border-amber-600/30">
                                         {editingTypeId === type.id ? (
-                                            <>
+                                            <div className="flex-1 space-y-2 mr-2">
                                                 <Input 
                                                     value={editingTypeName}
                                                     onChange={(e) => setEditingTypeName(e.target.value)}
-                                                    className="bg-gray-800 border-amber-600 text-amber-400 flex-1 mr-2"
+                                                    className="bg-gray-800 border-amber-600 text-amber-400 w-full"
                                                     onKeyDown={(e) => e.key === 'Enter' && handleSaveEditType()}
                                                     autoFocus
+                                                />
+                                                <Input
+                                                    value={editingTypeDescription}
+                                                    onChange={(e) => setEditingTypeDescription(e.target.value)}
+                                                    placeholder="Kopyalama açıklaması"
+                                                    className="bg-gray-800 border-amber-600/50 text-amber-300 placeholder-amber-700/50 text-sm w-full"
                                                 />
                                                 <div className="flex gap-1">
                                                     <Button onClick={handleSaveEditType} size="sm" className="bg-green-600 hover:bg-green-700 text-white">
@@ -215,10 +225,13 @@ export default function AdminSettings() {
                                                         <X className="w-4 h-4"/>
                                                     </Button>
                                                 </div>
-                                            </>
+                                            </div>
                                         ) : (
                                             <>
-                                                <span className="text-amber-400 font-semibold capitalize text-lg">{type.name}</span>
+                                                <div className="flex-1">
+                                                    <span className="text-amber-400 font-semibold capitalize text-lg">{type.name}</span>
+                                                    {type.description && <p className="text-amber-700 text-xs mt-0.5">{type.description}</p>}
+                                                </div>
                                                 <div className="flex gap-2">
                                                     <Button 
                                                         onClick={() => handleEditType(type)}
