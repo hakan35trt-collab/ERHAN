@@ -23032,5 +23032,21 @@
     "vehicle_visitors": [],
     "id": "mc8tvt3jgmmlrfr8s",
     "created_date": "2026-03-11T08:11:35.980Z"
+  },
+  {
+    "first_name": "ADEM",
+    "last_name": "KARA",
+    "company": "ARTEM METAL",
+    "plate": "",
+    "visit_date": "2026-03-11",
+    "entry_time": "11:11",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "etga46cidmmls8z2x",
+    "created_date": "2026-03-11T08:34:19.161Z"
   }
 ]
