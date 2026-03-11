@@ -23178,5 +23178,21 @@
     "vehicle_visitors": [],
     "id": "83mxwqhyxmmlu01ym",
     "created_date": "2026-03-11T09:23:22.222Z"
+  },
+  {
+    "first_name": "KAMIL",
+    "last_name": "ÖZTÜRK",
+    "company": "YILDIZ ELEKTRIK",
+    "plate": "34 DYG 182",
+    "visit_date": "2026-03-11",
+    "entry_time": "12:23",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "esmorw7pcmmlu2xer",
+    "created_date": "2026-03-11T09:25:36.291Z"
   }
 ]
