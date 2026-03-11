@@ -23125,5 +23125,21 @@
     "vehicle_visitors": [],
     "id": "acgc0nf3vmmlsmnnc",
     "created_date": "2026-03-11T08:44:57.528Z"
+  },
+  {
+    "first_name": "VEDAT",
+    "last_name": "TASAR ",
+    "company": "GÖRÜŞME",
+    "plate": "",
+    "visit_date": "2026-03-11",
+    "entry_time": "11:44",
+    "exit_time": "",
+    "visit_type": "görüşme",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "5hwv7mmzzmmlssi6q",
+    "created_date": "2026-03-11T08:49:30.386Z"
   }
 ]
