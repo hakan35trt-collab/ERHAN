@@ -22771,5 +22771,26 @@
     "vehicle_visitors": [],
     "id": "1hwi9rf26mmll0xgk",
     "created_date": "2026-03-11T05:12:06.500Z"
+  },
+  {
+    "first_name": "OSMAN",
+    "last_name": "COŞKUN",
+    "company": "TISAN",
+    "plate": "34 FTZ 302",
+    "visit_date": "2026-03-11",
+    "entry_time": "08:30",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "SAMET",
+        "last_name": "YOĞUNALI "
+      }
+    ],
+    "id": "gc7w7m5mrmmllo33w",
+    "created_date": "2026-03-11T05:30:06.908Z"
   }
 ]
