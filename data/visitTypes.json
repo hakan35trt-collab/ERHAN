@@ -12,5 +12,12 @@
     "is_active": true,
     "id": "svd4v1q4qmmll3igg",
     "created_date": "2026-03-11T05:14:07.024Z"
+  },
+  {
+    "name": "görüşme",
+    "order": 2,
+    "is_active": true,
+    "id": "u5dupr9jommll3o3y",
+    "created_date": "2026-03-11T05:14:14.350Z"
   }
 ]
