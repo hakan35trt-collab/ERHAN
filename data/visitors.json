@@ -23396,5 +23396,21 @@
     ],
     "id": "0vnutr5a8mmm06ew7",
     "created_date": "2026-03-11T12:16:16.615Z"
+  },
+  {
+    "first_name": "ŞÜKRÜ ",
+    "last_name": "ZENGIN",
+    "company": "BALKAN TOPRAK",
+    "plate": "34 MS 6146",
+    "visit_date": "2026-03-11",
+    "entry_time": "15:20",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "xsssvuktxmmm0v6g2",
+    "created_date": "2026-03-11T12:35:32.066Z"
   }
 ]
