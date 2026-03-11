@@ -22984,5 +22984,21 @@
     "vehicle_visitors": [],
     "id": "c70uz0ew0mmlodxiw",
     "created_date": "2026-03-11T06:46:11.960Z"
+  },
+  {
+    "first_name": "MUZAFFER",
+    "last_name": "ŞENOL",
+    "company": "ÖRNEK BIRADERLER",
+    "plate": "34 VN 4835",
+    "visit_date": "2026-03-11",
+    "entry_time": "09:46",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "law56onx8mmlojxvy",
+    "created_date": "2026-03-11T06:50:52.366Z"
   }
 ]
