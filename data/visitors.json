@@ -22755,5 +22755,21 @@
     "vehicle_visitors": [],
     "id": "h51m3ne0ymmlkww4z",
     "created_date": "2026-03-11T05:08:58.163Z"
+  },
+  {
+    "first_name": "UĞUR",
+    "last_name": "ŞAHIN",
+    "company": "AYDIN HAFRIYAT",
+    "plate": "",
+    "visit_date": "2026-03-11",
+    "entry_time": "08:11",
+    "exit_time": "",
+    "visit_type": "calisma",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "1hwi9rf26mmll0xgk",
+    "created_date": "2026-03-11T05:12:06.500Z"
   }
 ]
