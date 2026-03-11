@@ -277,7 +277,13 @@ export default function VisitorRegistration() {
       });
     }
 
-    const uniqueSuggestions = filteredSuggestions.reduce((acc, current) => {
+    const sortedSuggestions = [...filteredSuggestions].sort((a, b) => {
+      const dateA = a.created_date || a.visit_date || '';
+      const dateB = b.created_date || b.visit_date || '';
+      return dateB.localeCompare(dateA);
+    });
+
+    const uniqueSuggestions = sortedSuggestions.reduce((acc, current) => {
       const key = `${current.first_name}-${current.last_name}-${current.plate}-${current.company}`;
       if (!acc.find(item => `${item.first_name}-${item.last_name}-${item.plate}-${item.company}` === key)) {
         acc.push(current);
