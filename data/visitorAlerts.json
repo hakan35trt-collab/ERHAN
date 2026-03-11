@@ -34,5 +34,17 @@
     "created_by_id": "default_erhan_admin",
     "id": "v1bn0orgbmmln1ry6",
     "created_date": "2026-03-11T06:08:45.246Z"
+  },
+  {
+    "first_name": "MESUT",
+    "last_name": "",
+    "company": "",
+    "alert_message": "OSBG GELINCE  EMIN BEYE BILGI VERILECEK",
+    "alert_type": "bekleniyor",
+    "is_active": true,
+    "created_by_name": "ERHAN YAMAN",
+    "created_by_id": "default_erhan_admin",
+    "id": "9tb1sch67mmltg7xv",
+    "created_date": "2026-03-11T09:07:56.851Z"
   }
 ]
