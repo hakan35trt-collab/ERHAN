@@ -23162,5 +23162,21 @@
     ],
     "id": "wwh5xb2vbmmlsu4qv",
     "created_date": "2026-03-11T08:50:46.279Z"
+  },
+  {
+    "first_name": "ABDULLAH ",
+    "last_name": "DEMIR",
+    "company": "AKASYA YEMEK",
+    "plate": "41 BBE 551",
+    "visit_date": "2026-03-11",
+    "entry_time": "12:23",
+    "exit_time": "",
+    "visit_type": "yemek servi̇s",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "83mxwqhyxmmlu01ym",
+    "created_date": "2026-03-11T09:23:22.222Z"
   }
 ]
