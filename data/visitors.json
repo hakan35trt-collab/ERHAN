@@ -22869,5 +22869,30 @@
     "vehicle_visitors": [],
     "id": "e62eqt3q9mmlm8cob",
     "created_date": "2026-03-11T05:45:52.427Z"
+  },
+  {
+    "first_name": "MEHRAN",
+    "last_name": "HASSAS",
+    "company": "ÇAĞRI METAL",
+    "plate": "34 JC 6993",
+    "visit_date": "2026-03-11",
+    "entry_time": "08:48",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "SADIK",
+        "last_name": "HABASAH"
+      },
+      {
+        "first_name": "ZEKERIYA",
+        "last_name": "GÖKÇE "
+      }
+    ],
+    "id": "3jmoqjkp2mmlmbozn",
+    "created_date": "2026-03-11T05:48:28.355Z"
   }
 ]
