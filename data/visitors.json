@@ -23109,5 +23109,21 @@
     "vehicle_visitors": [],
     "id": "zr0ahz757mmlsg9ge",
     "created_date": "2026-03-11T08:39:59.198Z"
+  },
+  {
+    "first_name": "SERGEN",
+    "last_name": "YILDIZ ",
+    "company": "ARTEM METAL",
+    "plate": "",
+    "visit_date": "2026-03-11",
+    "entry_time": "11:40",
+    "exit_time": "",
+    "visit_type": "kontrol",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "acgc0nf3vmmlsmnnc",
+    "created_date": "2026-03-11T08:44:57.528Z"
   }
 ]
