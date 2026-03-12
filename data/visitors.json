@@ -23867,5 +23867,21 @@
     "vehicle_visitors": [],
     "id": "kf43v9egkmmn9aqp2",
     "created_date": "2026-03-12T09:19:21.254Z"
+  },
+  {
+    "first_name": "MEHMET",
+    "last_name": "KESIK",
+    "company": "İGNIS",
+    "plate": "34 KAE 655",
+    "visit_date": "2026-03-12",
+    "entry_time": "13:04",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "wxt4icw20mmnaxfa8",
+    "created_date": "2026-03-12T10:04:59.168Z"
   }
 ]
