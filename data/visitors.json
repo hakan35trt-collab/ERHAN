@@ -23835,5 +23835,21 @@
     "vehicle_visitors": [],
     "id": "v7dhtbptnmmn6s0h8",
     "created_date": "2026-03-12T08:08:48.236Z"
+  },
+  {
+    "first_name": "MURAT",
+    "last_name": "CAPAR",
+    "company": "İGNIS",
+    "plate": "MONTAJ ELEMANI",
+    "visit_date": "2026-03-12",
+    "entry_time": "12:08",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "43pq4sg56mmn8xbzw",
+    "created_date": "2026-03-12T09:08:55.676Z"
   }
 ]
