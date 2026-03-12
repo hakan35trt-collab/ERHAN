@@ -23656,5 +23656,30 @@
     ],
     "id": "b6jfiyr8hmmn39i5b",
     "created_date": "2026-03-12T06:30:25.823Z"
+  },
+  {
+    "first_name": "OLGUN",
+    "last_name": "KUĞU ",
+    "company": "TISAN",
+    "plate": "MEKANIK BAKIM TEKNIKERI ",
+    "visit_date": "2026-03-12",
+    "entry_time": "09:30",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "DAVUT",
+        "last_name": "EMILLI"
+      },
+      {
+        "first_name": "SERKAN",
+        "last_name": "KESTANE"
+      }
+    ],
+    "id": "jh9e8fbqummn3a55x",
+    "created_date": "2026-03-12T06:30:55.653Z"
   }
 ]
