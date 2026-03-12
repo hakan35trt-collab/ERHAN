@@ -23697,5 +23697,21 @@
     "vehicle_visitors": [],
     "id": "nw2zhml1zmmn3fd74",
     "created_date": "2026-03-12T06:34:59.344Z"
+  },
+  {
+    "first_name": "BATUHAN EREN",
+    "last_name": "DEMIRCI",
+    "company": "TISAN",
+    "plate": "34 MML 352",
+    "visit_date": "2026-03-12",
+    "entry_time": "09:39",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "x76ft8vt6mmn3m941",
+    "created_date": "2026-03-12T06:40:20.641Z"
   }
 ]
