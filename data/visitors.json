@@ -23729,5 +23729,26 @@
     "vehicle_visitors": [],
     "id": "7pxe2kqx8mmn3qefy",
     "created_date": "2026-03-12T06:43:34.174Z"
+  },
+  {
+    "first_name": "İHSAN",
+    "last_name": "DALGIC",
+    "company": "DALGIC HARİTA",
+    "plate": "",
+    "visit_date": "2026-03-12",
+    "entry_time": "09:46",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "SEVAL",
+        "last_name": "SEMELCI"
+      }
+    ],
+    "id": "8y4kixb3fmmn3v14y",
+    "created_date": "2026-03-12T06:47:10.210Z"
   }
 ]
