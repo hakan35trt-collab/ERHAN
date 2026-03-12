@@ -46,17 +46,5 @@
     "created_by_id": "default_erhan_admin",
     "id": "jelbz6o2bmmlth4jl",
     "created_date": "2026-03-11T09:08:39.105Z"
-  },
-  {
-    "first_name": "BÜLENT",
-    "last_name": "YÜCEL",
-    "company": "İNOVA",
-    "alert_message": "BU ADAM GELIRSE BÜLENT YÜCEL ISMI SAHTE KENDISININ DEĞIL KIMLIK KONTROL YAP ",
-    "alert_type": "bekleniyor",
-    "is_active": true,
-    "created_by_name": "ERHAN YAMAN",
-    "created_by_id": "default_erhan_admin",
-    "id": "szj5838dnmmn0jiu1",
-    "created_date": "2026-03-12T05:14:14.425Z"
   }
 ]
