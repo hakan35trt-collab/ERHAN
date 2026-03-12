@@ -23444,5 +23444,42 @@
     "vehicle_visitors": [],
     "id": "wq6lfqqatmmm23i9s",
     "created_date": "2026-03-11T13:10:00.256Z"
+  },
+  {
+    "first_name": "MEHMET",
+    "last_name": "KÖSE",
+    "company": "MKTEK BARTEK",
+    "plate": "44 HC 979",
+    "visit_date": "2026-03-12",
+    "entry_time": "08:00",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "METIN",
+        "last_name": "BARAN"
+      },
+      {
+        "first_name": "ADIL",
+        "last_name": "CELCOK"
+      },
+      {
+        "first_name": "İSMAIL",
+        "last_name": "EREN"
+      },
+      {
+        "first_name": "SERDAR ",
+        "last_name": "YAŞAR "
+      },
+      {
+        "first_name": "ABDUL KADIR ",
+        "last_name": "SEKLEM"
+      }
+    ],
+    "id": "8uj3dmdmpmmn03z0y",
+    "created_date": "2026-03-12T05:02:08.914Z"
   }
 ]
