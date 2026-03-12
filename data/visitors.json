@@ -23614,5 +23614,26 @@
     ],
     "id": "ebtvoo71lmmn283uz",
     "created_date": "2026-03-12T06:01:21.035Z"
+  },
+  {
+    "first_name": "ALI",
+    "last_name": "ELSAID",
+    "company": "ÇAĞRI METAL",
+    "plate": "34 KE 2617",
+    "visit_date": "2026-03-12",
+    "entry_time": "09:14",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "MURAT",
+        "last_name": "CELIKER"
+      }
+    ],
+    "id": "m2r8no8ttmmn2plht",
+    "created_date": "2026-03-12T06:14:57.041Z"
   }
 ]
