@@ -23593,5 +23593,26 @@
     ],
     "id": "9cxrccbpxmmn1n6yi",
     "created_date": "2026-03-12T05:45:05.274Z"
+  },
+  {
+    "first_name": "CANER",
+    "last_name": "EKEMEN",
+    "company": "İNOVA",
+    "plate": "34 NGZ 108",
+    "visit_date": "2026-03-12",
+    "entry_time": "09:01",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "ZEKAI",
+        "last_name": "ORUÇGÜNEY"
+      }
+    ],
+    "id": "ebtvoo71lmmn283uz",
+    "created_date": "2026-03-12T06:01:21.035Z"
   }
 ]
