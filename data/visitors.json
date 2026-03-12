@@ -23925,5 +23925,21 @@
     ],
     "id": "7urnhguvrmmncai2p",
     "created_date": "2026-03-12T10:43:08.929Z"
+  },
+  {
+    "first_name": "SERKAN ",
+    "last_name": "TINKILIC",
+    "company": "VOLDE",
+    "plate": "MAKINA MONTAJ",
+    "visit_date": "2026-03-12",
+    "entry_time": "13:48",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "bjok7k1smmmnchv4c",
+    "created_date": "2026-03-12T10:48:52.428Z"
   }
 ]
