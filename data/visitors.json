@@ -23782,5 +23782,26 @@
     "vehicle_visitors": [],
     "id": "pm214vz3mmmn56jpx",
     "created_date": "2026-03-12T07:24:07.125Z"
+  },
+  {
+    "first_name": "VOLKAN",
+    "last_name": "ERTÜRK ",
+    "company": "TISAN",
+    "plate": "34 NGF 854",
+    "visit_date": "2026-03-12",
+    "entry_time": "10:40",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "YUCEL",
+        "last_name": "ÇIFTCI"
+      }
+    ],
+    "id": "hz10pfm4vmmn5r3wa",
+    "created_date": "2026-03-12T07:40:06.394Z"
   }
 ]
