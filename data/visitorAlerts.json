@@ -22,17 +22,5 @@
     "created_by_id": "default_erhan_admin",
     "id": "vkcmtj25qmmln0jog",
     "created_date": "2026-03-11T06:07:47.872Z"
-  },
-  {
-    "first_name": "",
-    "last_name": "",
-    "company": "İNOVA",
-    "alert_message": "KİMLİK SORUGUSU YAPILSIN GENELDE SAHTE İSİMLERİ İÇERİ ALIYOR",
-    "alert_type": "ozel",
-    "is_active": true,
-    "created_by_name": "ERHAN YAMAN",
-    "created_by_id": "default_erhan_admin",
-    "id": "v1bn0orgbmmln1ry6",
-    "created_date": "2026-03-11T06:08:45.246Z"
   }
 ]
