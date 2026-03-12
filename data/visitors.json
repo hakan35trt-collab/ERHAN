@@ -23635,5 +23635,26 @@
     ],
     "id": "m2r8no8ttmmn2plht",
     "created_date": "2026-03-12T06:14:57.041Z"
+  },
+  {
+    "first_name": "BÜLENT ",
+    "last_name": "YÜCEL",
+    "company": "İNOVA",
+    "plate": "ALÇI LEVHA UYGULAYICISI ",
+    "visit_date": "2026-03-12",
+    "entry_time": "09:23",
+    "exit_time": "",
+    "visit_type": "",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "MENDERES",
+        "last_name": "CELIK"
+      }
+    ],
+    "id": "b6jfiyr8hmmn39i5b",
+    "created_date": "2026-03-12T06:30:25.823Z"
   }
 ]
