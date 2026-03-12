@@ -23883,5 +23883,26 @@
     "vehicle_visitors": [],
     "id": "wxt4icw20mmnaxfa8",
     "created_date": "2026-03-12T10:04:59.168Z"
+  },
+  {
+    "first_name": "HASAN",
+    "last_name": "SÖNMEZ ",
+    "company": "OKALIT YAPI ",
+    "plate": "MONTAJ ELEMANI",
+    "visit_date": "2026-03-12",
+    "entry_time": "13:23",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "MULIS",
+        "last_name": "DEMIR"
+      }
+    ],
+    "id": "xvqsg9hk1mmnbm458",
+    "created_date": "2026-03-12T10:24:11.132Z"
   }
 ]
