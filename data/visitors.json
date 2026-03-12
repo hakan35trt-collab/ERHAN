@@ -23502,5 +23502,34 @@
     ],
     "id": "ehp5djedummn0t6mq",
     "created_date": "2026-03-12T05:21:45.170Z"
+  },
+  {
+    "first_name": "BILAL",
+    "last_name": "KILIC",
+    "company": "KILIÇ TADILAT INŞAAT",
+    "plate": "34 DLH 460",
+    "visit_date": "2026-03-12",
+    "entry_time": "08:25",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "MERTIN",
+        "last_name": "GOKOLP"
+      },
+      {
+        "first_name": "ERSIN",
+        "last_name": "DAG"
+      },
+      {
+        "first_name": "ÖZER",
+        "last_name": "AYIK"
+      }
+    ],
+    "id": "sc97p67g8mmn0ywux",
+    "created_date": "2026-03-12T05:26:12.441Z"
   }
 ]
