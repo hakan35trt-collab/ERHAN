@@ -23766,5 +23766,21 @@
     "vehicle_visitors": [],
     "id": "yic7eabkbmmn4wlua",
     "created_date": "2026-03-12T07:16:23.314Z"
+  },
+  {
+    "first_name": "ZIHNI",
+    "last_name": "KIRMIZI GÖZ ",
+    "company": "POINTCEPHE",
+    "plate": "34 HFU 313",
+    "visit_date": "2026-03-12",
+    "entry_time": "10:23",
+    "exit_time": "",
+    "visit_type": "kontrol",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "pm214vz3mmmn56jpx",
+    "created_date": "2026-03-12T07:24:07.125Z"
   }
 ]
