@@ -24020,5 +24020,21 @@
     ],
     "id": "vtn2v8jt0mmpur1fd",
     "created_date": "2026-03-14T04:55:25.945Z"
+  },
+  {
+    "first_name": "FATIH",
+    "last_name": "ŞIMŞEK ",
+    "company": "FIKIR OSGB",
+    "plate": "İSG",
+    "visit_date": "2026-03-14",
+    "entry_time": "08:01",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "8l5f06v5nmmpuzgkl",
+    "created_date": "2026-03-14T05:01:58.821Z"
   }
 ]
