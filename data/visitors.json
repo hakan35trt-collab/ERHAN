@@ -23978,5 +23978,26 @@
     ],
     "id": "19ol1bdm4mmpuasyv",
     "created_date": "2026-03-14T04:42:48.487Z"
+  },
+  {
+    "first_name": "MEHMET ",
+    "last_name": "SARI ",
+    "company": "VOLDE",
+    "plate": "KAYNAKÇI ",
+    "visit_date": "2026-03-14",
+    "entry_time": "07:49",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "EKREM",
+        "last_name": "ÇAĞDAŞ "
+      }
+    ],
+    "id": "51h6gxoe5mmpuivej",
+    "created_date": "2026-03-14T04:49:04.891Z"
   }
 ]
