@@ -24160,5 +24160,26 @@
     "vehicle_visitors": [],
     "id": "ie3gwnkn7mmpw9qjj",
     "created_date": "2026-03-14T05:37:57.919Z"
+  },
+  {
+    "first_name": "EMRE",
+    "last_name": "KILIÇ ",
+    "company": "MKTEK BARTEK",
+    "plate": " ",
+    "visit_date": "2026-03-15",
+    "entry_time": "07:52",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "METIN",
+        "last_name": "BARAN"
+      }
+    ],
+    "id": "ntdu3tux8mmra2sn8",
+    "created_date": "2026-03-15T04:52:14.852Z"
   }
 ]
