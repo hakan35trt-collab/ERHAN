@@ -24181,5 +24181,38 @@
     ],
     "id": "ntdu3tux8mmra2sn8",
     "created_date": "2026-03-15T04:52:14.852Z"
+  },
+  {
+    "first_name": "ABDUL KADIR ",
+    "last_name": "SEKLEM",
+    "company": "MKTEK BARTEK",
+    "plate": "ELEKTRIK TEKNISYENI ",
+    "visit_date": "2026-03-15",
+    "entry_time": "07:57",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "SERDAR ",
+        "last_name": "YAŞAR "
+      },
+      {
+        "first_name": "ADIL",
+        "last_name": "CELCOK"
+      },
+      {
+        "first_name": "İSMAIL",
+        "last_name": "EREN"
+      },
+      {
+        "first_name": "MEHMET",
+        "last_name": "KÖSE"
+      }
+    ],
+    "id": "qh1mgq1yxmmraakog",
+    "created_date": "2026-03-15T04:58:17.776Z"
   }
 ]
