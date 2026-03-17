@@ -24410,5 +24410,21 @@
     "vehicle_visitors": [],
     "id": "rlceufo4kmmu6htlm",
     "created_date": "2026-03-17T05:35:15.994Z"
+  },
+  {
+    "first_name": "ERSIN ",
+    "last_name": "TELLI ",
+    "company": "ALD- KÜRESEL YAPI ",
+    "plate": "İŞ MAKINALARI OP",
+    "visit_date": "2026-03-17",
+    "entry_time": "08:47",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "p6ufuqnknmmu6y5mx",
+    "created_date": "2026-03-17T05:47:58.089Z"
   }
 ]
