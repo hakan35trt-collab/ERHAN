@@ -24552,5 +24552,26 @@
     "vehicle_visitors": [],
     "id": "j6et9h5lhmmu8kpkv",
     "created_date": "2026-03-17T06:33:29.983Z"
+  },
+  {
+    "first_name": "BEKIR",
+    "last_name": "ÖZDEMIR",
+    "company": "EKSEN KAROT",
+    "plate": "KAROTCU",
+    "visit_date": "2026-03-17",
+    "entry_time": "09:41",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "UHUD",
+        "last_name": "TAS"
+      }
+    ],
+    "id": "nt1r3lkbemmu8vpq1",
+    "created_date": "2026-03-17T06:42:03.385Z"
   }
 ]
