@@ -24230,5 +24230,26 @@
     "vehicle_visitors": [],
     "id": "o8539htrrmmu51kc2",
     "created_date": "2026-03-17T04:54:37.875Z"
+  },
+  {
+    "first_name": "KAYHAN",
+    "last_name": "HALICI",
+    "company": "MKTEK BARTEK",
+    "plate": "",
+    "visit_date": "2026-03-17",
+    "entry_time": "07:54",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "MUSTAFA REMZI",
+        "last_name": "DURUKAN"
+      }
+    ],
+    "id": "3f6w7sm8gmmu57n7d",
+    "created_date": "2026-03-17T04:59:21.529Z"
   }
 ]
