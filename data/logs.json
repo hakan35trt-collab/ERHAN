@@ -1,12 +1,5 @@
 [
   {
-    "action": "OTOMATİK TEMİZLEME",
-    "details": "Sistem tarafından 1 log kaydı otomatik olarak temizlendi (7 günlük periyot).",
-    "user_name": "SİSTEM",
-    "id": "k0w6yag0zmmjm6bya",
-    "created_date": "2026-03-09T20:08:45.826Z"
-  },
-  {
     "action": "YENİ NOT",
     "user_name": "ERHAN YAMAN",
     "details": "Yeni bir not oluşturuldu.",
