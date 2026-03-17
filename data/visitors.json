@@ -24642,5 +24642,21 @@
     "vehicle_visitors": [],
     "id": "0sfq86ho9mmuatrxr",
     "created_date": "2026-03-17T07:36:32.175Z"
+  },
+  {
+    "first_name": "ZAFER",
+    "last_name": "UZ",
+    "company": "TISAN",
+    "plate": "41 APM 684",
+    "visit_date": "2026-03-17",
+    "entry_time": "12:14",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "k5xhew9l9mmuebtxj",
+    "created_date": "2026-03-17T09:14:33.415Z"
   }
 ]
