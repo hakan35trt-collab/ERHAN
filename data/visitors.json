@@ -24483,5 +24483,26 @@
     "vehicle_visitors": [],
     "id": "bf719wwwvmmu7gp3s",
     "created_date": "2026-03-17T06:02:23.128Z"
+  },
+  {
+    "first_name": "SELIM",
+    "last_name": "YAVUZ",
+    "company": "YG DENIZ",
+    "plate": "06 CUY 801",
+    "visit_date": "2026-03-17",
+    "entry_time": "09:13",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "İSMAIL ",
+        "last_name": "GENÇTÜRK "
+      }
+    ],
+    "id": "3bokpxu6wmmu7vjv7",
+    "created_date": "2026-03-17T06:13:56.179Z"
   }
 ]
