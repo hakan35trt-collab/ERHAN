@@ -24214,5 +24214,21 @@
     ],
     "id": "qh1mgq1yxmmraakog",
     "created_date": "2026-03-15T04:58:17.776Z"
+  },
+  {
+    "first_name": "ONUR",
+    "last_name": "CAKMAK",
+    "company": "TISAN",
+    "plate": "41 AGA 734",
+    "visit_date": "2026-03-17",
+    "entry_time": "07:54",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "o8539htrrmmu51kc2",
+    "created_date": "2026-03-17T04:54:37.875Z"
   }
 ]
