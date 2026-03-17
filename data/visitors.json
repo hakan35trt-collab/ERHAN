@@ -24467,5 +24467,21 @@
     ],
     "id": "4j2rbu3okmmu7dfxq",
     "created_date": "2026-03-17T05:59:51.278Z"
+  },
+  {
+    "first_name": "ADEM",
+    "last_name": "İNCE",
+    "company": "ALD-ULUSAL",
+    "plate": "34 FVE 917",
+    "visit_date": "2026-03-17",
+    "entry_time": "08:59",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "bf719wwwvmmu7gp3s",
+    "created_date": "2026-03-17T06:02:23.128Z"
   }
 ]
