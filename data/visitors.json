@@ -24357,5 +24357,26 @@
     ],
     "id": "w4z30iebummu5uhuu",
     "created_date": "2026-03-17T05:17:07.686Z"
+  },
+  {
+    "first_name": "MEHRAN",
+    "last_name": "HASSAS",
+    "company": "ÇAĞRI METAL",
+    "plate": "SAHA MÜHENDISI ",
+    "visit_date": "2026-03-17",
+    "entry_time": "08:28",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "SADIK",
+        "last_name": "HABASAH"
+      }
+    ],
+    "id": "m39ca2rb7mmu69e5r",
+    "created_date": "2026-03-17T05:28:42.735Z"
   }
 ]
