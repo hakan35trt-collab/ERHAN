@@ -1,13 +1,5 @@
 [
   {
-    "action": "YENİ NOT",
-    "user_name": "ERHAN YAMAN",
-    "details": "Yeni bir not oluşturuldu.",
-    "new_record_details": "Başlık: asdas, İçerik: dasdasda",
-    "id": "gryrudxbummjmc56n",
-    "created_date": "2026-03-09T20:13:16.991Z"
-  },
-  {
     "action": "SİLME",
     "details": "ERHAN SAYGIN  adlı ziyaretçi silindi.",
     "user_name": "ERHAN YAMAN",
