@@ -24442,5 +24442,30 @@
     "vehicle_visitors": [],
     "id": "ysdn1ng5ommu72i98",
     "created_date": "2026-03-17T05:51:21.068Z"
+  },
+  {
+    "first_name": "İSMAIL",
+    "last_name": "TELLI",
+    "company": "ALD",
+    "plate": "İŞ MAKINALARI OP",
+    "visit_date": "2026-03-17",
+    "entry_time": "08:52",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "ABDI",
+        "last_name": "BARIŞ "
+      },
+      {
+        "first_name": "LEVENT ",
+        "last_name": "GEZER"
+      }
+    ],
+    "id": "4j2rbu3okmmu7dfxq",
+    "created_date": "2026-03-17T05:59:51.278Z"
   }
 ]
