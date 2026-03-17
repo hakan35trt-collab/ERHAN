@@ -1,12 +1,5 @@
 [
   {
-    "action": "SİLME",
-    "details": "ERHAN BAYRAK adlı ziyaretçi silindi.",
-    "user_name": "ERHAN YAMAN",
-    "id": "tgfhbhf3ommjn8t0a",
-    "created_date": "2026-03-09T20:38:40.858Z"
-  },
-  {
     "action": "NOT SİLME",
     "user_name": "ERHAN YAMAN",
     "details": "\"asdas\" başlıklı not silindi.",
