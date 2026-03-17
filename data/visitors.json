@@ -24504,5 +24504,21 @@
     ],
     "id": "3bokpxu6wmmu7vjv7",
     "created_date": "2026-03-17T06:13:56.179Z"
+  },
+  {
+    "first_name": "ERHAN",
+    "last_name": "SAYGIN ",
+    "company": "MKTEK BARTEK",
+    "plate": "34 CHD 913",
+    "visit_date": "2026-03-17",
+    "entry_time": "09:14",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "m6nm2zf53mmu7wcwz",
+    "created_date": "2026-03-17T06:14:33.827Z"
   }
 ]
