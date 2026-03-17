@@ -24520,5 +24520,21 @@
     "vehicle_visitors": [],
     "id": "m6nm2zf53mmu7wcwz",
     "created_date": "2026-03-17T06:14:33.827Z"
+  },
+  {
+    "first_name": "YUCEL",
+    "last_name": "KURT",
+    "company": "VOLDE",
+    "plate": "34 GDH 81",
+    "visit_date": "2026-03-17",
+    "entry_time": "09:16",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "wxy0g3i8zmmu7yo4g",
+    "created_date": "2026-03-17T06:16:21.664Z"
   }
 ]
