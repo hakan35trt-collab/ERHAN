@@ -24658,5 +24658,26 @@
     "vehicle_visitors": [],
     "id": "k5xhew9l9mmuebtxj",
     "created_date": "2026-03-17T09:14:33.415Z"
+  },
+  {
+    "first_name": "MEHMET",
+    "last_name": "ZORCA",
+    "company": "ARI INŞAAT",
+    "plate": "38 AL 997",
+    "visit_date": "2026-03-17",
+    "entry_time": "14:40",
+    "exit_time": "",
+    "visit_type": "calisma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "ALKAN",
+        "last_name": "ÖNDEŞ"
+      }
+    ],
+    "id": "kanbg892nmmujjwi2",
+    "created_date": "2026-03-17T11:40:48.074Z"
   }
 ]
