@@ -1,13 +1,5 @@
 [
   {
-    "action": "NOT SİLME",
-    "user_name": "ERHAN YAMAN",
-    "details": "\"asdas\" başlıklı not silindi.",
-    "old_record_details": "Başlık: asdas, İçerik: dasdasda",
-    "id": "rrocfhrb5mmke4xn8",
-    "created_date": "2026-03-10T09:11:29.876Z"
-  },
-  {
     "action": "SİLME",
     "details": "ERHAN  AKGÜN adlı ziyaretçi silindi (Dashboard).",
     "user_name": "ERHAN YAMAN",
