@@ -25055,5 +25055,21 @@
     "vehicle_visitors": [],
     "id": "rhg9rdbkzmn2uggrp",
     "created_date": "2026-03-23T07:08:12.901Z"
+  },
+  {
+    "first_name": "BERKAN",
+    "last_name": "İNCI",
+    "company": "MKTEK BARTEK",
+    "plate": "34 GEB 182",
+    "visit_date": "2026-03-23",
+    "entry_time": "10:32",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "8c41mgpmimn2vcbcx",
+    "created_date": "2026-03-23T07:32:58.881Z"
   }
 ]
