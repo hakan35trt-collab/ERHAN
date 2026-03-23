@@ -70,5 +70,17 @@
     "created_by_id": "default_erhan_admin",
     "id": "y9rot7nsemn36mpsn",
     "created_date": "2026-03-23T12:48:59.927Z"
+  },
+  {
+    "first_name": "SALIH",
+    "last_name": "SARICA",
+    "company": "",
+    "alert_message": "EVRAKLAR TAMAM",
+    "alert_type": "bekleniyor",
+    "is_active": true,
+    "created_by_name": "ERHAN YAMAN",
+    "created_by_id": "default_erhan_admin",
+    "id": "7jumqys6omn36n0u4",
+    "created_date": "2026-03-23T12:49:14.236Z"
   }
 ]
