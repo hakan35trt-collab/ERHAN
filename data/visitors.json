@@ -25198,5 +25198,21 @@
     ],
     "id": "5vz06sc6smn311uym",
     "created_date": "2026-03-23T10:12:48.766Z"
+  },
+  {
+    "first_name": "MURAT",
+    "last_name": "AVCI",
+    "company": "ARMEN MUHENDISLIK",
+    "plate": "34 DYA 587",
+    "visit_date": "2026-03-23",
+    "entry_time": "13:15",
+    "exit_time": "",
+    "visit_type": "",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "4xtx5sjxamn314td0",
+    "created_date": "2026-03-23T10:15:06.660Z"
   }
 ]
