@@ -25214,5 +25214,21 @@
     "vehicle_visitors": [],
     "id": "4xtx5sjxamn314td0",
     "created_date": "2026-03-23T10:15:06.660Z"
+  },
+  {
+    "first_name": "İBRAHİM ",
+    "last_name": "DIYAB",
+    "company": "BAKIR VİNC",
+    "plate": "",
+    "visit_date": "2026-03-23",
+    "entry_time": "14:04",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "nvlufx53smn32wz6q",
+    "created_date": "2026-03-23T11:05:00.194Z"
   }
 ]
