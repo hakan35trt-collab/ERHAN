@@ -34,5 +34,17 @@
     "created_by_id": "default_erhan_admin",
     "id": "e1z4n2lg3mn2r2g53",
     "created_date": "2026-03-23T05:33:20.055Z"
+  },
+  {
+    "first_name": "MEHMET",
+    "last_name": "CEYLAN",
+    "company": "",
+    "alert_message": "EVRAKLAR TAMAM",
+    "alert_type": "alinacak",
+    "is_active": true,
+    "created_by_name": "ERHAN YAMAN",
+    "created_by_id": "default_erhan_admin",
+    "id": "gdw5hgudkmn36ly6p",
+    "created_date": "2026-03-23T12:48:24.145Z"
   }
 ]
