@@ -25156,5 +25156,26 @@
     "vehicle_visitors": [],
     "id": "ylmcfguismn30ckar",
     "created_date": "2026-03-23T09:53:08.547Z"
+  },
+  {
+    "first_name": "YUNUS ",
+    "last_name": "TELLI",
+    "company": "ALD",
+    "plate": "İNŞAAT MÜHENDISI ",
+    "visit_date": "2026-03-23",
+    "entry_time": "12:57",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "ABDI",
+        "last_name": "BARIŞ "
+      }
+    ],
+    "id": "waz58notdmn30ify7",
+    "created_date": "2026-03-23T09:57:42.847Z"
   }
 ]
