@@ -25087,5 +25087,21 @@
     "vehicle_visitors": [],
     "id": "5wwallpe3mn2w5oyy",
     "created_date": "2026-03-23T07:55:49.546Z"
+  },
+  {
+    "first_name": "CEM",
+    "last_name": "ARMAGAN",
+    "company": "CEMAR",
+    "plate": "",
+    "visit_date": "2026-03-23",
+    "entry_time": "11:24",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "szxdpur6zmn2x6qgj",
+    "created_date": "2026-03-23T08:24:37.747Z"
   }
 ]
