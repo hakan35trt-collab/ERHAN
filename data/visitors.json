@@ -25071,5 +25071,21 @@
     "vehicle_visitors": [],
     "id": "8c41mgpmimn2vcbcx",
     "created_date": "2026-03-23T07:32:58.881Z"
+  },
+  {
+    "first_name": "YAVUZ",
+    "last_name": "TUNCER",
+    "company": "İNOVA",
+    "plate": "34 GG 0433",
+    "visit_date": "2026-03-23",
+    "entry_time": "10:54",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "5wwallpe3mn2w5oyy",
+    "created_date": "2026-03-23T07:55:49.546Z"
   }
 ]
