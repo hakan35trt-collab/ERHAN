@@ -24997,5 +24997,26 @@
     "vehicle_visitors": [],
     "id": "cuhy387xxmn2tptof",
     "created_date": "2026-03-23T06:47:29.919Z"
+  },
+  {
+    "first_name": "HÜSEYIN ",
+    "last_name": "CEYLAN",
+    "company": "CEMAR",
+    "plate": "İŞÇI ",
+    "visit_date": "2026-03-23",
+    "entry_time": "09:56",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Toplu - Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "YÜKSEL",
+        "last_name": "SARICA"
+      }
+    ],
+    "id": "9c8uj7n0fmn2u2lpl",
+    "created_date": "2026-03-23T06:57:26.121Z"
   }
 ]
