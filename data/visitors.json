@@ -25177,5 +25177,26 @@
     ],
     "id": "waz58notdmn30ify7",
     "created_date": "2026-03-23T09:57:42.847Z"
+  },
+  {
+    "first_name": "VOLKAN",
+    "last_name": "ERTÜRK ",
+    "company": "TISAN",
+    "plate": "34 NGF 854",
+    "visit_date": "2026-03-23",
+    "entry_time": "13:12",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Toplu - Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "YUCEL",
+        "last_name": "ÇIFTCI"
+      }
+    ],
+    "id": "5vz06sc6smn311uym",
+    "created_date": "2026-03-23T10:12:48.766Z"
   }
 ]
