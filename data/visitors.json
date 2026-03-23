@@ -25267,5 +25267,21 @@
     "vehicle_visitors": [],
     "id": "u94povp6kmn33ryc0",
     "created_date": "2026-03-23T11:29:05.424Z"
+  },
+  {
+    "first_name": "ERİM",
+    "last_name": "CEBECI",
+    "company": "ALD  ",
+    "plate": "34 TM 3788",
+    "visit_date": "2026-03-23",
+    "entry_time": "14:29",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "7dlo8zxu4mn34b024",
+    "created_date": "2026-03-23T11:43:54.124Z"
   }
 ]
