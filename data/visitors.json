@@ -24756,5 +24756,30 @@
     ],
     "id": "xtuj6e047mmvlm36l",
     "created_date": "2026-03-18T05:26:15.453Z"
+  },
+  {
+    "first_name": "MEHMET ",
+    "last_name": "SARI ",
+    "company": "VOLDE",
+    "plate": "KAYNAKÇI ",
+    "visit_date": "2026-03-23",
+    "entry_time": "07:50",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Toplu - Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "EKREM",
+        "last_name": "ÇAĞDAŞ "
+      },
+      {
+        "first_name": "MURAT",
+        "last_name": "BEKTAŞ "
+      }
+    ],
+    "id": "c5fgtpfjzmn2pk4de",
+    "created_date": "2026-03-23T04:51:05.378Z"
   }
 ]
