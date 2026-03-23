@@ -25018,5 +25018,26 @@
     ],
     "id": "9c8uj7n0fmn2u2lpl",
     "created_date": "2026-03-23T06:57:26.121Z"
+  },
+  {
+    "first_name": "TALYA ",
+    "last_name": "AKAR",
+    "company": "ACENTE MAKSIMUM SIGORTA",
+    "plate": "",
+    "visit_date": "2026-03-23",
+    "entry_time": "09:57",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "İMAN",
+        "last_name": "ÖZEN"
+      }
+    ],
+    "id": "4k43gy4bjmn2ufwco",
+    "created_date": "2026-03-23T07:07:46.440Z"
   }
 ]
