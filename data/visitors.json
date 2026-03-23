@@ -25103,5 +25103,21 @@
     "vehicle_visitors": [],
     "id": "szxdpur6zmn2x6qgj",
     "created_date": "2026-03-23T08:24:37.747Z"
+  },
+  {
+    "first_name": "BILAL",
+    "last_name": "KILIC",
+    "company": "KILIÇ TADILAT INŞAAT",
+    "plate": "34 DLH 460",
+    "visit_date": "2026-03-23",
+    "entry_time": "11:31",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "lebbnuh7xmn2xfnq3",
+    "created_date": "2026-03-23T08:31:34.107Z"
   }
 ]
