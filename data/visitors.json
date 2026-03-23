@@ -24864,5 +24864,30 @@
     ],
     "id": "82mo29jmcmn2r99xs",
     "created_date": "2026-03-23T05:38:38.608Z"
+  },
+  {
+    "first_name": "AHMET",
+    "last_name": "CELIK",
+    "company": "İNOVA",
+    "plate": "SIVACI",
+    "visit_date": "2026-03-23",
+    "entry_time": "09:19",
+    "exit_time": "",
+    "visit_type": "calisma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "ZEKAI",
+        "last_name": "ORUÇGÜNEY"
+      },
+      {
+        "first_name": "CANER",
+        "last_name": "EKEMEN"
+      }
+    ],
+    "id": "mb8gkrmhcmn2sq7ha",
+    "created_date": "2026-03-23T06:19:48.190Z"
   }
 ]
