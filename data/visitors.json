@@ -24818,5 +24818,26 @@
     "vehicle_visitors": [],
     "id": "gtyqpddjwmn2qlwon",
     "created_date": "2026-03-23T05:20:28.343Z"
+  },
+  {
+    "first_name": "SAMET",
+    "last_name": "YOĞUNALI ",
+    "company": "TISAN",
+    "plate": "34 EVZ 898",
+    "visit_date": "2026-03-23",
+    "entry_time": "08:23",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Toplu - Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "OSMAN",
+        "last_name": "COŞKUN"
+      }
+    ],
+    "id": "0mq3yodn6mn2qq1c3",
+    "created_date": "2026-03-23T05:23:40.995Z"
   }
 ]
