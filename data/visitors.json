@@ -25251,5 +25251,21 @@
     ],
     "id": "hkkfiqjusmn33kwv7",
     "created_date": "2026-03-23T11:23:36.931Z"
+  },
+  {
+    "first_name": "BAYRAM UMUT",
+    "last_name": "GENC",
+    "company": "İNOVA",
+    "plate": "34 HG 0433",
+    "visit_date": "2026-03-23",
+    "entry_time": "14:29",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araçla içeri girdi",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "u94povp6kmn33ryc0",
+    "created_date": "2026-03-23T11:29:05.424Z"
   }
 ]
