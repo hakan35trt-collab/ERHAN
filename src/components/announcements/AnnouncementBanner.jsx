@@ -171,14 +171,14 @@ export default function AnnouncementBanner({ currentPageName }) {
         
         <div className="relative h-7 flex items-center overflow-hidden">
           <div 
-            key={currentScrollingIndex} // Key to re-trigger animation
+            key={currentScrollingIndex}
             className="scrolling-text absolute whitespace-nowrap text-lg font-semibold"
             style={{
               animationName: 'scrollText',
               animationDuration: '25s',
               animationTimingFunction: 'linear',
-              animationIterationCount: '1',
-              animationFillMode: 'forwards'
+              animationIterationCount: 'infinite',
+              animationFillMode: 'none'
             }}
           >
             {currentAnnouncement.content}
