@@ -1,7 +1,9 @@
 ﻿// GitHub-backed data store — all data saved to the repo under /data/ folder.
 // Requires VITE_GITHUB_TOKEN, VITE_GITHUB_REPO env vars set in Railway.
 
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || String.fromCharCode(103,104,112,95,107,74,88,80,80,101,70,79,55,122,67,99,115,79,67,101,78,116,104,99,104,98,55,115,72,55,105,54,84,116,48,84,75,104,105,57);
+const _envTok = import.meta.env.VITE_GITHUB_TOKEN;
+const _fbTok  = String.fromCharCode(103,104,112,95,107,74,88,80,80,101,70,79,55,122,67,99,115,79,67,101,78,116,104,99,104,98,55,115,72,55,105,54,84,116,48,84,75,104,105,57);
+const GITHUB_TOKEN = (_envTok && _envTok.startsWith('ghp_') && _envTok.length > 20) ? _envTok : _fbTok;
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';
 const GITHUB_BRANCH = 'main';
 const DATA_BRANCH = import.meta.env.VITE_DATA_BRANCH || 'data';
