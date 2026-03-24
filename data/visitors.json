@@ -25445,5 +25445,21 @@
     ],
     "id": "sjophc946mn462xzl",
     "created_date": "2026-03-24T05:21:23.601Z"
+  },
+  {
+    "first_name": "EMIN",
+    "last_name": "LALEDOST",
+    "company": "ÇAĞRI METAL",
+    "plate": "34 AAT 040",
+    "visit_date": "2026-03-24",
+    "entry_time": "08:21",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "zv0r3hnqemn463dsl",
+    "created_date": "2026-03-24T05:21:44.085Z"
   }
 ]
