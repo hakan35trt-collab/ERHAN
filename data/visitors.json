@@ -25743,5 +25743,21 @@
     "vehicle_visitors": [],
     "id": "mbm3jm417mn4ajh5f",
     "created_date": "2026-03-24T07:26:13.395Z"
+  },
+  {
+    "first_name": "CEMALETTIN ",
+    "last_name": "ERGUL",
+    "company": "USTAOĞLU BETON",
+    "plate": "",
+    "visit_date": "2026-03-24",
+    "entry_time": "10:26",
+    "exit_time": "",
+    "visit_type": "",
+    "description": "",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "8fs0wi7l6mn4ajun1",
+    "created_date": "2026-03-24T07:26:30.877Z"
   }
 ]
