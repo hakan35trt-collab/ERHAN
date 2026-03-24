@@ -192,17 +192,6 @@ export function createGitHubEntity(entityName) {
       await writeItems(entityName, items);
       return created;
     }),
-
-    bulkUpdate: (updates) => enqueue(entityName, async () => {
-      if (!Array.isArray(updates) || !updates.length) return [];
-      const items = await readItems(entityName);
-      for (const { id, data } of updates) {
-        const idx = items.findIndex(i => i.id === id);
-        if (idx !== -1) items[idx] = { ...items[idx], ...data };
-      }
-      await writeItems(entityName, items);
-      return items;
-    }),
   };
 }
 
@@ -298,7 +287,7 @@ export const githubAuth = {
   },
 };
 
-// ─── Monthly auto-backup ──────────────────────────────────────────────────────
+// ─── Weekly auto-backup (Türkiye saati gece 00:00) ───────────────────────────
 
 const ALL_ENTITIES = [
   'visitors','logs','announcements','messages','notifications',
@@ -309,23 +298,38 @@ const ALL_ENTITIES = [
 
 const MONTH_TR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 
+function getTurkeyTime() {
+  return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Istanbul' }));
+}
+
+function getISOWeekKey(date) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
+}
+
 export async function checkAndRunAutoBackup() {
   if (!GITHUB_TOKEN) return;
-  const now = new Date();
-  const monthKey = `${now.getFullYear()}-${now.getMonth() + 1}`;
-  if (localStorage.getItem('last_auto_backup') === monthKey) return;
+  const tr = getTurkeyTime();
+  const weekKey = getISOWeekKey(tr);
+  if (localStorage.getItem('last_auto_backup_week') === weekKey) return;
+
+  // Sadece Türkiye saati 00:00–01:00 arasında çalıştır
+  if (tr.getHours() !== 0) return;
 
   try {
-    const backupData = { backup_date: now.toISOString(), backup_type: 'auto_monthly' };
+    const backupData = { backup_date: new Date().toISOString(), backup_type: 'auto_weekly' };
     for (const name of ALL_ENTITIES) {
       try { const { content } = await ghGet(`${DATA_DIR}/${name}.json`); backupData[name] = content || []; }
       catch { backupData[name] = []; }
     }
     const p = n => String(n).padStart(2, '0');
-    const fname = `${BACKUP_DIR}/${now.getFullYear()}-${p(now.getMonth()+1)}-${MONTH_TR[now.getMonth()]}-${p(now.getDate())}-${p(now.getHours())}-${p(now.getMinutes())}.json`;
-    await ghPut(fname, backupData, null, `yedek: ${now.getFullYear()} ${MONTH_TR[now.getMonth()]} otomatik yedek`);
-    localStorage.setItem('last_auto_backup', monthKey);
-    console.log('Otomatik yedek alındı:', fname);
+    const fname = `${BACKUP_DIR}/${tr.getFullYear()}-${p(tr.getMonth()+1)}-${MONTH_TR[tr.getMonth()]}-${p(tr.getDate())}-${p(tr.getHours())}-${p(tr.getMinutes())}.json`;
+    await ghPut(fname, backupData, null, `yedek: ${tr.getFullYear()} ${MONTH_TR[tr.getMonth()]} haftalık otomatik yedek`);
+    localStorage.setItem('last_auto_backup_week', weekKey);
+    console.log('Haftalık otomatik yedek alındı:', fname);
   } catch (e) { console.warn('Otomatik yedek başarısız:', e); }
 }
 
