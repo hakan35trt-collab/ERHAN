@@ -25461,5 +25461,30 @@
     "vehicle_visitors": [],
     "id": "zv0r3hnqemn463dsl",
     "created_date": "2026-03-24T05:21:44.085Z"
+  },
+  {
+    "first_name": "ZEKAI",
+    "last_name": "ORUÇGÜNEY",
+    "company": "İNOVA",
+    "plate": "",
+    "visit_date": "2026-03-24",
+    "entry_time": "08:34",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "AHMET",
+        "last_name": "CELIK"
+      },
+      {
+        "first_name": "SERDAR ",
+        "last_name": "TUNCER"
+      }
+    ],
+    "id": "evc8eea8emn46jx9d",
+    "created_date": "2026-03-24T05:34:35.809Z"
   }
 ]
