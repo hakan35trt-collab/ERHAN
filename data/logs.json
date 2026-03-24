@@ -1,12 +1,5 @@
 [
   {
-    "action": "SİLME",
-    "details": "ZAFER UZ adlı ziyaretçi silindi (Dashboard).",
-    "user_name": "ERHAN YAMAN",
-    "id": "jmqjip3mzmmvlru9v",
-    "created_date": "2026-03-18T05:30:43.843Z"
-  },
-  {
     "action": "ÇIKIŞ",
     "details": "ZAFER UZ adlı ziyaretçiye çıkış saati eklendi (İçeridekiler).",
     "user_name": "ERHAN YAMAN",
