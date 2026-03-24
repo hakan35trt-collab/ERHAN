@@ -25612,5 +25612,26 @@
     "vehicle_visitors": [],
     "id": "g81pvtssamn47j8ar",
     "created_date": "2026-03-24T06:02:03.075Z"
+  },
+  {
+    "first_name": "UHUD",
+    "last_name": "TAS",
+    "company": "EKSEN KAROT ",
+    "plate": "41 AEN 705",
+    "visit_date": "2026-03-24",
+    "entry_time": "09:16",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "MURAT",
+        "last_name": "DAL"
+      }
+    ],
+    "id": "exqdetoq7mn481x53",
+    "created_date": "2026-03-24T06:16:35.079Z"
   }
 ]
