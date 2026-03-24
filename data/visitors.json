@@ -25596,5 +25596,21 @@
     "vehicle_visitors": [],
     "id": "kp8nmq90cmn47bhrl",
     "created_date": "2026-03-24T05:56:02.097Z"
+  },
+  {
+    "first_name": "FAHRIS",
+    "last_name": "MUTLU",
+    "company": "MKTEK",
+    "plate": "55 ZD 434",
+    "visit_date": "2026-03-24",
+    "entry_time": "09:01",
+    "exit_time": "",
+    "visit_type": "",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "g81pvtssamn47j8ar",
+    "created_date": "2026-03-24T06:02:03.075Z"
   }
 ]
