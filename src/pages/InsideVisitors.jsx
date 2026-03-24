@@ -21,7 +21,8 @@ import {
   RefreshCw,
   Search,
   CheckSquare,
-  XSquare
+  Square,
+  Zap
 } from "lucide-react";
 import { format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,6 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ghGet, ghPut } from "@/lib/githubStore";
 
 export default function InsideVisitors() {
   const [visitors, setVisitors] = useState([]);
@@ -49,9 +51,8 @@ export default function InsideVisitors() {
   const [editingVisitor, setEditingVisitor] = useState(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isSelecting, setIsSelecting] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set());
-  const [isBulkExiting, setIsBulkExiting] = useState(false);
+  const [bulkExiting, setBulkExiting] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -67,18 +68,18 @@ export default function InsideVisitors() {
         const lastName = normalizeText(visitor.last_name);
         const company = normalizeText(visitor.company);
         const plate = normalizeText(visitor.plate);
-        
+
         const mainMatch = firstName.includes(normalizedSearch) ||
                          lastName.includes(normalizedSearch) ||
                          company.includes(normalizedSearch) ||
                          plate.includes(normalizedSearch);
-        
+
         const vehicleMatch = visitor.vehicle_visitors?.some(v => {
           const vFirstName = normalizeText(v.first_name);
           const vLastName = normalizeText(v.last_name);
           return vFirstName.includes(normalizedSearch) || vLastName.includes(normalizedSearch);
         });
-        
+
         return mainMatch || vehicleMatch;
       });
       setFilteredVisitors(filtered);
@@ -97,6 +98,12 @@ export default function InsideVisitors() {
         !visitor.exit_time || visitor.exit_time === '' || visitor.exit_time === null
       );
       setVisitors(insideVisitors);
+      // Seçili olanları güncelle — artık içeride olmayanları çıkar
+      setSelectedIds(prev => {
+        const insideIdSet = new Set(insideVisitors.map(v => v.id));
+        const next = new Set([...prev].filter(id => insideIdSet.has(id)));
+        return next;
+      });
     } catch (error) {
       console.error("Veri yüklenemedi:", error);
     }
@@ -196,7 +203,46 @@ export default function InsideVisitors() {
     }
   };
 
-  const toggleSelection = (id) => {
+  // Toplu çıkış — tek GitHub yazması (hızlı)
+  const handleBulkExit = async () => {
+    if (selectedIds.size === 0) return;
+    if (!window.confirm(`${selectedIds.size} ziyaretçi için toplu çıkış yapılsın mı?`)) return;
+
+    setBulkExiting(true);
+    try {
+      const currentTime = format(new Date(), 'HH:mm');
+      const { content: allItems, sha } = await ghGet('data/visitors.json');
+
+      if (!Array.isArray(allItems)) throw new Error('visitors.json okunamadı');
+
+      const updatedNames = [];
+      const updated = allItems.map(item => {
+        if (selectedIds.has(item.id) && (!item.exit_time || item.exit_time === '')) {
+          updatedNames.push(`${item.first_name} ${item.last_name}`);
+          return { ...item, exit_time: currentTime };
+        }
+        return item;
+      });
+
+      await ghPut('data/visitors.json', updated, sha, `data: toplu çıkış ${updatedNames.length} ziyaretçi`);
+
+      await Log.create({
+        action: "TOPLU ÇIKIŞ",
+        details: `${updatedNames.join(', ')} adlı ${updatedNames.length} ziyaretçi toplu çıkış yaptı.`,
+        user_name: `${currentUser.first_name} ${currentUser.last_name}`
+      });
+
+      setSelectedIds(new Set());
+      await loadData();
+    } catch (error) {
+      console.error("Toplu çıkış hatası:", error);
+      alert("Toplu çıkış sırasında hata oluştu: " + error.message);
+    } finally {
+      setBulkExiting(false);
+    }
+  };
+
+  const toggleSelect = (id) => {
     setSelectedIds(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -205,52 +251,14 @@ export default function InsideVisitors() {
     });
   };
 
-  const toggleSelectAll = () => {
-    const selectableIds = filteredVisitors
+  const selectAll = () => {
+    const exitableIds = filteredVisitors
       .filter(v => canPerformAction(v).canAddExit)
       .map(v => v.id);
-    if (selectedIds.size === selectableIds.length) {
-      setSelectedIds(new Set());
-    } else {
-      setSelectedIds(new Set(selectableIds));
-    }
+    setSelectedIds(new Set(exitableIds));
   };
 
-  const cancelSelection = () => {
-    setIsSelecting(false);
-    setSelectedIds(new Set());
-  };
-
-  const handleBulkExit = async () => {
-    if (selectedIds.size === 0) return;
-    if (!window.confirm(`${selectedIds.size} ziyaretçiye toplu çıkış yaptırmak istediğinizden emin misiniz?`)) return;
-
-    setIsBulkExiting(true);
-    try {
-      const currentTime = format(new Date(), 'HH:mm');
-      const updates = Array.from(selectedIds).map(id => ({ id, data: { exit_time: currentTime } }));
-      await Visitor.bulkUpdate(updates);
-
-      const names = filteredVisitors
-        .filter(v => selectedIds.has(v.id))
-        .map(v => `${v.first_name} ${v.last_name}`)
-        .join(', ');
-
-      await Log.create({
-        action: "TOPLU ÇIKIŞ",
-        details: `Toplu çıkış yapıldı (${selectedIds.size} kişi): ${names}`,
-        user_name: `${currentUser.first_name} ${currentUser.last_name}`
-      });
-
-      cancelSelection();
-      loadData();
-    } catch (error) {
-      console.error("Toplu çıkış hatası:", error);
-      alert("Toplu çıkış sırasında bir hata oluştu.");
-    } finally {
-      setIsBulkExiting(false);
-    }
-  };
+  const clearSelection = () => setSelectedIds(new Set());
 
   const createQuickRecord = async (visitor) => {
     if (!currentUser) {
@@ -352,14 +360,13 @@ export default function InsideVisitors() {
   };
 
   const totalInsideCount = getTotalVisitorCount(visitors);
-  const selectableCount = filteredVisitors.filter(v => canPerformAction(v).canAddExit).length;
-  const allSelected = selectableCount > 0 && selectedIds.size === selectableCount;
+  const exitableCount = filteredVisitors.filter(v => canPerformAction(v).canAddExit).length;
 
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto bg-gradient-to-br from-gray-900 via-black to-gray-900 min-h-screen">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4">
         <h1 className="text-3xl font-bold text-amber-400">İçerideki Ziyaretçiler ({totalInsideCount})</h1>
-        <div className="flex items-center gap-2 w-full sm:w-auto flex-wrap">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <div className="relative flex-1 sm:flex-initial sm:w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-amber-600" />
             <Input
@@ -374,53 +381,50 @@ export default function InsideVisitors() {
             <RefreshCw className="w-4 h-4 mr-2" />
             Yenile
           </Button>
-          {!isSelecting ? (
-            <Button
-              onClick={() => setIsSelecting(true)}
-              className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold border-2 border-orange-400"
-            >
-              <CheckSquare className="w-4 h-4 mr-2" />
-              Çoklu Seç
-            </Button>
-          ) : (
-            <Button
-              onClick={cancelSelection}
-              variant="outline"
-              className="border-gray-500 text-gray-300 hover:bg-gray-700"
-            >
-              <XSquare className="w-4 h-4 mr-2" />
-              İptal
-            </Button>
-          )}
         </div>
       </div>
 
-      {isSelecting && (
-        <div className="flex items-center gap-3 mb-4 p-3 bg-gray-800/80 rounded-lg border border-amber-600/40 flex-wrap">
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="select-all"
-              checked={allSelected}
-              onCheckedChange={toggleSelectAll}
-              className="border-amber-500 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500"
-            />
-            <label htmlFor="select-all" className="text-amber-400 text-sm font-medium cursor-pointer">
-              Tümünü Seç ({selectableCount})
-            </label>
-          </div>
-          <span className="text-amber-600 text-sm">{selectedIds.size} seçili</span>
+      {/* Toplu işlem araç çubuğu */}
+      {exitableCount > 0 && (
+        <div className="flex flex-wrap items-center gap-2 mb-4 p-3 bg-gray-800/80 border border-amber-600/40 rounded-lg">
           <Button
-            onClick={handleBulkExit}
-            disabled={selectedIds.size === 0 || isBulkExiting}
-            className="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-bold border-2 border-red-400 disabled:opacity-50"
+            onClick={selectAll}
+            size="sm"
+            variant="outline"
+            className="border-amber-600 text-amber-400 hover:bg-amber-600/20 text-xs"
           >
-            <LogOut className="w-4 h-4 mr-2" />
-            {isBulkExiting ? 'Çıkış Yapılıyor...' : `Toplu Çıkış (${selectedIds.size})`}
+            <CheckSquare className="w-3.5 h-3.5 mr-1" />
+            Tümünü Seç ({exitableCount})
           </Button>
+          {selectedIds.size > 0 && (
+            <>
+              <Button
+                onClick={clearSelection}
+                size="sm"
+                variant="outline"
+                className="border-gray-600 text-gray-400 hover:bg-gray-700 text-xs"
+              >
+                <Square className="w-3.5 h-3.5 mr-1" />
+                Seçimi Temizle
+              </Button>
+              <Button
+                onClick={handleBulkExit}
+                disabled={bulkExiting}
+                size="sm"
+                className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-xs border border-orange-400"
+              >
+                <Zap className="w-3.5 h-3.5 mr-1" />
+                {bulkExiting ? 'Çıkış Yapılıyor...' : `Toplu Çıkış Yap (${selectedIds.size})`}
+              </Button>
+            </>
+          )}
+          {selectedIds.size > 0 && (
+            <span className="text-amber-600 text-xs ml-1">{selectedIds.size} ziyaretçi seçildi</span>
+          )}
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[75vh] overflow-y-auto pr-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto pr-2">
         <AnimatePresence>
           {filteredVisitors.map((visitor) => {
             const permissions = canPerformAction(visitor);
@@ -436,21 +440,24 @@ export default function InsideVisitors() {
                 exit={{ opacity: 0, x: -50 }}
                 className={`bg-gradient-to-r from-gray-800/90 to-gray-700/90 backdrop-blur-sm rounded-lg p-4 border transition-all duration-300 shadow-sm hover:shadow-lg ${
                   isSelected
-                    ? 'border-amber-400 ring-2 ring-amber-400/50'
+                    ? 'border-orange-500 ring-2 ring-orange-500/40'
                     : 'border-amber-600/30 hover:border-amber-600/60'
                 }`}
-                onClick={isSelecting && permissions.canAddExit ? () => toggleSelection(visitor.id) : undefined}
-                style={isSelecting && permissions.canAddExit ? { cursor: 'pointer' } : {}}
               >
                 <div className="space-y-3">
+                  {/* Header with checkbox, Avatar and Main Info */}
                   <div className="flex items-center space-x-3">
-                    {isSelecting && permissions.canAddExit && (
-                      <Checkbox
-                        checked={isSelected}
-                        onCheckedChange={() => toggleSelection(visitor.id)}
-                        onClick={(e) => e.stopPropagation()}
-                        className="border-amber-500 data-[state=checked]:bg-amber-500 data-[state=checked]:border-amber-500 flex-shrink-0"
-                      />
+                    {permissions.canAddExit && (
+                      <div
+                        className="flex-shrink-0 cursor-pointer"
+                        onClick={() => toggleSelect(visitor.id)}
+                      >
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={() => toggleSelect(visitor.id)}
+                          className="border-amber-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+                        />
+                      </div>
                     )}
                     <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg flex-shrink-0">
                       {visitor.first_name?.charAt(0)}
@@ -474,6 +481,7 @@ export default function InsideVisitors() {
                     </div>
                   </div>
 
+                  {/* Company and Plate Info */}
                   {(visitor.company || visitor.plate) && (
                     <div className="flex items-center space-x-4 text-sm text-amber-600">
                       {visitor.company && (
@@ -491,6 +499,7 @@ export default function InsideVisitors() {
                     </div>
                   )}
 
+                  {/* Time Information */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-sm">
                       <div className="flex items-center space-x-1 text-amber-600">
@@ -508,6 +517,7 @@ export default function InsideVisitors() {
                     </div>
                   </div>
 
+                  {/* Description */}
                   {visitor.description && (
                     <div className="bg-amber-600/10 rounded-md p-2 border border-amber-600/30">
                       <div className="flex items-start space-x-1">
@@ -519,6 +529,7 @@ export default function InsideVisitors() {
                     </div>
                   )}
 
+                  {/* Vehicle Visitors */}
                   {visitor.vehicle_visitors?.length > 0 && (
                     <div className="space-y-2">
                       <div className="flex items-center space-x-1">
@@ -536,7 +547,8 @@ export default function InsideVisitors() {
                     </div>
                   )}
 
-                  {!isSelecting && canPerformAnyAction && (
+                  {/* Action Buttons */}
+                  {canPerformAnyAction && (
                     <div className="border-t border-gray-600 pt-3 mt-3">
                       <div className="flex items-center gap-2 flex-wrap">
                         {permissions.canAddExit && (
@@ -598,6 +610,7 @@ export default function InsideVisitors() {
         )}
       </div>
 
+      {/* Edit Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="bg-gray-900 border-amber-600 sm:max-w-[500px]">
           <DialogHeader>
