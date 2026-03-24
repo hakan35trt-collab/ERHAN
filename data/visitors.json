@@ -25775,5 +25775,21 @@
     "vehicle_visitors": [],
     "id": "4gwszjj7nmn4axa3h",
     "created_date": "2026-03-24T07:36:57.437Z"
+  },
+  {
+    "first_name": "CEM",
+    "last_name": "ARMAGAN",
+    "company": "CEMAR",
+    "plate": "",
+    "visit_date": "2026-03-24",
+    "entry_time": "10:59",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Yaya",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "cfssmhzgomn4bpqh6",
+    "created_date": "2026-03-24T07:59:05.034Z"
   }
 ]
