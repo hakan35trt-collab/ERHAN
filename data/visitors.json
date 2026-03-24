@@ -25564,5 +25564,21 @@
     ],
     "id": "c60clws3cmn46sfz4",
     "created_date": "2026-03-24T05:41:13.312Z"
+  },
+  {
+    "first_name": "KÖROĞLU",
+    "last_name": "AYDIN",
+    "company": "USTA BETONOGLU",
+    "plate": "34 DRG 22",
+    "visit_date": "2026-03-24",
+    "entry_time": "08:41",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "f4djig8wxmn477g6p",
+    "created_date": "2026-03-24T05:52:53.425Z"
   }
 ]
