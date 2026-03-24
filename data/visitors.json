@@ -25416,5 +25416,34 @@
     ],
     "id": "q9wz5o754mn460w9q",
     "created_date": "2026-03-24T05:19:48.062Z"
+  },
+  {
+    "first_name": "METIN",
+    "last_name": "BARAN",
+    "company": "MKTEK BARTEK",
+    "plate": "ELEKTRIK TEKNISYENI ",
+    "visit_date": "2026-03-24",
+    "entry_time": "08:20",
+    "exit_time": "",
+    "visit_type": "",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "EMRE",
+        "last_name": "KILIÇ "
+      },
+      {
+        "first_name": "ABDUL KADIR ",
+        "last_name": "SEKLEM"
+      },
+      {
+        "first_name": "MÜCAHIT ",
+        "last_name": "YALMAN"
+      }
+    ],
+    "id": "sjophc946mn462xzl",
+    "created_date": "2026-03-24T05:21:23.601Z"
   }
 ]
