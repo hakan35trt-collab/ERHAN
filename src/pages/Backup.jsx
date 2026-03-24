@@ -11,11 +11,9 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
-import { createManualBackup, ghGet, ghPut, BACKUP_DIR } from '@/lib/githubStore';
+import { createManualBackup, ghGet, ghPut, BACKUP_DIR, getToken } from '@/lib/githubStore';
 
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
-const DATA_BRANCH = import.meta.env.VITE_DATA_BRANCH || 'data';
 
 const DATA_ENTITIES = [
   'visitors', 'logs', 'announcements', 'messages', 'notifications',
@@ -54,19 +52,27 @@ export default function BackupPage() {
   };
 
   const loadBackupList = useCallback(async () => {
-    if (!GITHUB_TOKEN) return;
+    if (!getToken()) return;
     setLoadingList(true);
     try {
       const res = await fetch(
-        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}?ref=${DATA_BRANCH}&t=${Date.now()}`,
-        { headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json' } }
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}?t=${Date.now()}`,
+        { headers: { Authorization: `Bearer ${getToken()}`, Accept: 'application/vnd.github+json' } }
       );
       if (res.status === 404) { setBackupList([]); return; }
       if (!res.ok) throw new Error('Liste alınamadı');
       const files = await res.json();
       const jsonFiles = files
         .filter(f => f.name.endsWith('.json'))
-        .sort((a, b) => b.name.localeCompare(a.name));
+        .sort((a, b) => {
+          // Yeni format: DD-MM-YYYY-HH-MM, eski format: YYYY-MM-AD-DD-HH-MM
+          const parseDate = n => {
+            const newFmt = n.match(/^(\d{2})-(\d{2})-(\d{4})-(\d{2})-(\d{2})/);
+            if (newFmt) return `${newFmt[3]}${newFmt[2]}${newFmt[1]}${newFmt[4]}${newFmt[5]}`;
+            return n;
+          };
+          return parseDate(b.name).localeCompare(parseDate(a.name));
+        });
       setBackupList(jsonFiles);
     } catch (e) {
       console.warn('Backup list error:', e);
@@ -131,16 +137,16 @@ export default function BackupPage() {
     if (!window.confirm(`"${file.name}" yedeği silinsin mi?`)) return;
     try {
       const res = await fetch(
-        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}/${file.name}?ref=${DATA_BRANCH}`,
-        { headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json' } }
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}/${file.name}`,
+        { headers: { Authorization: `Bearer ${getToken()}`, Accept: 'application/vnd.github+json' } }
       );
       const data = await res.json();
       await fetch(
         `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}/${file.name}`,
         {
           method: 'DELETE',
-          headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: `yedek silindi: ${file.name}`, sha: data.sha, branch: DATA_BRANCH }),
+          headers: { Authorization: `Bearer ${getToken()}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: `yedek silindi: ${file.name}`, sha: data.sha }),
         }
       );
       showMsg(`"${file.name}" silindi.`);
@@ -187,11 +193,32 @@ export default function BackupPage() {
   };
 
   const formatFileName = (name) => {
-    // 2026-03-Mart-09-18-30.json → 09 Mart 2026, 18:30
-    const m = name.replace('.json', '').match(/^(\d{4})-(\d{2})-(\w+)-(\d{2})-(\d{2})-(\d{2})(-\w+)?$/);
-    if (!m) return name;
-    const [, year, , month, day, hour, min, type] = m;
-    return { date: `${day} ${month} ${year}`, time: `${hour}:${min}`, type: type === '-manuel' ? 'Manuel' : 'Otomatik' };
+    const MONTHS = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+    const base = name.replace('.json', '');
+
+    // Yeni format: DD-MM-YYYY-HH-MM-otomatik veya DD-MM-YYYY-HH-MM-manuel
+    const newM = base.match(/^(\d{2})-(\d{2})-(\d{4})-(\d{2})-(\d{2})-(otomatik|manuel)$/);
+    if (newM) {
+      const [, day, month, year, hour, min, type] = newM;
+      return {
+        date: `${day} ${MONTHS[parseInt(month, 10) - 1]} ${year}`,
+        time: `${hour}:${min}`,
+        type: type === 'manuel' ? 'Manuel' : 'Otomatik'
+      };
+    }
+
+    // Eski format: YYYY-MM-AyAdı-DD-HH-MM(-manuel)
+    const oldM = base.match(/^(\d{4})-(\d{2})-(\w+)-(\d{2})-(\d{2})-(\d{2})(-manuel)?$/);
+    if (oldM) {
+      const [, year, , month, day, hour, min, type] = oldM;
+      return {
+        date: `${day} ${month} ${year}`,
+        time: `${hour}:${min}`,
+        type: type === '-manuel' ? 'Manuel' : 'Otomatik'
+      };
+    }
+
+    return { date: base, time: '', type: 'Bilinmiyor' };
   };
 
   const hasAccess = () => {
