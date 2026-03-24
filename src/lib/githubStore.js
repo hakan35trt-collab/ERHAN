@@ -37,7 +37,7 @@ export function getActiveTokenInfo() {
 }
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';
 const GITHUB_BRANCH = 'main';
-const DATA_BRANCH = import.meta.env.VITE_DATA_BRANCH || 'data';
+export const DATA_BRANCH = import.meta.env.VITE_DATA_BRANCH || 'data';
 const DATA_DIR = 'data';
 export const BACKUP_DIR = 'yedekler';
 
