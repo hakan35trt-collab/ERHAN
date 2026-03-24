@@ -448,14 +448,11 @@ export default function InsideVisitors() {
                   {/* Header with checkbox, Avatar and Main Info */}
                   <div className="flex items-center space-x-3">
                     {permissions.canAddExit && (
-                      <div
-                        className="flex-shrink-0 cursor-pointer"
-                        onClick={() => toggleSelect(visitor.id)}
-                      >
+                      <div className="flex-shrink-0">
                         <Checkbox
                           checked={isSelected}
                           onCheckedChange={() => toggleSelect(visitor.id)}
-                          className="border-amber-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500"
+                          className="border-amber-600 data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500 w-5 h-5 cursor-pointer"
                         />
                       </div>
                     )}
