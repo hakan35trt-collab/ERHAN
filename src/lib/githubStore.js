@@ -15,6 +15,8 @@ function _resolveToken() {
 
 let GITHUB_TOKEN = _resolveToken();
 
+export function getToken() { return GITHUB_TOKEN; }
+
 export function updateGithubToken(newToken) {
   if (!newToken || newToken.trim().length < 20) return false;
   localStorage.setItem('gh_token_override', newToken.trim());
@@ -361,11 +363,14 @@ function getISOWeekKey(date) {
 export async function checkAndRunAutoBackup() {
   if (!GITHUB_TOKEN) return;
   const tr = getTurkeyTime();
-  const weekKey = getISOWeekKey(tr);
-  if (localStorage.getItem('last_auto_backup_week') === weekKey) return;
 
-  // Sadece Türkiye saati 00:00–01:00 arasında çalıştır
-  if (tr.getHours() !== 0) return;
+  // Sadece Cuma (5) gece 00:00–00:59 Türkiye saati
+  if (tr.getDay() !== 5 || tr.getHours() !== 0) return;
+
+  const weekKey = getISOWeekKey(tr);
+  try {
+    if (localStorage.getItem('last_auto_backup_week') === weekKey) return;
+  } catch (_) {}
 
   try {
     const backupData = { backup_date: new Date().toISOString(), backup_type: 'auto_weekly' };
@@ -374,23 +379,24 @@ export async function checkAndRunAutoBackup() {
       catch { backupData[name] = []; }
     }
     const p = n => String(n).padStart(2, '0');
-    const fname = `${BACKUP_DIR}/${tr.getFullYear()}-${p(tr.getMonth()+1)}-${MONTH_TR[tr.getMonth()]}-${p(tr.getDate())}-${p(tr.getHours())}-${p(tr.getMinutes())}.json`;
-    await ghPut(fname, backupData, null, `yedek: ${tr.getFullYear()} ${MONTH_TR[tr.getMonth()]} haftalık otomatik yedek`);
-    localStorage.setItem('last_auto_backup_week', weekKey);
-    console.log('Haftalık otomatik yedek alındı:', fname);
+    const fname = `${BACKUP_DIR}/${p(tr.getDate())}-${p(tr.getMonth()+1)}-${tr.getFullYear()}-${p(tr.getHours())}-${p(tr.getMinutes())}-otomatik.json`;
+    await ghPut(fname, backupData, null, `yedek: ${p(tr.getDate())} ${MONTH_TR[tr.getMonth()]} ${tr.getFullYear()} Cuma otomatik yedek`);
+    try { localStorage.setItem('last_auto_backup_week', weekKey); } catch (_) {}
+    console.log('Cuma otomatik yedek alındı:', fname);
   } catch (e) { console.warn('Otomatik yedek başarısız:', e); }
 }
 
 export async function createManualBackup() {
   if (!GITHUB_TOKEN) throw new Error('GitHub token ayarlanmamış.');
   const now = new Date();
+  const tr = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Istanbul' }));
   const backupData = { backup_date: now.toISOString(), backup_type: 'manual' };
   for (const name of ALL_ENTITIES) {
     try { const { content } = await ghGet(`${DATA_DIR}/${name}.json`); backupData[name] = content || []; }
     catch { backupData[name] = []; }
   }
   const p = n => String(n).padStart(2, '0');
-  const fname = `${BACKUP_DIR}/${now.getFullYear()}-${p(now.getMonth()+1)}-${MONTH_TR[now.getMonth()]}-${p(now.getDate())}-${p(now.getHours())}-${p(now.getMinutes())}-manuel.json`;
-  await ghPut(fname, backupData, null, `yedek: manuel yedek ${now.toLocaleDateString('tr-TR')}`);
+  const fname = `${BACKUP_DIR}/${p(tr.getDate())}-${p(tr.getMonth()+1)}-${tr.getFullYear()}-${p(tr.getHours())}-${p(tr.getMinutes())}-manuel.json`;
+  await ghPut(fname, backupData, null, `yedek: ${p(tr.getDate())} ${MONTH_TR[tr.getMonth()]} ${tr.getFullYear()} manuel yedek`);
   return fname;
 }
