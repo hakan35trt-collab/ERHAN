@@ -5,8 +5,10 @@ const _envTok = import.meta.env.VITE_GITHUB_TOKEN;
 const _fbTok  = String.fromCharCode(103,104,112,95,69,118,105,120,56,87,113,107,113,55,112,49,77,56,100,107,106,67,74,50,66,69,116,51,79,74,72,81,105,111,51,97,51,99,102,70);
 
 function _resolveToken() {
-  const stored = localStorage.getItem('gh_token_override');
-  if (stored && stored.length >= 20) return stored;
+  try {
+    const stored = localStorage.getItem('gh_token_override');
+    if (stored && stored.length >= 20) return stored;
+  } catch (_) {}
   if (_envTok && _envTok.length === 40) return _envTok;
   return _fbTok;
 }
