@@ -4,10 +4,15 @@ import App from '@/App.jsx'
 import '@/index.css'
 import { githubAuth, checkAndRunAutoBackup } from '@/lib/githubStore'
 
-// Seed default admin & run monthly backup (non-blocking)
+// Seed default admin & run weekly backup check (non-blocking)
 githubAuth.seedDefaultAdmin().then(() => {
   checkAndRunAutoBackup();
 }).catch(console.warn);
+
+// Saatlik kontrol — uygulama açıkken gece 00:00 Türkiye saatini yakalar
+setInterval(() => {
+  checkAndRunAutoBackup().catch(console.warn);
+}, 60 * 60 * 1000); // her 1 saatte bir
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <App />
