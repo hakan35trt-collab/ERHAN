@@ -25395,5 +25395,26 @@
     "vehicle_visitors": [],
     "id": "58uihw0xwmn45cxc6",
     "created_date": "2026-03-24T05:01:09.702Z"
+  },
+  {
+    "first_name": "SAMET",
+    "last_name": "YOĞUNALI ",
+    "company": "TISAN",
+    "plate": "34 EVZ 898",
+    "visit_date": "2026-03-24",
+    "entry_time": "08:19",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [
+      {
+        "first_name": "OSMAN",
+        "last_name": "COŞKUN"
+      }
+    ],
+    "id": "q9wz5o754mn460w9q",
+    "created_date": "2026-03-24T05:19:48.062Z"
   }
 ]
