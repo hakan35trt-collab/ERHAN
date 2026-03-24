@@ -15,6 +15,7 @@ import { createManualBackup, ghGet, ghPut, BACKUP_DIR } from '@/lib/githubStore'
 
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
+const DATA_BRANCH = import.meta.env.VITE_DATA_BRANCH || 'data';
 
 const DATA_ENTITIES = [
   'visitors', 'logs', 'announcements', 'messages', 'notifications',
@@ -57,7 +58,7 @@ export default function BackupPage() {
     setLoadingList(true);
     try {
       const res = await fetch(
-        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}?t=${Date.now()}`,
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}?ref=${DATA_BRANCH}&t=${Date.now()}`,
         { headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json' } }
       );
       if (res.status === 404) { setBackupList([]); return; }
@@ -130,7 +131,7 @@ export default function BackupPage() {
     if (!window.confirm(`"${file.name}" yedeği silinsin mi?`)) return;
     try {
       const res = await fetch(
-        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}/${file.name}`,
+        `https://api.github.com/repos/${GITHUB_REPO}/contents/${BACKUP_DIR}/${file.name}?ref=${DATA_BRANCH}`,
         { headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json' } }
       );
       const data = await res.json();
@@ -139,7 +140,7 @@ export default function BackupPage() {
         {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: `yedek silindi: ${file.name}`, sha: data.sha }),
+          body: JSON.stringify({ message: `yedek silindi: ${file.name}`, sha: data.sha, branch: DATA_BRANCH }),
         }
       );
       showMsg(`"${file.name}" silindi.`);
