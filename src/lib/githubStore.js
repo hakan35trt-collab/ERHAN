@@ -192,6 +192,17 @@ export function createGitHubEntity(entityName) {
       await writeItems(entityName, items);
       return created;
     }),
+
+    bulkUpdate: (updates) => enqueue(entityName, async () => {
+      if (!Array.isArray(updates) || !updates.length) return [];
+      const items = await readItems(entityName);
+      for (const { id, data } of updates) {
+        const idx = items.findIndex(i => i.id === id);
+        if (idx !== -1) items[idx] = { ...items[idx], ...data };
+      }
+      await writeItems(entityName, items);
+      return items;
+    }),
   };
 }
 
