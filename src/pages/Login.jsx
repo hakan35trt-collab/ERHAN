@@ -32,22 +32,28 @@ export default function Login({ onGoToAuthorization }) {
     setError('');
     setLoading(true);
 
-    const found = await githubAuth.findByEmailAsync(email);
-    if (!found) {
-      setMode('notfound');
-      setLoading(false);
-      return;
-    }
+    try {
+      const found = await githubAuth.findByEmailAsync(email);
+      if (!found) {
+        setMode('notfound');
+        setLoading(false);
+        return;
+      }
 
-    const user = await githubAuth.login(email, password);
-    if (!user) {
-      setError('Şifre yanlış. Lütfen tekrar deneyin.');
-      setLoading(false);
-      return;
-    }
+      const user = await githubAuth.login(email, password);
+      if (!user) {
+        setError('Şifre yanlış. Lütfen tekrar deneyin.');
+        setLoading(false);
+        return;
+      }
 
-    loginUser(user);
-    setLoading(false);
+      loginUser(user);
+    } catch (err) {
+      console.error('Giriş hatası:', err);
+      setError('Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin ve tekrar deneyin.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSetup = async (e) => {
