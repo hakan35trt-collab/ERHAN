@@ -9,8 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from "@/components/ui/checkbox"
 import { motion } from 'framer-motion';
-import { Settings, Users, Save, ShieldAlert, FileText, Crown, List, Plus, Trash2, Edit, Check, X } from 'lucide-react';
+import { Settings, Users, Save, ShieldAlert, FileText, Crown, List, Plus, Trash2, Edit, Check, X, Key, Eye, EyeOff, RefreshCw, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { updateGithubToken, clearGithubToken, getActiveTokenInfo } from '@/lib/githubStore';
 
 export default function AdminSettings() {
     const [config, setConfig] = useState(null);
@@ -24,6 +25,12 @@ export default function AdminSettings() {
     const [editingTypeId, setEditingTypeId] = useState(null);
     const [editingTypeName, setEditingTypeName] = useState('');
     const [editingTypeDescription, setEditingTypeDescription] = useState('');
+
+    // GitHub Token state
+    const [tokenInput, setTokenInput] = useState('');
+    const [showToken, setShowToken] = useState(false);
+    const [tokenSaving, setTokenSaving] = useState(false);
+    const [tokenInfo, setTokenInfo] = useState(getActiveTokenInfo());
 
     useEffect(() => {
         loadData();
@@ -157,6 +164,33 @@ export default function AdminSettings() {
         setEditingTypeId(null);
         setEditingTypeName('');
     };
+
+    const handleSaveToken = async () => {
+        if (!tokenInput.trim()) { toast.error('Token boş olamaz!'); return; }
+        setTokenSaving(true);
+        try {
+            const ok = updateGithubToken(tokenInput.trim());
+            if (ok) {
+                setTokenInfo(getActiveTokenInfo());
+                setTokenInput('');
+                toast.success('GitHub token başarıyla güncellendi! Sayfa yenilenecek...');
+                setTimeout(() => window.location.reload(), 1500);
+            } else {
+                toast.error('Geçersiz token formatı.');
+            }
+        } catch (e) {
+            toast.error('Token kaydedilemedi: ' + e.message);
+        }
+        setTokenSaving(false);
+    };
+
+    const handleClearToken = () => {
+        if (!window.confirm('Admin tarafından kaydedilmiş token silinecek. Devam edilsin mi?')) return;
+        clearGithubToken();
+        setTokenInfo(getActiveTokenInfo());
+        toast.success('Token temizlendi. Sayfa yenilenecek...');
+        setTimeout(() => window.location.reload(), 1500);
+    };
     
     if (loading) {
         return <div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400"></div></div>;
@@ -168,6 +202,52 @@ export default function AdminSettings() {
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">Admin Ayarları</h1>
                 <p className="text-lg text-yellow-600 mt-2">Sistem genel ayarlarını buradan yönetin.</p>
             </motion.div>
+
+            <Card className="bg-gradient-to-br from-gray-800 to-gray-900 border-yellow-600 border-2 mb-8">
+                <CardHeader className="border-b border-yellow-600/50">
+                    <CardTitle className="flex items-center space-x-2 text-yellow-400"><Key className="w-5 h-5"/><span>GitHub Token Ayarları</span></CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 space-y-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-700/50 border border-amber-600/30">
+                        <CheckCircle className={`w-5 h-5 flex-shrink-0 ${tokenInfo.source === 'admin' ? 'text-green-400' : 'text-yellow-500'}`} />
+                        <div>
+                            <p className="text-amber-400 text-sm font-semibold">
+                                Aktif Token Kaynağı: <span className="text-white">{tokenInfo.source === 'admin' ? 'Admin tarafından ayarlandı' : tokenInfo.source === 'env' ? 'Railway Env Var' : 'Varsayılan (Yerleşik)'}</span>
+                            </p>
+                            <p className="text-amber-600 text-xs">Önizleme: {tokenInfo.preview}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <Label className="text-yellow-400 mb-2 block">Yeni GitHub Token</Label>
+                        <div className="relative">
+                            <Key className="absolute left-3 top-2.5 w-4 h-4 text-amber-600" />
+                            <Input
+                                type={showToken ? 'text' : 'password'}
+                                value={tokenInput}
+                                onChange={e => setTokenInput(e.target.value)}
+                                placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                                className="bg-gray-800 border-amber-600 text-amber-400 pl-10 pr-10 font-mono text-sm"
+                            />
+                            <button type="button" onClick={() => setShowToken(p => !p)} className="absolute right-3 top-2.5 text-amber-600 hover:text-amber-400">
+                                {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                        </div>
+                        <p className="text-amber-700 text-xs mt-1">GitHub Settings &gt; Developer settings &gt; Personal access tokens adresinden oluşturun. <strong>repo</strong> yetkisi gereklidir.</p>
+                    </div>
+                    <div className="flex gap-3">
+                        <Button onClick={handleSaveToken} disabled={tokenSaving || !tokenInput.trim()} className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold">
+                            <Save className="w-4 h-4 mr-2"/>
+                            {tokenSaving ? 'Kaydediliyor...' : 'Token Kaydet'}
+                        </Button>
+                        {tokenInfo.source === 'admin' && (
+                            <Button onClick={handleClearToken} variant="outline" className="border-red-600 text-red-400 hover:bg-red-900/30">
+                                <RefreshCw className="w-4 h-4 mr-2"/>
+                                Varsayılana Dön
+                            </Button>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
 
             <Card className="bg-gradient-to-br from-gray-800 to-gray-900 border-yellow-600 border-2 mb-8">
                 <CardHeader className="border-b border-yellow-600/50">
