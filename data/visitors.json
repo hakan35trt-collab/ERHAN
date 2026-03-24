@@ -25759,5 +25759,21 @@
     "vehicle_visitors": [],
     "id": "8fs0wi7l6mn4ajun1",
     "created_date": "2026-03-24T07:26:30.877Z"
+  },
+  {
+    "first_name": "YAŞARCAN",
+    "last_name": "KARAGOZ",
+    "company": "MKTEK BARTEK",
+    "plate": "ELEKTRIK USTASI",
+    "visit_date": "2026-03-24",
+    "entry_time": "10:36",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "4gwszjj7nmn4axa3h",
+    "created_date": "2026-03-24T07:36:57.437Z"
   }
 ]
