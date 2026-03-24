@@ -59,13 +59,30 @@ export async function ghGet(path) {
   if (res.status === 404) return { content: null, sha: null };
   if (!res.ok) throw new Error(`GH GET ${path}: ${res.status}`);
   const data = await res.json();
-  const raw = atob(data.content.replace(/\n/g, ''));
+
+  // GitHub returns content inline only for files < 1MB.
+  // For larger files the content field is empty — use download_url instead.
+  let raw;
+  if (data.content && data.content.trim() !== '') {
+    raw = atob(data.content.replace(/\n/g, ''));
+  } else if (data.download_url) {
+    const dlRes = await fetch(`${data.download_url}&t=${Date.now()}`, {
+      headers: { Authorization: `Bearer ${GITHUB_TOKEN}` },
+    });
+    if (!dlRes.ok) throw new Error(`GH GET (download) ${path}: ${dlRes.status}`);
+    raw = await dlRes.text();
+    const content = JSON.parse(raw);
+    return { content, sha: data.sha };
+  } else {
+    return { content: null, sha: data.sha };
+  }
+
   const content = JSON.parse(decodeURIComponent(escape(raw)));
   return { content, sha: data.sha };
 }
 
 export async function ghPut(path, content, sha, message) {
-  const raw = unescape(encodeURIComponent(JSON.stringify(content, null, 2)));
+  const raw = unescape(encodeURIComponent(JSON.stringify(content)));
   const encoded = btoa(raw);
   const body = { message: message || `data: ${path}`, content: encoded, branch: DATA_BRANCH };
   if (sha) body.sha = sha;
