@@ -104,4 +104,4 @@ yedekler/
 ## Varsayılan Admin
 
 - **E-posta:** erhanyaman1938@gmail.com
-- **Şifre:** yamann01As
+- **Şifre:** 
