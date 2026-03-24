@@ -25695,5 +25695,21 @@
     "vehicle_visitors": [],
     "id": "oeyegfx5xmn495yto",
     "created_date": "2026-03-24T06:47:43.500Z"
+  },
+  {
+    "first_name": "MUSTAFA",
+    "last_name": "HANCINAR",
+    "company": "USTAOĞLU BETON",
+    "plate": "29 AAD 357",
+    "visit_date": "2026-03-24",
+    "entry_time": "09:59",
+    "exit_time": "",
+    "visit_type": "çalişma",
+    "description": "Araç dışarıda bırakıldı",
+    "registered_by": "ERHAN YAMAN",
+    "registered_by_id": "default_erhan_admin",
+    "vehicle_visitors": [],
+    "id": "j6rxrz0xdmn49lk1o",
+    "created_date": "2026-03-24T06:59:50.844Z"
   }
 ]
