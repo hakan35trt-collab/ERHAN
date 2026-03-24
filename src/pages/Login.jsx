@@ -50,7 +50,7 @@ export default function Login({ onGoToAuthorization }) {
       loginUser(user);
     } catch (err) {
       console.error('Giriş hatası:', err);
-      setError('Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edin ve tekrar deneyin.');
+      setError('Hata: ' + (err.message || String(err)));
     } finally {
       setLoading(false);
     }
