@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { githubAuth } from '@/lib/githubStore';
+import { githubAuth, updateGithubToken, getActiveTokenInfo } from '@/lib/githubStore';
 import { useAuth } from '@/lib/AuthContext';
 import { motion } from 'framer-motion';
-import { Crown, Mail, Lock, User, Eye, EyeOff, ShieldAlert } from 'lucide-react';
+import { Crown, Mail, Lock, User, Eye, EyeOff, ShieldAlert, Key, Save } from 'lucide-react';
 
 export default function Login({ onGoToAuthorization }) {
   const { loginUser } = useAuth();
@@ -12,6 +12,12 @@ export default function Login({ onGoToAuthorization }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Token yönetimi — 401 hatası alınınca giriş sayfasında gösterilir
+  const [showTokenPanel, setShowTokenPanel] = useState(false);
+  const [tokenInput, setTokenInput] = useState('');
+  const [showToken, setShowToken] = useState(false);
+  const [tokenSaving, setTokenSaving] = useState(false);
 
   // Setup fields
   const [setupData, setSetupData] = useState({
@@ -50,9 +56,32 @@ export default function Login({ onGoToAuthorization }) {
       loginUser(user);
     } catch (err) {
       console.error('Giriş hatası:', err);
-      setError('Hata: ' + (err.message || String(err)));
+      const msg = err.message || String(err);
+      if (msg.includes('401')) {
+        setShowTokenPanel(true);
+        setError('GitHub token geçersiz veya süresi dolmuş. Aşağıya yeni token girin.');
+      } else {
+        setError('Hata: ' + msg);
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveToken = () => {
+    if (!tokenInput.trim() || tokenInput.trim().length < 20) {
+      setError('Geçerli bir token giriniz (en az 20 karakter).');
+      return;
+    }
+    setTokenSaving(true);
+    const ok = updateGithubToken(tokenInput.trim());
+    setTokenSaving(false);
+    if (ok) {
+      setShowTokenPanel(false);
+      setTokenInput('');
+      setError('Token kaydedildi. Şimdi giriş yapabilirsiniz.');
+    } else {
+      setError('Token kaydedilemedi, formatı kontrol edin.');
     }
   };
 
@@ -261,8 +290,44 @@ export default function Login({ onGoToAuthorization }) {
               </div>
 
               {error && (
-                <div className="bg-red-900/50 border border-red-600 text-red-400 text-sm px-4 py-2 rounded-lg">
+                <div className={`border text-sm px-4 py-2 rounded-lg ${error.startsWith('Token kaydedildi') ? 'bg-green-900/50 border-green-600 text-green-400' : 'bg-red-900/50 border-red-600 text-red-400'}`}>
                   {error}
+                </div>
+              )}
+
+              {/* Token paneli — 401 hatası alınınca otomatik, veya manuel açılabilir */}
+              {showTokenPanel && (
+                <div className="bg-gray-800/80 border border-amber-600/60 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <Key className="w-4 h-4 text-amber-400" />
+                    <span className="text-amber-400 text-sm font-semibold">GitHub Token Güncelle</span>
+                  </div>
+                  <p className="text-amber-700 text-xs">
+                    GitHub Settings &gt; Developer settings &gt; Personal access tokens &gt; <strong>repo</strong> yetkisi ile oluşturun. Kaydet'e basınca tüm uygulama bu token'ı kullanır.
+                  </p>
+                  <div className="relative">
+                    <Key className="absolute left-3 top-2.5 w-4 h-4 text-amber-600" />
+                    <input
+                      type={showToken ? 'text' : 'password'}
+                      value={tokenInput}
+                      onChange={e => setTokenInput(e.target.value)}
+                      placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                      className="w-full bg-gray-900 border border-amber-600 text-amber-400 rounded-lg pl-10 pr-10 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-gray-600"
+                      onKeyDown={e => e.key === 'Enter' && handleSaveToken()}
+                    />
+                    <button type="button" onClick={() => setShowToken(p => !p)} className="absolute right-3 top-2.5 text-amber-600 hover:text-amber-400">
+                      {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSaveToken}
+                    disabled={tokenSaving || !tokenInput.trim()}
+                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-2 rounded-lg text-sm transition-all disabled:opacity-50"
+                  >
+                    <Save className="w-4 h-4 inline mr-2" />
+                    {tokenSaving ? 'Kaydediliyor...' : 'Token Kaydet — Tüm Uygulamaya Uygula'}
+                  </button>
                 </div>
               )}
 
@@ -274,13 +339,20 @@ export default function Login({ onGoToAuthorization }) {
                 {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
               </button>
 
-              <div className="text-center pt-2">
+              <div className="flex justify-between items-center pt-1">
                 <button
                   type="button"
                   onClick={() => setMode('notfound')}
                   className="text-yellow-600 hover:text-yellow-400 text-xs underline"
                 >
                   Hesabım yok / Yetki almak istiyorum
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setShowTokenPanel(p => !p); setError(''); }}
+                  className="text-amber-700 hover:text-amber-500 text-xs underline"
+                >
+                  {showTokenPanel ? 'Token panelini kapat' : 'Token güncelle'}
                 </button>
               </div>
             </form>
