@@ -18,6 +18,23 @@ export default function Login({ onGoToAuthorization }) {
   const [tokenInput, setTokenInput] = useState('');
   const [showToken, setShowToken] = useState(false);
   const [tokenSaving, setTokenSaving] = useState(false);
+  // PIN koruması — sadece yönetici token değiştirebilir
+  const [pinInput, setPinInput] = useState('');
+  const [pinVerified, setPinVerified] = useState(false);
+  const [pinError, setPinError] = useState('');
+
+  const TOKEN_PIN_KEY = 'token_protect_pin';
+  const DEFAULT_PIN = '1938';
+
+  const handleVerifyPin = () => {
+    const savedPin = localStorage.getItem(TOKEN_PIN_KEY) || DEFAULT_PIN;
+    if (pinInput === savedPin) {
+      setPinVerified(true);
+      setPinError('');
+    } else {
+      setPinError('Yönetici kodu yanlış.');
+    }
+  };
 
   // Setup fields
   const [setupData, setSetupData] = useState({
@@ -59,7 +76,10 @@ export default function Login({ onGoToAuthorization }) {
       const msg = err.message || String(err);
       if (msg.includes('401')) {
         setShowTokenPanel(true);
-        setError('GitHub token geçersiz veya süresi dolmuş. Aşağıya yeni token girin.');
+        setPinVerified(false);
+        setPinInput('');
+        setPinError('');
+        setError('GitHub token geçersiz veya süresi dolmuş. Yönetici kodu ile token güncelleyebilirsiniz.');
       } else {
         setError('Hata: ' + msg);
       }
@@ -295,39 +315,74 @@ export default function Login({ onGoToAuthorization }) {
                 </div>
               )}
 
-              {/* Token paneli — 401 hatası alınınca otomatik, veya manuel açılabilir */}
+              {/* Token paneli — PIN doğrulaması ile korumalı */}
               {showTokenPanel && (
                 <div className="bg-gray-800/80 border border-amber-600/60 rounded-lg p-4 space-y-3">
                   <div className="flex items-center space-x-2">
                     <Key className="w-4 h-4 text-amber-400" />
-                    <span className="text-amber-400 text-sm font-semibold">GitHub Token Güncelle</span>
+                    <span className="text-amber-400 text-sm font-semibold">
+                      {pinVerified ? 'GitHub Token Güncelle' : 'Yönetici Doğrulaması'}
+                    </span>
                   </div>
-                  <p className="text-amber-700 text-xs">
-                    GitHub Settings &gt; Developer settings &gt; Personal access tokens &gt; <strong>repo</strong> yetkisi ile oluşturun. Kaydet'e basınca tüm uygulama bu token'ı kullanır.
-                  </p>
-                  <div className="relative">
-                    <Key className="absolute left-3 top-2.5 w-4 h-4 text-amber-600" />
-                    <input
-                      type={showToken ? 'text' : 'password'}
-                      value={tokenInput}
-                      onChange={e => setTokenInput(e.target.value)}
-                      placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-                      className="w-full bg-gray-900 border border-amber-600 text-amber-400 rounded-lg pl-10 pr-10 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-gray-600"
-                      onKeyDown={e => e.key === 'Enter' && handleSaveToken()}
-                    />
-                    <button type="button" onClick={() => setShowToken(p => !p)} className="absolute right-3 top-2.5 text-amber-600 hover:text-amber-400">
-                      {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleSaveToken}
-                    disabled={tokenSaving || !tokenInput.trim()}
-                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-2 rounded-lg text-sm transition-all disabled:opacity-50"
-                  >
-                    <Save className="w-4 h-4 inline mr-2" />
-                    {tokenSaving ? 'Kaydediliyor...' : 'Token Kaydet — Tüm Uygulamaya Uygula'}
-                  </button>
+
+                  {!pinVerified ? (
+                    /* PIN giriş ekranı */
+                    <div className="space-y-2">
+                      <p className="text-amber-700 text-xs">Bu işlem yalnızca yöneticiye aittir. Yönetici kodunu girin.</p>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-2.5 w-4 h-4 text-amber-600" />
+                        <input
+                          type="password"
+                          value={pinInput}
+                          onChange={e => { setPinInput(e.target.value); setPinError(''); }}
+                          placeholder="Yönetici kodu"
+                          className="w-full bg-gray-900 border border-amber-600 text-amber-400 rounded-lg pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-gray-600"
+                          onKeyDown={e => e.key === 'Enter' && handleVerifyPin()}
+                          autoFocus
+                        />
+                      </div>
+                      {pinError && <p className="text-red-400 text-xs">{pinError}</p>}
+                      <button
+                        type="button"
+                        onClick={handleVerifyPin}
+                        disabled={!pinInput}
+                        className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-bold py-2 rounded-lg text-sm disabled:opacity-50"
+                      >
+                        Doğrula
+                      </button>
+                    </div>
+                  ) : (
+                    /* Token giriş ekranı — PIN doğrulandıktan sonra */
+                    <div className="space-y-2">
+                      <p className="text-amber-700 text-xs">
+                        GitHub Settings &gt; Developer settings &gt; Personal access tokens &gt; <strong>repo</strong> yetkisi ile oluşturun.
+                      </p>
+                      <div className="relative">
+                        <Key className="absolute left-3 top-2.5 w-4 h-4 text-amber-600" />
+                        <input
+                          type={showToken ? 'text' : 'password'}
+                          value={tokenInput}
+                          onChange={e => setTokenInput(e.target.value)}
+                          placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                          className="w-full bg-gray-900 border border-amber-600 text-amber-400 rounded-lg pl-10 pr-10 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-gray-600"
+                          onKeyDown={e => e.key === 'Enter' && handleSaveToken()}
+                          autoFocus
+                        />
+                        <button type="button" onClick={() => setShowToken(p => !p)} className="absolute right-3 top-2.5 text-amber-600 hover:text-amber-400">
+                          {showToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleSaveToken}
+                        disabled={tokenSaving || !tokenInput.trim()}
+                        className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-2 rounded-lg text-sm disabled:opacity-50"
+                      >
+                        <Save className="w-4 h-4 inline mr-2" />
+                        {tokenSaving ? 'Kaydediliyor...' : 'Token Kaydet — Tüm Uygulamaya Uygula'}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -349,7 +404,7 @@ export default function Login({ onGoToAuthorization }) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => { setShowTokenPanel(p => !p); setError(''); }}
+                  onClick={() => { setShowTokenPanel(p => !p); setError(''); setPinVerified(false); setPinInput(''); setPinError(''); }}
                   className="text-amber-700 hover:text-amber-500 text-xs underline"
                 >
                   {showTokenPanel ? 'Token panelini kapat' : 'Token güncelle'}
