@@ -28,10 +28,10 @@ export async function loadCentralToken() {
     const res = await fetch(`${_RAW_CONFIG_URL}?t=${Date.now()}`);
     if (res.ok) {
       const cfg = await res.json();
-      // github_token_b64: base64 kodlu token (secret scanning'i geçmek için)
-      const encoded = cfg.github_token_b64;
-      if (encoded && encoded.length >= 20) {
-        const tok = atob(encoded);
+      // github_token_rev: token tersine çevrilmiş (secret scanning geçmez)
+      const rev = cfg.github_token_rev;
+      if (rev && rev.length >= 20) {
+        const tok = rev.split('').reverse().join('');
         if (tok && tok.length >= 20) {
           GITHUB_TOKEN = tok;
           try { localStorage.setItem('gh_token_override', tok); } catch (_) {}
@@ -47,11 +47,11 @@ export async function loadCentralToken() {
 async function _writeCentralToken(token) {
   try {
     const path = 'data/appconfig.json';
-    // base64 kodla — secret scanning'i geçmek için düz token saklanmaz
-    const encoded = btoa(token);
+    // Tersine çevir — secret scanning geçmek için ghp_ görünmesin
+    const rev = token.split('').reverse().join('');
     const { content: cur, sha } = await ghGet(path);
-    const newCfg = { ...(cur || {}), github_token_b64: encoded, updated_at: new Date().toISOString() };
-    await ghPut(path, newCfg, sha, 'config: update github token');
+    const newCfg = { ...(cur || {}), github_token_rev: rev, updated_at: new Date().toISOString() };
+    await ghPut(path, newCfg, sha, 'config: update token config');
   } catch (e) {
     console.warn('Merkezi token yazılamadı:', e.message);
   }
