@@ -225,6 +225,7 @@ export default function Dashboard() {
       loadData();
     } catch (error) {
       console.error("Çıkış saati eklenemedi:", error);
+      alert("Çıkış işlemi başarısız oldu. Lütfen tekrar deneyin.\n" + (error?.message || ''));
     }
   };
 
