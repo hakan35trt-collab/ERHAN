@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from "@/components/ui/checkbox"
 import { motion } from 'framer-motion';
-import { Settings, Users, Save, ShieldAlert, FileText, Crown, List, Plus, Trash2, Edit, Check, X, Key, Eye, EyeOff, RefreshCw, CheckCircle } from 'lucide-react';
+import { Settings, Users, Save, ShieldAlert, FileText, Crown, List, Plus, Trash2, Edit, Check, X, Key, Eye, EyeOff, RefreshCw, CheckCircle, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import { updateGithubToken, clearGithubToken, getActiveTokenInfo } from '@/lib/githubStore';
 
@@ -31,6 +31,20 @@ export default function AdminSettings() {
     const [showToken, setShowToken] = useState(false);
     const [tokenSaving, setTokenSaving] = useState(false);
     const [tokenInfo, setTokenInfo] = useState(getActiveTokenInfo());
+
+    // Yönetici kodu (token değiştirme PIN koruması)
+    const TOKEN_PIN_KEY = 'token_protect_pin';
+    const DEFAULT_PIN = '1938';
+    const [pinValue, setPinValue] = useState(() => localStorage.getItem('token_protect_pin') || DEFAULT_PIN);
+    const [pinSaved, setPinSaved] = useState(false);
+
+    const handleSavePin = () => {
+        if (!pinValue.trim() || pinValue.trim().length < 2) { toast.error('Kod en az 2 karakter olmalıdır!'); return; }
+        localStorage.setItem(TOKEN_PIN_KEY, pinValue.trim());
+        setPinSaved(true);
+        setTimeout(() => setPinSaved(false), 2000);
+        toast.success('Yönetici kodu güncellendi!');
+    };
 
     useEffect(() => {
         loadData();
@@ -245,6 +259,39 @@ export default function AdminSettings() {
                                 Varsayılana Dön
                             </Button>
                         )}
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Yönetici Kodu — Token değiştirme PIN koruması */}
+            <Card className="bg-gradient-to-br from-gray-800 to-gray-900 border-yellow-600 border-2 mb-8">
+                <CardHeader className="border-b border-yellow-600/50">
+                    <CardTitle className="flex items-center space-x-2 text-yellow-400"><Lock className="w-5 h-5"/><span>Token Değiştirme Yönetici Kodu</span></CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 space-y-4">
+                    <p className="text-amber-700 text-sm">
+                        Giriş sayfasındaki "Token güncelle" işlemi bu kod ile korunur. Sadece bu kodu bilen kişi token değiştirebilir.
+                        Varsayılan kod: <span className="font-mono text-amber-400 font-bold">{DEFAULT_PIN}</span>
+                    </p>
+                    <div>
+                        <Label className="text-yellow-400 mb-2 block">Yönetici Kodu</Label>
+                        <div className="flex gap-3">
+                            <div className="relative flex-1">
+                                <Lock className="absolute left-3 top-2.5 w-4 h-4 text-amber-600" />
+                                <Input
+                                    type="text"
+                                    value={pinValue}
+                                    onChange={e => setPinValue(e.target.value)}
+                                    placeholder="Örn: 1938"
+                                    className="bg-gray-800 border-amber-600 text-amber-400 pl-10 font-mono"
+                                    onKeyDown={e => e.key === 'Enter' && handleSavePin()}
+                                />
+                            </div>
+                            <Button onClick={handleSavePin} className={`font-bold ${pinSaved ? 'bg-green-600 hover:bg-green-700' : 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700'} text-black`}>
+                                {pinSaved ? <><Check className="w-4 h-4 mr-1"/>Kaydedildi</> : <><Save className="w-4 h-4 mr-1"/>Kaydet</>}
+                            </Button>
+                        </div>
+                        <p className="text-amber-700 text-xs mt-2">Bu kod sadece bu cihazda geçerlidir (localStorage). Her cihazda ayrıca ayarlanmalıdır.</p>
                     </div>
                 </CardContent>
             </Card>
