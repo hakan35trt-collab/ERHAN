@@ -144,16 +144,30 @@ export async function ghPut(path, content, sha, message) {
 
 // ─── In-memory cache ──────────────────────────────────────────────────────────
 
-const _cache = {};   // entityName → items[]
-const _sha   = {};   // entityName → sha string
+const _cache     = {};   // entityName → items[]
+const _sha       = {};   // entityName → sha string
+const _cacheTime = {};   // entityName → timestamp (ms)
+const CACHE_TTL_MS = 25000; // 25 saniye — diğer kullanıcıların değişikliklerini yakalar
+
+// Cache'i temizle (dışarıdan çağrılabilir)
+export function invalidateEntityCache(entityName) {
+  delete _cache[entityName];
+  delete _sha[entityName];
+  delete _cacheTime[entityName];
+}
 
 async function readItems(entityName) {
-  if (_cache[entityName]) return [..._cache[entityName]];
+  const now = Date.now();
+  // Cache varsa ve TTL dolmadıysa cache'den dön
+  if (_cache[entityName] && _cacheTime[entityName] && (now - _cacheTime[entityName] < CACHE_TTL_MS)) {
+    return [..._cache[entityName]];
+  }
   const path = `${DATA_DIR}/${entityName}.json`;
   const { content, sha } = await ghGet(path);
   const items = Array.isArray(content) ? content : [];
   _cache[entityName] = items;
   _sha[entityName] = sha;
+  _cacheTime[entityName] = now;
   return [...items];
 }
 
@@ -164,13 +178,26 @@ async function writeItems(entityName, items, retried = false) {
     const newSha = await ghPut(path, items, sha, `data: update ${entityName}`);
     _cache[entityName] = [...items];
     _sha[entityName] = newSha;
+    _cacheTime[entityName] = Date.now();
   } catch (e) {
     if (!retried && (e.status === 409 || e.status === 422 || e.status === 404)) {
+      // GitHub'dan taze veriyi al
       delete _cache[entityName];
       delete _sha[entityName];
-      const { sha: freshSha } = await ghGet(path);
+      delete _cacheTime[entityName];
+      const { content: freshContent, sha: freshSha } = await ghGet(path);
+      const freshItems = Array.isArray(freshContent) ? freshContent : [];
+      // Taze içerik üzerine kendi değişikliklerimizi uygula (item bazında birleştir)
+      const merged = [...freshItems];
+      for (const item of items) {
+        const idx = merged.findIndex(i => i.id === item.id);
+        if (idx !== -1) merged[idx] = item;
+        // Silinmiş kayıtları atla
+      }
+      _cache[entityName] = merged;
       _sha[entityName] = freshSha;
-      return writeItems(entityName, items, true);
+      _cacheTime[entityName] = Date.now();
+      return writeItems(entityName, merged, true);
     }
     throw e;
   }
