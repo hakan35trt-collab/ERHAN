@@ -17,10 +17,46 @@ let GITHUB_TOKEN = _resolveToken();
 
 export function getToken() { return GITHUB_TOKEN; }
 
+// ─── Merkezi token (GitHub'da saklı) — tüm cihazlar buradan alır ────────────
+
+const _RAW_CONFIG_URL = `https://raw.githubusercontent.com/hakan35trt-collab/ERHAN/data/data/appconfig.json`;
+
+/** Uygulama açılışında çağrılır. GitHub'daki merkezi token'ı okur.
+ *  Repo public ise auth olmadan çalışır → tüm cihazlar otomatik güncellenir. */
+export async function loadCentralToken() {
+  try {
+    const res = await fetch(`${_RAW_CONFIG_URL}?t=${Date.now()}`);
+    if (res.ok) {
+      const cfg = await res.json();
+      if (cfg.github_token && cfg.github_token.length >= 20) {
+        GITHUB_TOKEN = cfg.github_token;
+        try { localStorage.setItem('gh_token_override', cfg.github_token); } catch (_) {}
+        return true;
+      }
+    }
+  } catch (_) {}
+  return false;
+}
+
+/** Token'ı merkezi config dosyasına yazar — fire and forget */
+async function _writeCentralToken(token) {
+  try {
+    const path = 'data/appconfig.json';
+    const { content: cur, sha } = await ghGet(path);
+    const newCfg = { ...(cur || {}), github_token: token, updated_at: new Date().toISOString() };
+    await ghPut(path, newCfg, sha, 'config: update github token');
+  } catch (e) {
+    console.warn('Merkezi token yazılamadı:', e.message);
+  }
+}
+
 export function updateGithubToken(newToken) {
   if (!newToken || newToken.trim().length < 20) return false;
-  localStorage.setItem('gh_token_override', newToken.trim());
-  GITHUB_TOKEN = newToken.trim();
+  const tok = newToken.trim();
+  localStorage.setItem('gh_token_override', tok);
+  GITHUB_TOKEN = tok;
+  // Tüm cihazların kullanması için GitHub'a yaz (fire and forget)
+  _writeCentralToken(tok);
   return true;
 }
 
