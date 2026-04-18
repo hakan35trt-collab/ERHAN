@@ -42,7 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ghGet, ghPut } from "@/lib/githubStore";
+import { ghGet, ghPut, invalidateEntityCache } from "@/lib/githubStore";
 
 export default function InsideVisitors() {
   const [visitors, setVisitors] = useState([]);
@@ -200,6 +200,7 @@ export default function InsideVisitors() {
       loadData();
     } catch (error) {
       console.error("Çıkış saati eklenemedi:", error);
+      alert("Çıkış işlemi başarısız oldu. Lütfen tekrar deneyin.\n" + (error?.message || ''));
     }
   };
 
@@ -225,6 +226,9 @@ export default function InsideVisitors() {
       });
 
       await ghPut('data/visitors.json', updated, sha, `data: toplu çıkış ${updatedNames.length} ziyaretçi`);
+
+      // Cache'i temizle — bir sonraki loadData GitHub'dan taze veri çeker
+      invalidateEntityCache('visitors');
 
       await Log.create({
         action: "TOPLU ÇIKIŞ",
