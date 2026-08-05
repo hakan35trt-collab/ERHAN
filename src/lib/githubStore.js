@@ -139,19 +139,22 @@ function applyFilter(items, query) {
 
 // ─── GitHub API ────────────────────────────────────────────────────────────────
 
+/** GitHub Contents API base64 → UTF-8 metin (Türkçe karakter bozulmasın) */
+function decodeBase64Utf8(b64) {
+  const clean = b64.replace(/\n/g, '');
+  const bin = atob(clean);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
 function parseGithubJson(raw) {
-  try {
-    return JSON.parse(raw);
-  } catch (_) {
-    // atob Latin-1 → UTF-8 (Türkçe karakterler)
-    return JSON.parse(decodeURIComponent(escape(raw)));
-  }
+  return JSON.parse(raw);
 }
 
 /**
  * Dosya oku. 1MB üstü dosyalarda Contents API content döndürmez;
- * bu yüzden önce application/vnd.github.raw ile api.github.com üzerinden alırız
- * (tarayıcı CORS uyumlu). raw.githubusercontent + Authorization CORS kırar.
+ * bu yüzden application/vnd.github.raw ile api.github.com üzerinden alırız.
  */
 export async function ghGet(path) {
   const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${DATA_BRANCH}&t=${Date.now()}`;
@@ -166,9 +169,9 @@ export async function ghGet(path) {
   if (!metaRes.ok) throw new Error(`GH GET ${path}: ${metaRes.status}`);
   const data = await metaRes.json();
 
-  // 2a) Küçük dosya: inline base64 content
+  // 2a) Küçük dosya: inline base64 → UTF-8
   if (data.content && data.content.trim() !== '') {
-    const raw = atob(data.content.replace(/\n/g, ''));
+    const raw = decodeBase64Utf8(data.content);
     return { content: parseGithubJson(raw), sha: data.sha };
   }
 
@@ -188,8 +191,12 @@ export async function ghGet(path) {
 export async function ghPut(path, content, sha, message, retried = false) {
   let encoded;
   try {
-    const raw = unescape(encodeURIComponent(JSON.stringify(content)));
-    encoded = btoa(raw);
+    // UTF-8 güvenli base64 (btoa Latin-1 kırar)
+    const json = JSON.stringify(content);
+    const bytes = new TextEncoder().encode(json);
+    let bin = '';
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    encoded = btoa(bin);
   } catch (e) {
     throw new Error(`GH PUT ${path}: encode failed — ${e.message}`);
   }
