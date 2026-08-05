@@ -99,8 +99,12 @@ export default function Dashboard() {
       setVisitors(visitorData);
       const vtypes = await VisitType.list('order', 100);
       setVisitTypes(vtypes);
+      if (!visitorData.length) {
+        toast.error('Ziyaretçi kayıtları boş geldi. Token veya bağlantıyı kontrol edin.');
+      }
     } catch (error) {
       console.error("Veri yüklenemedi:", error);
+      toast.error('Veri yüklenemedi: ' + (error?.message || 'bilinmeyen hata'));
     }
     setLoading(false);
   };
@@ -351,6 +355,17 @@ export default function Dashboard() {
 
   const todayVisitors = visitors.filter(v => v.visit_date === todayString);
 
+  // Bugün boşsa son kayıtlı günün ziyaretçilerini anasayfada göster
+  const latestVisitDate = visitors.reduce((max, v) => {
+    if (!v.visit_date) return max;
+    return !max || v.visit_date > max ? v.visit_date : max;
+  }, '');
+  const showingToday = todayVisitors.length > 0 || !latestVisitDate;
+  const displayDate = showingToday ? todayString : latestVisitDate;
+  const displayVisitors = showingToday
+    ? todayVisitors
+    : visitors.filter(v => v.visit_date === displayDate);
+
   const activeVisitors = visitors.filter(v => v.entry_time && !v.exit_time);
   
   // İçerideki toplam kişi sayısı (araçtaki kişilerle birlikte)
@@ -454,7 +469,7 @@ export default function Dashboard() {
 
         {/* Company Chart - Mini Card Above Total Stats */}
         <div className="mb-4">
-          <CompanyChart visitors={todayVisitors} />
+          <CompanyChart visitors={displayVisitors} />
         </div>
 
         <div>
@@ -469,25 +484,27 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Updated Last Records Section - Show ALL today's records */}
+      {/* Son kayıtlar — bugün yoksa en son dolu gün */}
       <Card className="bg-gradient-to-br from-gray-800 to-gray-900 border-amber-600 border-2">
         <CardHeader className="py-3 border-b border-amber-600/30">
           <CardTitle className="flex items-center justify-between text-amber-400 text-lg">
             <div className="flex items-center space-x-2">
               <Clock className="w-5 h-5" />
-              <span>Bugünkü Tüm Kayıtlar</span>
+              <span>{showingToday ? 'Bugünkü Tüm Kayıtlar' : 'Son Kayıtlar'}</span>
             </div>
             <Badge variant="outline" className="border-amber-600 text-amber-400">
-              {todayVisitors.length} Kayıt
+              {displayVisitors.length} Kayıt
             </Badge>
           </CardTitle>
           <p className="text-xs text-amber-600 mt-1">
-            {todayString} tarihli kayıtlar • Gece 00:00'da sıfırlanır
+            {showingToday
+              ? `${todayString} tarihli kayıtlar • Gece 00:00'da sıfırlanır`
+              : `Bugün kayıt yok — son dolu gün: ${displayDate} • Toplam arşiv: ${visitors.length}`}
           </p>
         </CardHeader>
         <CardContent className="p-3">
           <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-amber-600 scrollbar-track-gray-800">
-            {todayVisitors.map((visitor) => {
+            {displayVisitors.map((visitor) => {
               const permissions = canPerformAction(visitor);
               const canPerformAnyAction = permissions.canAddExit || permissions.canEdit || permissions.canDelete;
 
@@ -633,10 +650,10 @@ export default function Dashboard() {
               );
             })}
             
-            {todayVisitors.length === 0 && (
+            {displayVisitors.length === 0 && (
               <div className="text-center py-8 text-amber-600">
                 <Clock className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                <p>Bugün henüz kayıt bulunmuyor.</p>
+                <p>{visitors.length === 0 ? 'Kayıtlar yüklenemedi veya arşiv boş.' : 'Bugün henüz kayıt bulunmuyor.'}</p>
                 <p className="text-xs mt-1">Türkiye saati: {format(new Date(new Date().getTime() + 3 * 60 * 60 * 1000), 'HH:mm:ss')}</p>
               </div>
             )}

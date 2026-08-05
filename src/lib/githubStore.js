@@ -122,12 +122,6 @@ function applyFilter(items, query) {
 
 // ─── GitHub API ────────────────────────────────────────────────────────────────
 
-function withCacheBust(url) {
-  if (!url) return url;
-  const sep = url.includes('?') ? '&' : '?';
-  return `${url}${sep}t=${Date.now()}`;
-}
-
 function parseGithubJson(raw) {
   try {
     return JSON.parse(raw);
@@ -137,59 +131,52 @@ function parseGithubJson(raw) {
   }
 }
 
+/**
+ * Dosya oku. 1MB üstü dosyalarda Contents API content döndürmez;
+ * bu yüzden önce application/vnd.github.raw ile api.github.com üzerinden alırız
+ * (tarayıcı CORS uyumlu). raw.githubusercontent + Authorization CORS kırar.
+ */
 export async function ghGet(path) {
-  const res = await fetch(
-    `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${DATA_BRANCH}&t=${Date.now()}`,
-    {
-      headers: {
-        Authorization: `Bearer ${GITHUB_TOKEN}`,
-        Accept: 'application/vnd.github+json',
-      },
-    }
-  );
-  if (res.status === 404) return { content: null, sha: null };
-  if (!res.ok) throw new Error(`GH GET ${path}: ${res.status}`);
-  const data = await res.json();
+  const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${DATA_BRANCH}&t=${Date.now()}`;
+  const authHeaders = {
+    Authorization: `Bearer ${GITHUB_TOKEN}`,
+    Accept: 'application/vnd.github+json',
+  };
 
-  // GitHub returns content inline only for files < 1MB.
-  // For larger files the content field is empty — use download_url instead.
-  let raw;
+  // 1) Metadata (sha) — küçük/büyük tüm dosyalar için
+  const metaRes = await fetch(apiUrl, { headers: authHeaders });
+  if (metaRes.status === 404) return { content: null, sha: null };
+  if (!metaRes.ok) throw new Error(`GH GET ${path}: ${metaRes.status}`);
+  const data = await metaRes.json();
+
+  // 2a) Küçük dosya: inline base64 content
   if (data.content && data.content.trim() !== '') {
-    raw = atob(data.content.replace(/\n/g, ''));
+    const raw = atob(data.content.replace(/\n/g, ''));
     return { content: parseGithubJson(raw), sha: data.sha };
   }
 
-  const candidates = [];
-  if (data.download_url) candidates.push(data.download_url);
-  // Fallback: raw.githubusercontent (public) — download_url query bozuksa kurtarır
-  candidates.push(`https://raw.githubusercontent.com/${GITHUB_REPO}/${DATA_BRANCH}/${path}`);
-
-  let lastErr = null;
-  for (const url of candidates) {
-    try {
-      const dlRes = await fetch(withCacheBust(url), {
-        headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github.raw' },
-      });
-      if (!dlRes.ok) {
-        lastErr = new Error(`GH GET (download) ${path}: ${dlRes.status}`);
-        continue;
-      }
-      raw = await dlRes.text();
-      if (!raw || !raw.trim()) {
-        lastErr = new Error(`GH GET (download) ${path}: empty body`);
-        continue;
-      }
-      return { content: parseGithubJson(raw), sha: data.sha };
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-  throw lastErr || new Error(`GH GET ${path}: download failed`);
+  // 2b) Büyük dosya (>1MB): api.github.com + raw media type (CORS güvenli)
+  const rawRes = await fetch(apiUrl, {
+    headers: {
+      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Accept: 'application/vnd.github.raw',
+    },
+  });
+  if (!rawRes.ok) throw new Error(`GH GET (raw) ${path}: ${rawRes.status}`);
+  const rawText = await rawRes.text();
+  if (!rawText || !rawText.trim()) throw new Error(`GH GET (raw) ${path}: empty body`);
+  return { content: parseGithubJson(rawText), sha: data.sha };
 }
 
 export async function ghPut(path, content, sha, message, retried = false) {
-  const raw = unescape(encodeURIComponent(JSON.stringify(content)));
-  const encoded = btoa(raw);
+  let encoded;
+  try {
+    const raw = unescape(encodeURIComponent(JSON.stringify(content)));
+    encoded = btoa(raw);
+  } catch (e) {
+    throw new Error(`GH PUT ${path}: encode failed — ${e.message}`);
+  }
+
   const body = { message: message || `data: ${path}`, content: encoded, branch: DATA_BRANCH };
 
   // Mevcut dosyayı güncellemek için SHA zorunlu — verilmediyse GitHub'dan al
