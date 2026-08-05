@@ -9,7 +9,8 @@ function _resolveToken() {
     const stored = localStorage.getItem('gh_token_override');
     if (stored && stored.length >= 20) return stored;
   } catch (_) {}
-  if (_envTok && _envTok.length === 40) return _envTok;
+  // classic (40) veya fine-grained / yeni format tokenlar
+  if (_envTok && String(_envTok).trim().length >= 20) return String(_envTok).trim();
   return _fbTok;
 }
 
@@ -25,10 +26,26 @@ const _RAW_CONFIG_URL = `https://raw.githubusercontent.com/hakan35trt-collab/ERH
  *  Repo public ise auth olmadan çalışır → tüm cihazlar otomatik güncellenir. */
 export async function loadCentralToken() {
   try {
-    const res = await fetch(`${_RAW_CONFIG_URL}?t=${Date.now()}`);
-    if (res.ok) {
-      const cfg = await res.json();
-      // github_token_rev: token tersine çevrilmiş (secret scanning geçmez)
+    // 1) raw.githubusercontent (public, CORS OK, auth yok)
+    let cfg = null;
+    try {
+      const res = await fetch(`${_RAW_CONFIG_URL}?t=${Date.now()}`);
+      if (res.ok) cfg = await res.json();
+    } catch (_) {}
+
+    // 2) api.github.com raw (auth ile — private repo / raw fail durumunda)
+    if (!cfg) {
+      const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/data/appconfig.json?ref=${DATA_BRANCH}&t=${Date.now()}`;
+      const res = await fetch(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Accept: 'application/vnd.github.raw',
+        },
+      });
+      if (res.ok) cfg = await res.json();
+    }
+
+    if (cfg) {
       const rev = cfg.github_token_rev;
       if (rev && rev.length >= 20) {
         const tok = rev.split('').reverse().join('');
@@ -75,7 +92,7 @@ export function clearGithubToken() {
 export function getActiveTokenInfo() {
   const stored = localStorage.getItem('gh_token_override');
   if (stored && stored.length >= 20) return { source: 'admin', preview: stored.slice(0, 8) + '...' };
-  if (_envTok && _envTok.length === 40) return { source: 'env', preview: _envTok.slice(0, 8) + '...' };
+  if (_envTok && String(_envTok).trim().length >= 20) return { source: 'env', preview: String(_envTok).slice(0, 8) + '...' };
   return { source: 'builtin', preview: _fbTok.slice(0, 8) + '...' };
 }
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';

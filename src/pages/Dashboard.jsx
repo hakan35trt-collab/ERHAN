@@ -70,7 +70,12 @@ export default function Dashboard() {
 
   // Türkiye saati ile bugünün tarih stringini al
   const getTurkeyDateString = () => {
-    return format(new Date(), 'yyyy-MM-dd');
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Europe/Istanbul',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date()); // en-CA → YYYY-MM-DD
   };
 
   useEffect(() => {

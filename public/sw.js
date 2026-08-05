@@ -1,4 +1,4 @@
-const CACHE_NAME = 'erhan-v2';
+const CACHE_NAME = 'erhan-v4';
 const STATIC_ASSETS = ['/', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', (event) => {
