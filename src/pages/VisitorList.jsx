@@ -158,7 +158,7 @@ export default function VisitorList() {
       const user = await User.me();
       setCurrentUser(user);
 
-      const visitorData = await Visitor.list('-created_date', 2000);
+      const visitorData = await Visitor.list('-created_date', 10000);
       setVisitors(visitorData);
 
       const frequentData = await FrequentVisitor.list('-created_date');

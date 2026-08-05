@@ -93,7 +93,7 @@ export default function InsideVisitors() {
       const user = await User.me();
       setCurrentUser(user);
 
-      const allVisitors = await Visitor.list('-created_date', 1000);
+      const allVisitors = await Visitor.list('-created_date', 10000);
       const insideVisitors = allVisitors.filter(visitor =>
         !visitor.exit_time || visitor.exit_time === '' || visitor.exit_time === null
       );

@@ -95,7 +95,7 @@ export default function Dashboard() {
         return;
       }
 
-      const visitorData = await Visitor.list('-created_date', 1000);
+      const visitorData = await Visitor.list('-created_date', 10000);
       setVisitors(visitorData);
       const vtypes = await VisitType.list('order', 100);
       setVisitTypes(vtypes);

@@ -107,7 +107,7 @@ export default function VisitorSearch() {
       const user = await User.me();
       setCurrentUser(user);
       
-      const visitorData = await Visitor.list('-created_date', 1000);
+      const visitorData = await Visitor.list('-created_date', 10000);
       setVisitors(visitorData);
       setFilteredVisitors(visitorData);
       

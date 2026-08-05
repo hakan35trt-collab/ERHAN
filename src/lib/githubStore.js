@@ -122,6 +122,21 @@ function applyFilter(items, query) {
 
 // ─── GitHub API ────────────────────────────────────────────────────────────────
 
+function withCacheBust(url) {
+  if (!url) return url;
+  const sep = url.includes('?') ? '&' : '?';
+  return `${url}${sep}t=${Date.now()}`;
+}
+
+function parseGithubJson(raw) {
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    // atob Latin-1 → UTF-8 (Türkçe karakterler)
+    return JSON.parse(decodeURIComponent(escape(raw)));
+  }
+}
+
 export async function ghGet(path) {
   const res = await fetch(
     `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}?ref=${DATA_BRANCH}&t=${Date.now()}`,
@@ -141,27 +156,53 @@ export async function ghGet(path) {
   let raw;
   if (data.content && data.content.trim() !== '') {
     raw = atob(data.content.replace(/\n/g, ''));
-  } else if (data.download_url) {
-    const dlRes = await fetch(`${data.download_url}&t=${Date.now()}`, {
-      headers: { Authorization: `Bearer ${GITHUB_TOKEN}` },
-    });
-    if (!dlRes.ok) throw new Error(`GH GET (download) ${path}: ${dlRes.status}`);
-    raw = await dlRes.text();
-    const content = JSON.parse(raw);
-    return { content, sha: data.sha };
-  } else {
-    return { content: null, sha: data.sha };
+    return { content: parseGithubJson(raw), sha: data.sha };
   }
 
-  const content = JSON.parse(decodeURIComponent(escape(raw)));
-  return { content, sha: data.sha };
+  const candidates = [];
+  if (data.download_url) candidates.push(data.download_url);
+  // Fallback: raw.githubusercontent (public) — download_url query bozuksa kurtarır
+  candidates.push(`https://raw.githubusercontent.com/${GITHUB_REPO}/${DATA_BRANCH}/${path}`);
+
+  let lastErr = null;
+  for (const url of candidates) {
+    try {
+      const dlRes = await fetch(withCacheBust(url), {
+        headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: 'application/vnd.github.raw' },
+      });
+      if (!dlRes.ok) {
+        lastErr = new Error(`GH GET (download) ${path}: ${dlRes.status}`);
+        continue;
+      }
+      raw = await dlRes.text();
+      if (!raw || !raw.trim()) {
+        lastErr = new Error(`GH GET (download) ${path}: empty body`);
+        continue;
+      }
+      return { content: parseGithubJson(raw), sha: data.sha };
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw lastErr || new Error(`GH GET ${path}: download failed`);
 }
 
-export async function ghPut(path, content, sha, message) {
+export async function ghPut(path, content, sha, message, retried = false) {
   const raw = unescape(encodeURIComponent(JSON.stringify(content)));
   const encoded = btoa(raw);
   const body = { message: message || `data: ${path}`, content: encoded, branch: DATA_BRANCH };
-  if (sha) body.sha = sha;
+
+  // Mevcut dosyayı güncellemek için SHA zorunlu — verilmediyse GitHub'dan al
+  let useSha = sha;
+  if (!useSha) {
+    try {
+      const cur = await ghGet(path);
+      useSha = cur.sha || null;
+    } catch (_) {
+      useSha = null;
+    }
+  }
+  if (useSha) body.sha = useSha;
 
   const res = await fetch(
     `https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`,
@@ -179,7 +220,13 @@ export async function ghPut(path, content, sha, message) {
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     const status = res.status;
-    throw Object.assign(new Error(`GH PUT ${path}: ${status}`), { status, body: err });
+    // Çakışma / eksik SHA → bir kez taze SHA ile tekrar dene
+    if (!retried && (status === 409 || status === 422)) {
+      const cur = await ghGet(path);
+      if (cur.sha) return ghPut(path, content, cur.sha, message, true);
+    }
+    const detail = err?.message || err?.error || '';
+    throw Object.assign(new Error(`GH PUT ${path}: ${status}${detail ? ` — ${detail}` : ''}`), { status, body: err });
   }
   const result = await res.json();
   return result.content?.sha || null;
@@ -415,6 +462,22 @@ const ALL_ENTITIES = [
   'directoryConfigs','points','notes','noteReads','visitorAlerts',
   'visitTypes','badges','users',
 ];
+
+/** Yedekten entity dosyalarını sırayla yazar (SHA otomatik). */
+export async function restoreEntitiesFromBackup(backupData, label = 'restore') {
+  if (!backupData || typeof backupData !== 'object') {
+    throw new Error('Yedek içeriği geçersiz');
+  }
+  const results = [];
+  for (const name of ALL_ENTITIES) {
+    if (!Array.isArray(backupData[name])) continue;
+    await ghPut(`data/${name}.json`, backupData[name], null, `${label}: ${name}`);
+    invalidateEntityCache(name);
+    results.push({ name, count: backupData[name].length });
+  }
+  if (!results.length) throw new Error('Yedekte yüklenecek veri bulunamadı');
+  return results;
+}
 
 const MONTH_TR = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 

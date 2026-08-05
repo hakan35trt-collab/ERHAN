@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
-import { createManualBackup, ghGet, ghPut, BACKUP_DIR, DATA_BRANCH, getToken } from '@/lib/githubStore';
+import { createManualBackup, ghGet, ghPut, restoreEntitiesFromBackup, BACKUP_DIR, DATA_BRANCH, getToken } from '@/lib/githubStore';
 
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'hakan35trt-collab/ERHAN';
 
@@ -121,12 +121,9 @@ export default function BackupPage() {
     try {
       const { content: backupData } = await ghGet(`${BACKUP_DIR}/${file.name}`);
       if (!backupData) throw new Error('Yedek içeriği okunamadı');
-      for (const name of DATA_ENTITIES) {
-        if (backupData[name] && Array.isArray(backupData[name])) {
-          await ghPut(`data/${name}.json`, backupData[name], null, `restore: ${file.name}`);
-        }
-      }
-      showMsg(`"${file.name}" başarıyla geri yüklendi!`);
+      const results = await restoreEntitiesFromBackup(backupData, `restore: ${file.name}`);
+      const total = results.reduce((s, r) => s + r.count, 0);
+      showMsg(`"${file.name}" geri yüklendi (${results.length} dosya, ${total} kayıt). Sayfayı yenileyin.`);
     } catch (e) {
       showMsg('Geri yükleme hatası: ' + e.message, 'error');
     }
@@ -165,12 +162,9 @@ export default function BackupPage() {
     reader.onload = async (e) => {
       try {
         const backupData = JSON.parse(e.target.result);
-        for (const name of DATA_ENTITIES) {
-          if (backupData[name] && Array.isArray(backupData[name])) {
-            await ghPut(`data/${name}.json`, backupData[name], null, `restore: local file`);
-          }
-        }
-        showMsg('Yedek başarıyla geri yüklendi!');
+        const results = await restoreEntitiesFromBackup(backupData, 'restore: local file');
+        const total = results.reduce((s, r) => s + r.count, 0);
+        showMsg(`Yedek geri yüklendi (${results.length} dosya, ${total} kayıt). Sayfayı yenileyin.`);
       } catch (err) {
         showMsg('Geri yükleme hatası: ' + err.message, 'error');
       }
@@ -196,14 +190,15 @@ export default function BackupPage() {
     const MONTHS = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
     const base = name.replace('.json', '');
 
-    // Yeni format: DD-MM-YYYY-HH-MM-otomatik veya DD-MM-YYYY-HH-MM-manuel
-    const newM = base.match(/^(\d{2})-(\d{2})-(\d{4})-(\d{2})-(\d{2})-(otomatik|manuel)$/);
+    // Yeni format: DD-MM-YYYY-HH-MM-(otomatik|manuel|restore)
+    const newM = base.match(/^(\d{2})-(\d{2})-(\d{4})-(\d{2})-(\d{2})-(otomatik|manuel|restore)$/);
     if (newM) {
       const [, day, month, year, hour, min, type] = newM;
+      const typeLabel = type === 'manuel' ? 'Manuel' : type === 'restore' ? 'Geri Yükleme' : 'Otomatik';
       return {
         date: `${day} ${MONTHS[parseInt(month, 10) - 1]} ${year}`,
         time: `${hour}:${min}`,
-        type: type === 'manuel' ? 'Manuel' : 'Otomatik'
+        type: typeLabel
       };
     }
 
